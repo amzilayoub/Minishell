@@ -1,0 +1,9 @@
+1- find a solution for redirections and include them
+	NOTE: remember the indice about closing the STDIN
+
+
+
+1- by default we will close the stdin
+2- open the file
+3- duplicate file fd in stdin
+
