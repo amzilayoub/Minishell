@@ -7,7 +7,7 @@ X-> 5- test all revious command
 
 
 X-> 6- create exit command
-7- implement those shortcut : ctrl-C, ctrl-D, ctrl-\
+X-> 7- implement those shortcut : ctrl-C, ctrl-D, ctrl-\
 8- don't forget the error handling
 9- finally free the allocated memory
 10- test again you minishell

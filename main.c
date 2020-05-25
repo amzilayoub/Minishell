@@ -37,6 +37,8 @@ void	init(char **envp)
 	init_builtins();
 	init_stdio();
 	init_env_var(envp);
+	g_there_is_error = 0;
+	g_error_msg = NULL;
 	//g_env_en = 0;
 /*	g_escape_char = ft_split("\a \b \e \f \n \r \t \v \\ \' \?", ' ');
 	g_escape_char_deci = ft_split("a b e f n r t v \\ ' \"", ' ');

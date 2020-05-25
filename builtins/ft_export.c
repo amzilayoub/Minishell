@@ -10,7 +10,7 @@ char	*get_key(char *str)
 		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
 		{
 			//error
-			printf("ERROR ENV\n");
+			FT_PUTSTR_ERR("bash : export : not a valid identifier\n");
 			return (NULL);
 		}
 		if (str[i] == '=')

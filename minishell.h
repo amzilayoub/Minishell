@@ -11,13 +11,17 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # define ARRAY_GROWTH 5
 # define BUFFER_TO_READ 1000
 # define FT_PUTSTR(STR) ft_putstr_fd(STR, 1)
+# define FT_PUTSTR_ERR(STR) ft_putstr_fd(STR, 2)
 # define FT_PUTCHAR(C) ft_putchar_fd(C, 1)
 # define REDIR_WRITE O_TRUNC | O_CREAT | O_WRONLY
 # define REDIR_APPEND O_CREAT | O_APPEND | O_WRONLY
+# define THERE_IS_ERROR g_there_is_error
+# define ERROR_MSG g_error_msg
 
 /*
 **--------------------------------*
@@ -59,6 +63,14 @@ int		g_env_available_index;
 int		g_env_len;
 int		g_status;
 char		*g_next_cmd;
+char		g_there_is_error;
+char		*g_error_msg;
+
+/*
+**-------------------------------------------------**
+** FUNCTIONS USED TO MANAGE THE INPUT
+**-------------------------------------------------**
+*/
 
 void	(*g_cmd_fun[4])(char *arg, char ***envp);
 void	shell_loop(char **envp);
@@ -70,6 +82,18 @@ int	skip_char(char *line, char c);
 int	list_cmd_size(t_piped_cmd *list);
 char	*ft_get_env_value(char *key, char **envp);
 char	*ft_getcwd(void);
+
+
+/*
+**-------------------------------------------------**
+** ERROR HANDLING FUNCTIONS
+**-------------------------------------------------**
+*/
+
+char	set_error(char *error_msg);
+char	check_semicolons(char *line);
+char	check_pipes_error(char **line);
+int	set_error_print(char *error_msg);
 
 /*
 **-------------------------------------------------**

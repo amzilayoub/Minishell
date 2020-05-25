@@ -35,7 +35,7 @@ void	create_cmd_list(t_cmd **list, char *line)
 {
 	if ((*list))
 		create_cmd_list(&((*list)->next), line);
-	else
+	else if ((*line))
 	{
 		(*list) = (t_cmd*)malloc(sizeof(t_cmd));
 		(*list)->line = line;

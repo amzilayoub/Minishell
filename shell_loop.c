@@ -4,9 +4,11 @@ void	treat_line(char *line)
 {
 	int	i;
 	int	start;
+	char	quote;
 
 	i = -1;
 	start = 0;
+	quote = 0;
 	while (line[++i])
 	{
 		if (line[i] == '\\')
@@ -14,7 +16,11 @@ void	treat_line(char *line)
 			i++;
 			continue;
 		}
-		else if (line[i] == ';')
+		if ((line[i] == '"' || line[i] == '\'') && !quote)
+			quote = line[i];
+		else if (quote && line[i] == quote)
+			quote = 0;
+		else if (!quote && line[i] == ';')
 		{
 			create_cmd_list(&g_cmd_list, ft_substr(line, start, i - start));
 			start = i + 1;
@@ -41,6 +47,8 @@ void	treat_list(t_cmd *cmd_list)
 	char *tmp;
 
 	if (!cmd_list)
+		return ;
+	if (check_pipes_error(&cmd_list->line))
 		return ;
 	i = -1;
 	start = 0;
@@ -203,8 +211,8 @@ char	**get_arg(char *line, char **envp)
 		{
 			if (!quote || line[i + 1] == '\\')
 				shift_char(line + i);
-			//else
-				//shift_char(line + i);
+			else if (quote && line[i + 1] == quote)
+				shift_char(line + i);
 		}
 		else if (line[i] == '$')
 			i += join_env_var(&line, i, envp);
@@ -291,7 +299,8 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 		dup2(g_stdio_fd[1], 1);
 	g_read_from_file = 0;
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
-	// child process
+	if (THERE_IS_ERROR)
+		return ;
 	while (g_cmd_char[++i])
 	{
 		//printf("%s\n", g_cmd_char[i]);
@@ -306,7 +315,7 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 		if (!fork())
 		{
 			execve(list->params[0], list->params, (*envp));
-			printf("ERROR in EXECVE \n");
+			FT_PUTSTR_ERR("Minishell: Command not found\n");
 			exit(-1);
 		}
 		else
@@ -347,46 +356,43 @@ void	call_commands(t_cmd *list, char ***envp)
 		g_pipes_count = 0;
 	//printf("NB_PIPE = %d\n", g_pipes_count);
 	call_commands_helper(list->cmd, envp, 0);
-	call_commands(list->next, envp);
+	if (!THERE_IS_ERROR)
+		call_commands(list->next, envp);
+}
+
+void	ft_sigint(int num)
+{
+	FT_PUTSTR("\n$ ");
 }
 
 void	shell_loop(char **envp)
 {
 	char *line;
 
+	signal(SIGINT, ft_sigint);
+	signal(SIGQUIT, ft_sigint);
 	while (prompt() && get_next_line(0, &line) > 0)
 	{
 		clear_cmd_list(&g_cmd_list);
+		if ((check_semicolons(line)))
+		{
+			FT_PUTSTR_ERR(ERROR_MSG);
+			continue;
+		}
 		treat_line(line);
 		treat_list(g_cmd_list);
-		treat_cmd(g_cmd_list, envp);
-		//sort_cmd_for_redirections(&g_cmd_list);
-		call_commands(g_cmd_list, &envp);
-		//sanitize_cmd(g_cmd_list);
-//		int fd = open("back.txt", O_RDONLY);
-		//char line[10];
-		//read(fd, line, 2);
-		//line[3] = 0;
-//		dup2(fd, 0);
-/*
-		int i = fork();
-		if (i == 0)
+		if (THERE_IS_ERROR)
 		{
-			execve(g_cmd_list->cmd->next->params[0], g_cmd_list->cmd->next->params, envp);
-			printf("ERROR in this cmd\n");
-			exit(1);
+			FT_PUTSTR_ERR(ERROR_MSG);
+		//print_list(g_cmd_list);
+			continue;
 		}
-		//if (g_cmd_list->cmd->next)
-			//FT_PUTSTR(g_cmd_list->cmd->next->params[0]);
-		/*
-		char *test[3];
-		test[0] = "/bin/cat";
-		test[2] = NULL;
-		execve(test[0], test, envp);
-		return ;
-		*/
+		treat_cmd(g_cmd_list, envp);
+		call_commands(g_cmd_list, &envp);
 		dup2(g_stdio_fd[0], 0);
 		dup2(g_stdio_fd[1], 1);
-		//print_list(g_cmd_list);
+		//printf("--------------------------FINISH--------------------\n");
+		//		print_list(g_cmd_list);
+
 	}
 }

@@ -7,13 +7,13 @@ int	ft_input_redir(char **args, char ***envp)
 
 	i = 0;
 	if (!(*args))
-		printf("< : ZERO ARG ERROR\n");
+		return (set_error_print("bash : syntax error\n"));
 		//error
 	while (args[i])
 		i++;
 	if ((fd = open(args[i - 1], O_RDONLY)) < 0)
 	{
-		write(2, "ERROR\n", ft_strlen("ERROR\n"));
+		FT_PUTSTR_ERR("bash : can't open this File\n");
 		return (1);
 	}
 	//write(2, args[0], ft_strlen(args[0]));

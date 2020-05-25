@@ -14,14 +14,14 @@ int	ft_cd(char **args, char ***envp)
 	else if (args[1])
 	{
 		//error
-		printf("TOO MANY ARGUMENT\n");
+		FT_PUTSTR_ERR("bash : cd : TOO MANY ARGUMENT\n");
 		return (1);
 	}
 	if ((prev_dir = !ft_strcmp(args[0], "-")))
 	{
 		if (!(args[0] = ft_get_env_value("$OLDPWD", (*envp))))
 		{
-			printf("OLDPWD not SET : ERROR \n");
+			FT_PUTSTR_ERR("bash : cd : OLDPWD not SET : ERROR \n");
 			return (1);
 		}
 	}
@@ -29,13 +29,13 @@ int	ft_cd(char **args, char ***envp)
 	{
 		if (!(args[0] = ft_strjoin(ft_get_env_value("$HOME", (*envp)), &args[0][1])))
 		{
-			printf("HOME not set : ERROR \n");
+			FT_PUTSTR_ERR("bash : cd : HOME not set : ERROR \n");
 			return (1);
 		}
 	}
 	if (chdir(args[0]) < 0)
 	{
-		FT_PUTSTR("ERROR\n");
+		FT_PUTSTR("bash : cd : No such file or directory\n");
 		return (1);
 	}
 	cur_dir = ft_getcwd();

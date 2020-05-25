@@ -9,10 +9,10 @@ int	ft_redirections_helper(char **args, int flags)
 	int i;
 
 	if (!(*args))
-		printf("> : ZERO ARG ERROR\n");
+		return (set_error_print("bash : syntax error\n"));
 	if ((fd = open(args[0], flags)) < 0)
 	{
-		write(2, "ERROR \n", ft_strlen("ERROR \n"));
+		FT_PUTSTR_ERR("bash : can't open this File\n");
 		return (1);
 	}
 	line = (char*)malloc(BUFFER_TO_READ);

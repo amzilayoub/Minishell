@@ -35,9 +35,7 @@ int	ft_unset(char **args, char ***envp)
 	if (!(*args))
 		return (0);
 	if (check_error(args))
-	{
-		//error
-	}
+		FT_PUTSTR_ERR("bash : unset : not a valid identifier\n");
 	i = -1;
 	key_len = ft_strlen((*args));
 	while ((*envp)[++i])
