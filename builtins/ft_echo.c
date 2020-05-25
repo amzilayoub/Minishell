@@ -10,7 +10,7 @@ int	new_line(char **args)
 	return (1);
 }
 
-void	ft_echo(char **args, char ***envp)
+int	ft_echo(char **args, char ***envp)
 {
 	int i;
 	int nl;
@@ -25,4 +25,5 @@ void	ft_echo(char **args, char ***envp)
 	}
 	if (new_line(args))
 		FT_PUTCHAR('\n');
+	return (0);
 }

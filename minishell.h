@@ -13,8 +13,11 @@
 # include <fcntl.h>
 
 # define ARRAY_GROWTH 5
+# define BUFFER_TO_READ 1000
 # define FT_PUTSTR(STR) ft_putstr_fd(STR, 1)
-# define FT_PUTCHAR(C) ft_putchar_fd(C, 1);
+# define FT_PUTCHAR(C) ft_putchar_fd(C, 1)
+# define REDIR_WRITE O_TRUNC | O_CREAT | O_WRONLY
+# define REDIR_APPEND O_CREAT | O_APPEND | O_WRONLY
 
 /*
 **--------------------------------*
@@ -51,10 +54,11 @@ char		g_read_from_file;
 char		**g_cmd_char;
 char		**g_pipe_cmd;
 int		g_pipes_count;
-void		(*g_builtins[10])(char **args, char ***envp);
-int		g_env_last_index;
+int		(*g_builtins[10])(char **args, char ***envp);
+int		g_env_available_index;
 int		g_env_len;
 int		g_status;
+char		*g_next_cmd;
 
 void	(*g_cmd_fun[4])(char *arg, char ***envp);
 void	shell_loop(char **envp);
@@ -65,14 +69,28 @@ char	*shift_char(char *str);
 int	skip_char(char *line, char c);
 int	list_cmd_size(t_piped_cmd *list);
 char	*ft_get_env_value(char *key, char **envp);
+char	*ft_getcwd(void);
 
 /*
 **-------------------------------------------------**
 ** BUILTINS FUNCTIONS
 **-------------------------------------------------**
 */
-void	ft_echo(char **args, char ***envp);
-void	ft_pwd(char **args, char ***envp);
-void	ft_input_redir(char **args, char ***envp);
+int	ft_echo(char **args, char ***envp);
+int	ft_pwd(char **args, char ***envp);
+int	ft_input_redir(char **args, char ***envp);
+int	ft_output_redir(char **args, char ***envp);
+int	ft_append_redir(char **args, char ***envp);
+int	ft_env(char **args, char ***envp);
+int	ft_export(char **args, char ***envp);
+int	ft_unset(char **args, char ***envp);
+int	ft_cd(char **args, char ***envp);
+int	ft_exit(char **args, char ***envp);
+/*
+**-------------------------------------------------**
+** BUILTINS HELPER FUNCTIONS
+**-------------------------------------------------**
+*/
+int	ft_redirections_helper(char **args, int flags);
 
 #endif

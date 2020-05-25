@@ -162,11 +162,19 @@ int	join_env_var(char **str, int index, char **envp)
 	char *suff;
 
 	i = index + 1;
-	while ((*str)[i] && (*str)[i] != '\\' && (*str)[i] != ' ')
+	if ((*str)[i] != '?')
+	{
+		while ((*str)[i] && (*str)[i] != '\\' && (*str)[i] != ' ' && ft_isalnum((*str)[i]))
+			i++;
+		key = ft_substr((*str), index, i - index);
+		if (!(key = ft_get_env_value(key, envp)))
+			key = "";
+	}
+	else
+	{
 		i++;
-	key = ft_substr((*str), index, i - index);
-	if (!(key = ft_get_env_value(key, envp)))
-		key = "";
+		key = ft_itoa(g_status);
+	}
 	pre = ft_substr((*str), 0, index);
 	suff = ft_substr((*str), i, ft_strlen((*str)) - i);
 	(*str) = ft_strjoin(ft_strjoin(pre, key), suff);
@@ -250,21 +258,26 @@ void	sort_cmd_for_redirections(t_piped_cmd **current, t_piped_cmd **next)
 		return ;
 	if ((*next)->params[0][0] == '<')
 	{
-		tmp = (*current)->params;
-		(*current)->params = (*next)->params;
-		(*next)->params = tmp;
+		if ((*current)->params[0][0] == '>')
+			(*next) = (*next)->next;
+		else
+		{
+			tmp = (*current)->params;
+			(*current)->params = (*next)->params;
+			(*next)->params = tmp;
+		}
 	}
 	sort_cmd_for_redirections(next, &(*next)->next);
 }
 
-void	call_commands_helper(t_piped_cmd *list, char **envp, int pipe_index)
+void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 {
 	int i;
 
 	if (!list)
 		return ;
 	i = -1;
-	if (pipe_index < g_pipes_count - 1)
+	if (pipe_index < g_pipes_count)
 	{
 		dup2(g_pipes_fd[pipe_index][1], 1);
 		close(g_pipes_fd[pipe_index][1]);
@@ -274,16 +287,17 @@ void	call_commands_helper(t_piped_cmd *list, char **envp, int pipe_index)
 		dup2(g_pipes_fd[pipe_index - 1][0], 0);
 		close(g_pipes_fd[pipe_index - 1][0]);
 	}
-	if (!list->next)
+	if (!list->next && list->params[0][0] != '>')
 		dup2(g_stdio_fd[1], 1);
 	g_read_from_file = 0;
+	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
 	// child process
 	while (g_cmd_char[++i])
 	{
 		//printf("%s\n", g_cmd_char[i]);
 		if (!ft_strcmp(g_cmd_char[i], list->params[0]))
 		{
-			g_builtins[i](list->params + 1, &envp);
+			g_status = g_builtins[i](list->params + 1, envp);
 			break;
 		}
 	}
@@ -291,14 +305,16 @@ void	call_commands_helper(t_piped_cmd *list, char **envp, int pipe_index)
 	{
 		if (!fork())
 		{
-			execve(list->params[0], list->params, envp);
+			execve(list->params[0], list->params, (*envp));
 			printf("ERROR in EXECVE \n");
 			exit(-1);
 		}
 		else
+		{
 			wait(&g_status);
+		}
 	}
-	call_commands_helper(list->next, envp, pipe_index++);
+	call_commands_helper(list->next, envp, ++pipe_index);
 }
 
 void	set_pipes(void)
@@ -315,7 +331,7 @@ void	set_pipes(void)
 }
 
 
-void	call_commands(t_cmd *list, char **envp)
+void	call_commands(t_cmd *list, char ***envp)
 {
 	int i;
 
@@ -345,7 +361,7 @@ void	shell_loop(char **envp)
 		treat_list(g_cmd_list);
 		treat_cmd(g_cmd_list, envp);
 		//sort_cmd_for_redirections(&g_cmd_list);
-		call_commands(g_cmd_list, envp);
+		call_commands(g_cmd_list, &envp);
 		//sanitize_cmd(g_cmd_list);
 //		int fd = open("back.txt", O_RDONLY);
 		//char line[10];

@@ -1,9 +1,14 @@
-1- find a solution for redirections and include them
-	NOTE: remember the indice about closing the STDIN
+X-> 1- find a solution for redirections and include them
+2- echo hello | > f1 | > f2
+
+X-> 3- FIX THE PROBLEMS OF FT_CD
+X-> 4- create the append redirection
+X-> 5- test all revious command
 
 
-
-1- by default we will close the stdin
-2- open the file
-3- duplicate file fd in stdin
-
+X-> 6- create exit command
+7- implement those shortcut : ctrl-C, ctrl-D, ctrl-\
+8- don't forget the error handling
+9- finally free the allocated memory
+10- test again you minishell
+11- Congratulation Boy !!
