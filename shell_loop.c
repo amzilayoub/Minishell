@@ -39,6 +39,21 @@ int	is_redirection(char *red, char *line)
 		return (1 + skip_char(line + 1, ' '));
 }
 
+int	fd_num(char *line, int index)
+{
+	int nb;
+
+	--index;
+	while (index >= 0 && ft_isalnum(line[index]))
+		--index;
+	if (line[index] != ' ')
+		return (1);
+	nb = ft_atoi(line + index + 1);
+	while (line[++index] != '>')
+		line[index] = ' ';
+	return (nb);
+}
+
 void	treat_list(t_cmd *cmd_list)
 {
 	int i;
@@ -64,11 +79,9 @@ void	treat_list(t_cmd *cmd_list)
 		{
 			if (g_pipe_cmd[j][0] == cmd_list->line[i])
 			{
-				//if (!cmd_list->line[i + 1])
-				//else
 				if ((tmp = ft_substr(cmd_list->line, start, i - start))[0])
 					add_cmd(&cmd_list->cmd, tmp);
-					//printf("XX = %s\n",cmd_list->line + i);
+				//printf("XX = %s\n",cmd_list->line + i);
 				start = i + is_redirection(g_pipe_cmd[j], cmd_list->line + i)/* + skip_char(cmd_list->line + i + 1, ' ')*/;
 				i += (!ft_strncmp(cmd_list->line + i, ">>", 2));
 				break;
@@ -92,7 +105,7 @@ void	print_cmd(t_piped_cmd *list)
 	if (list)
 	{
 		i = -1;
-		//printf("       %i ----> %s\n", j, list->line);
+		//printf("--------------------  FD = %d ------------------\n", list->fd);
 		while (list->params[++i])
 		{
 			printf("   %i-- |%s|\n",j, list->params[i]);
@@ -296,7 +309,10 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 		close(g_pipes_fd[pipe_index - 1][0]);
 	}
 	if (!list->next && list->params[0][0] != '>')
+	{
+		dup2(g_stdio_fd[2], 2);
 		dup2(g_stdio_fd[1], 1);
+	}
 	g_read_from_file = 0;
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
 	if (THERE_IS_ERROR)
@@ -384,15 +400,16 @@ void	shell_loop(char **envp)
 		if (THERE_IS_ERROR)
 		{
 			FT_PUTSTR_ERR(ERROR_MSG);
-		//print_list(g_cmd_list);
+			//print_list(g_cmd_list);
 			continue;
 		}
 		treat_cmd(g_cmd_list, envp);
 		call_commands(g_cmd_list, &envp);
 		dup2(g_stdio_fd[0], 0);
 		dup2(g_stdio_fd[1], 1);
+		dup2(g_stdio_fd[2], 2);
 		//printf("--------------------------FINISH--------------------\n");
-		//		print_list(g_cmd_list);
+				//print_list(g_cmd_list);
 
 	}
 }

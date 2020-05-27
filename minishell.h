@@ -52,7 +52,7 @@ typedef	struct	s_cmd
 
 //t_piped_cmd	*g_cmd_tmp;
 t_cmd		*g_cmd_list;
-int		g_stdio_fd[2];
+int		g_stdio_fd[3];
 int		**g_pipes_fd;
 char		g_read_from_file;
 char		**g_cmd_char;
@@ -66,6 +66,7 @@ char		*g_next_cmd;
 char		g_there_is_error;
 char		*g_error_msg;
 
+
 /*
 **-------------------------------------------------**
 ** FUNCTIONS USED TO MANAGE THE INPUT
@@ -74,14 +75,22 @@ char		*g_error_msg;
 
 void	(*g_cmd_fun[4])(char *arg, char ***envp);
 void	shell_loop(char **envp);
+char	*shift_char(char *str);
+int	skip_char(char *line, char c);
+char	*ft_get_env_value(char *key, char **envp);
+char	*ft_getcwd(void);
+
+
+/*
+**-------------------------------------------------**
+** FUNCTIONS USED TO MANIPULATE THE LINKED LIST
+**-------------------------------------------------**
+*/
+
+int	list_cmd_size(t_piped_cmd *list);;
 void	clear_cmd_list(t_cmd **list);
 void	create_cmd_list(t_cmd **list, char *line);
 void	add_cmd(t_piped_cmd **list, char *line);
-char	*shift_char(char *str);
-int	skip_char(char *line, char c);
-int	list_cmd_size(t_piped_cmd *list);
-char	*ft_get_env_value(char *key, char **envp);
-char	*ft_getcwd(void);
 
 
 /*
@@ -95,11 +104,13 @@ char	check_semicolons(char *line);
 char	check_pipes_error(char **line);
 int	set_error_print(char *error_msg);
 
+
 /*
 **-------------------------------------------------**
 ** BUILTINS FUNCTIONS
 **-------------------------------------------------**
 */
+
 int	ft_echo(char **args, char ***envp);
 int	ft_pwd(char **args, char ***envp);
 int	ft_input_redir(char **args, char ***envp);
@@ -110,6 +121,8 @@ int	ft_export(char **args, char ***envp);
 int	ft_unset(char **args, char ***envp);
 int	ft_cd(char **args, char ***envp);
 int	ft_exit(char **args, char ***envp);
+
+
 /*
 **-------------------------------------------------**
 ** BUILTINS HELPER FUNCTIONS

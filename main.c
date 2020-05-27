@@ -18,6 +18,7 @@ void	init_stdio(void)
 {
 	g_stdio_fd[0] = dup(0);
 	g_stdio_fd[1] = dup(1);
+	g_stdio_fd[2] = dup(2);
 }
 
 void	init_env_var(char **envp)
