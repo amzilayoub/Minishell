@@ -20,11 +20,16 @@ int	check_error(char **args)
 
 void	remove_env_var(char ***envp, int index)
 {
+	char *tmp;
+
+	tmp = (*envp)[index];
 	while ((*envp)[index])
 	{
 		(*envp)[index] = (*envp)[index + 1];
 		index++;
 	}
+	free(tmp);
+	free((*envp)[index]);
 }
 
 int	ft_unset(char **args, char ***envp)

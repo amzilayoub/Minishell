@@ -3,6 +3,7 @@
 char	*get_key(char *str)
 {
 	int i;
+	char *key;
 
 	i = -1;
 	while (str[++i])
@@ -18,7 +19,9 @@ char	*get_key(char *str)
 	}
 	if (!str[i])
 		return (NULL);
-	return (ft_substr(str, 0, i));
+	key = ft_substr(str, 0, i);
+	add_mem(key);
+	return (key);
 }
 
 char	**array_grow(char ***envp)
@@ -30,8 +33,15 @@ char	**array_grow(char ***envp)
 	i = -1;
 	new_envp = (char**)malloc(sizeof(char*) * g_env_len + 1);
 	while ((*envp)[++i])
-		new_envp[i] = (*envp)[i];
+	{
+		new_envp[i] = ft_strdup((*envp)[i]);
+		if (g_first_dup_env)
+			free((*envp)[i]);
+	}
+	if (g_first_dup_env)
+		free((*envp));
 	new_envp[i] = NULL;
+	g_first_dup_env = 1;
 	return (new_envp);
 }
 
@@ -66,12 +76,12 @@ int	ft_export(char **args, char ***envp)
 		//printf("%s\n", (*envp)[i]);
 		if (!ft_strncmp((*envp)[i], key, len_key)/* && (*envp)[i][len_key] == '='*/)
 		{
-			(*envp)[i] = (*args);
+			(*envp)[i] = ft_strdup((*args));
 			break;
 		}
 	}
 	if (!(*envp)[i])
-		env_append((*args), envp);
+		env_append(ft_strdup((*args)), envp);
 	//printf("LAST = %s | %c\n", (*envp)[i], (*envp)[i][len_key]);
 	ft_export(&args[1], envp);
 	return (0);

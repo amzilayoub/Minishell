@@ -38,7 +38,10 @@ char	check_semicolons(char *line)
 void	remove_useless_cmd(char **line, int index)
 {
 	if (index)
+	{
+		add_mem((*line));
 		(*line) = ft_substr((*line), 0, index);
+	}
 }
 
 char	check_pipes_error(char **line)

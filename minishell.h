@@ -22,6 +22,8 @@
 # define REDIR_APPEND O_CREAT | O_APPEND | O_WRONLY
 # define THERE_IS_ERROR g_there_is_error
 # define ERROR_MSG g_error_msg
+# define FREE_EXIT_MODE 1
+# define FREE_MODE 0
 
 /*
 **--------------------------------*
@@ -43,6 +45,22 @@ typedef	struct	s_cmd
 	struct s_cmd	*next;
 }		t_cmd;
 
+typedef struct	s_mem_alloc
+{
+	void *mem;
+	struct s_mem_alloc *next;
+}		t_mem_alloc;
+
+
+/*
+**------------------------------------------------------**
+** MEMORY MANAGEMENT FUNCTIONS
+**------------------------------------------------------**
+*/
+
+void	add_mem(void *mem);
+void	free_memory(t_mem_alloc **list, int flag);
+
 
 /*
 **------------------------------------------------------**
@@ -50,7 +68,9 @@ typedef	struct	s_cmd
 **------------------------------------------------------**
 */
 
-//t_piped_cmd	*g_cmd_tmp;
+void	open_stdio(void);
+void	close_fd(void);
+t_mem_alloc	*g_mem_alloc;
 t_cmd		*g_cmd_list;
 int		g_stdio_fd[3];
 int		**g_pipes_fd;
@@ -65,6 +85,8 @@ int		g_status;
 char		*g_next_cmd;
 char		g_there_is_error;
 char		*g_error_msg;
+char		g_first_dup_env;
+pid_t		g_pid;
 
 
 /*
@@ -72,6 +94,20 @@ char		*g_error_msg;
 ** FUNCTIONS USED TO MANAGE THE INPUT
 **-------------------------------------------------**
 */
+void	init(char **envp);
+void	treat_line(char *line);
+void	treat_list(t_cmd *cmd_list);
+void	print_list(t_cmd *list);
+char	**get_arg(char *line, char **envp);
+void	treat_cmd(t_cmd *list, char **envp);
+void	sort_cmd_for_redirections(t_piped_cmd **current, t_piped_cmd **next);
+void	call_commands(t_cmd *list, char ***envp);
+void	set_pipes(void);
+int	join_env_var(char **str, int index, char **envp);
+int	skip_char(char *line, char c);
+char	*shift_char(char *str);
+int	is_redirection(char *red, char *line);
+
 
 void	(*g_cmd_fun[4])(char *arg, char ***envp);
 void	shell_loop(char **envp);
@@ -128,6 +164,8 @@ int	ft_exit(char **args, char ***envp);
 ** BUILTINS HELPER FUNCTIONS
 **-------------------------------------------------**
 */
+
 int	ft_redirections_helper(char **args, int flags);
+char	*ft_get_env_value(char *key, char **envp);
 
 #endif

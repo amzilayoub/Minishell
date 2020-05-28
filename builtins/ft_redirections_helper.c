@@ -6,6 +6,7 @@ int	ft_redirections_helper(char **args, int flags)
 	int new_line;
 	char *line;
 	char *text;
+	char *tmp;
 	int i;
 
 	if (!(*args))
@@ -15,10 +16,13 @@ int	ft_redirections_helper(char **args, int flags)
 		FT_PUTSTR_ERR("bash : can't open this File\n");
 		return (1);
 	}
-	line = (char*)malloc(BUFFER_TO_READ);
 	text = "";
 	while ((read(0, line, BUFFER_TO_READ)) > 0)
+	{
 	        text = ft_strjoin(text, line);
+	        add_mem(line);
+	        add_mem(text);
+	}
 	//write(fd, text, ft_strlen(text));
 	//write(1, line, ft_strlen(text));
 	// print the other parameters
@@ -28,7 +32,10 @@ int	ft_redirections_helper(char **args, int flags)
 	i = 0;
 	while (args[++i])
 	{
-		text = ft_strjoin(text, ft_strjoin(" ", args[i]));
+		tmp = ft_strjoin(" ", args[i]);
+		text = ft_strjoin(text, tmp);
+		add_mem(text);
+		add_mem(tmp);
 		/*
 	        if (!args[1])
 	        {

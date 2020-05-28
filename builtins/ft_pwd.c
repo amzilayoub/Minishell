@@ -11,13 +11,11 @@ char	*ft_getcwd(void)
 	old_path = ft_strdup("");
 	while (ft_strcmp(path, old_path))
 	{
-		//free(old_path);
+		free(old_path);
 		old_path = ft_strdup(path);
-		//free(path);
+		free(path);
 		path = (char*)malloc(nb + 1);
 		path[nb] = 0;
-		//if (nb != 50)
-			//free(old_path);
 		getcwd(path, nb);
 		nb *= 2;
 	}
@@ -31,6 +29,6 @@ int	ft_pwd(char **args, char ***envp)
 	wd = ft_getcwd();
 	FT_PUTSTR(wd);
 	FT_PUTCHAR('\n');
-	//free(wd);
+	free(wd);
 	return (1);
 }
