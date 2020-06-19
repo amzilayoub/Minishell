@@ -6,6 +6,7 @@ void	treat_list(t_cmd *cmd_list)
 	int j;
 	int start;
 	char *tmp;
+	char quote;
 
 	if (!cmd_list)
 		return ;
@@ -13,6 +14,7 @@ void	treat_list(t_cmd *cmd_list)
 		return ;
 	i = -1;
 	start = 0;
+	quote = 0;
 	while (cmd_list->line[++i])
 	{
 		if (cmd_list->line[i] == '\\')
@@ -20,8 +22,12 @@ void	treat_list(t_cmd *cmd_list)
 			i++;
 			continue;
 		}
+		if ((cmd_list->line[i] == '\'' || cmd_list->line[i] == '"') && !quote)
+			quote = cmd_list->line[i];
+		else if (cmd_list->line[i] == quote)
+			quote = 0;
 		j = -1;
-		while (g_pipe_cmd[++j])
+		while (!quote && g_pipe_cmd[++j])
 		{
 			if (g_pipe_cmd[j][0] == cmd_list->line[i])
 			{

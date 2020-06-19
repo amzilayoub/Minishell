@@ -5,13 +5,13 @@ void	free_cmd_array(void)
 	int i;
 
 	i = -1;
-	while (g_cmd_char[++i])
-		free(g_cmd_char[i]);
-	free(g_cmd_char);
+	//while (g_cmd_char[++i])
+		//free(g_cmd_char[i]);
+	//free(g_cmd_char);
 	i = -1;
-	while (g_pipe_cmd[++i])
-		free(g_pipe_cmd[i]);
-	free(g_pipe_cmd);
+	//while (g_pipe_cmd[++i])
+	//	free(g_pipe_cmd[i]);
+	//free(g_pipe_cmd);
 }
 
 void	free_memory(t_mem_alloc **list,int flag)
