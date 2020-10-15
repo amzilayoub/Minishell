@@ -7,6 +7,7 @@ char	*shift_char(char *str)
 	i = -1;
 	while (str[++i])
 		str[i] = str[i + 1];
+	return (str);
 }
 
 int	skip_char(char *line, char c)
@@ -18,3 +19,4 @@ int	skip_char(char *line, char c)
 		i++;
 	return (i);
 }
+

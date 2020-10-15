@@ -1,4 +1,5 @@
 # include "../minishell.h"
+# include <errno.h>
 
 int	ft_redirections_helper(char **args, int flags)
 {
@@ -11,14 +12,17 @@ int	ft_redirections_helper(char **args, int flags)
 
 	if (!(*args))
 		return (set_error_print("bash : syntax error\n"));
-	if ((fd = open(args[0], flags)) < 0)
+	if ((fd = open(args[0], flags, 0777)) < 0)
 	{
+		printf("ERROR = %i\n", errno);
 		FT_PUTSTR_ERR("bash : can't open this File\n");
 		return (1);
 	}
 	text = "";
-	while ((read(0, line, BUFFER_TO_READ)) > 0)
+	line = (char*)malloc(BUFFER_TO_READ + 1);
+	while ((i = read(0, line, BUFFER_TO_READ)) > 0)
 	{
+			line[i] = '\0';
 	        text = ft_strjoin(text, line);
 	        add_mem(line);
 	        add_mem(text);

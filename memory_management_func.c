@@ -28,13 +28,13 @@ void	free_memory(t_mem_alloc **list,int flag)
 	(*list)->mem = NULL;
 	free((*list));
 	(*list) = NULL;
-	while (++i < g_pipes_count && g_pipes_count > 1)
-	{
-		free(g_pipes_fd[i]);
-		g_pipes_fd[i] = NULL;
-	}
-	free(g_pipes_fd);
-	g_pipes_fd = NULL;
+	// while (++i < g_pipes_count && g_pipes_count > 1)
+	// {
+	// 	free(g_pipes_fd[i]);
+	// 	g_pipes_fd[i] = NULL;
+	// }
+	// free(g_pipes_fd);
+	// g_pipes_fd = NULL;
 }
 
 void	add_mem_helper(t_mem_alloc **list, void *mem)

@@ -18,8 +18,8 @@
 # define FT_PUTSTR(STR) ft_putstr_fd(STR, 1)
 # define FT_PUTSTR_ERR(STR) ft_putstr_fd(STR, 2)
 # define FT_PUTCHAR(C) ft_putchar_fd(C, 1)
-# define REDIR_WRITE O_TRUNC | O_CREAT | O_WRONLY
-# define REDIR_APPEND O_CREAT | O_APPEND | O_WRONLY
+# define REDIR_WRITE (O_TRUNC | O_CREAT | O_WRONLY)
+# define REDIR_APPEND (O_CREAT | O_APPEND | O_WRONLY)
 # define THERE_IS_ERROR g_there_is_error
 # define ERROR_MSG g_error_msg
 # define FREE_EXIT_MODE 1

@@ -30,7 +30,6 @@ int	ft_output_redir(char **args, char ***envp)
 	while (args[++i])
 	{
 		text = ft_strjoin(text, ft_strjoin(" ", args[i]));
-		/*
 	        if (!args[1])
 	        {
 	                ft_putchar_fd(' ', fd);
@@ -38,8 +37,8 @@ int	ft_output_redir(char **args, char ***envp)
                 }
 	        ft_putchar_fd(' ', 1);
 	        ft_putstr_fd(args[i], 1);
-	        */
-	/*}
+
+	}
 	if (!g_next_cmd || g_next_cmd[0] != '>')
 	{
 		ft_putstr_fd(text, fd);

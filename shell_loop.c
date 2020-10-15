@@ -31,17 +31,16 @@ void	shell_loop(char **envp)
 		if (THERE_IS_ERROR)
 		{
 			FT_PUTSTR_ERR(ERROR_MSG);
-			//print_list(g_cmd_list);
 			continue;
 		}
 		treat_cmd(g_cmd_list, envp);
 		call_commands(g_cmd_list, &envp);
+		//print_list(g_cmd_list);
 		close_fd();
 		open_stdio();
 		clear_cmd_list(&g_cmd_list);
 		free_memory(&g_mem_alloc, FREE_MODE);
 		//printf("--------------------------FINISH--------------------\n");
 				//print_list(g_cmd_list);
-
 	}
 }

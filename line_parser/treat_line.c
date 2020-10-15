@@ -2,8 +2,8 @@
 
 void	treat_line(char *line)
 {
-	int	i;
-	int	start;
+	int		i;
+	int		start;
 	char	quote;
 
 	i = -1;

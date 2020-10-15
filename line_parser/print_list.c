@@ -17,7 +17,6 @@ void	print_cmd(t_piped_cmd *list)
 		j++;
 		print_cmd(list->next);
 	}
-	j = 1;
 }
 
 void	print_list(t_cmd *list)

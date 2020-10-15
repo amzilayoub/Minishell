@@ -28,7 +28,7 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 		return ;
 	while (g_cmd_char[++i])
 	{
-		//printf("%s\n", g_cmd_char[i]);
+		//printf("%s\n", g_cmd_char[i]);`
 		if (!ft_strcmp(g_cmd_char[i], list->params[0]))
 		{
 			g_status = g_builtins[i](list->params + 1, envp);
@@ -63,9 +63,7 @@ void	call_commands(t_cmd *list, char ***envp)
 	sort_cmd_for_redirections(&list->cmd, &list->cmd->next);
 	g_pipes_count = list_cmd_size(list->cmd);
 	if (g_pipes_count > 1)
-	{
 		set_pipes();
-	}
 	else
 		g_pipes_count = 0;
 	//printf("NB_PIPE = %d\n", g_pipes_count);

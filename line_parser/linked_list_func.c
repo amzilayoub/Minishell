@@ -47,7 +47,7 @@ void	add_cmd(t_piped_cmd **list, char *line)
 		return ;
 	}
 	if ((*list))
-		add_cmd(&((*list)->next), line);
+		add_cmd(&((*list)->next), line);	
 	else
 	{
 		(*list) = (t_piped_cmd*)malloc(sizeof(t_piped_cmd));
@@ -69,6 +69,7 @@ void	create_cmd_list(t_cmd **list, char *line)
 	{
 		(*list) = (t_cmd*)malloc(sizeof(t_cmd));
 		(*list)->line = line;
+		(*list)->cmd = NULL;
 		(*list)->next = NULL;
 	}
 }
