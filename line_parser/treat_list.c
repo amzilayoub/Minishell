@@ -5,7 +5,6 @@ void	treat_list(t_cmd *cmd_list)
 	int i;
 	int j;
 	int start;
-	char *tmp;
 	char quote;
 
 	if (!cmd_list)
@@ -31,7 +30,6 @@ void	treat_list(t_cmd *cmd_list)
 		{
 			if (g_pipe_cmd[j][0] == cmd_list->line[i])
 			{
-				tmp = ft_substr(cmd_list->line, start, i - start);
 				add_cmd(&cmd_list->cmd, ft_substr(cmd_list->line, start, i - start));
 				start = i + is_redirection(g_pipe_cmd[j], cmd_list->line + i)/* + skip_char(cmd_list->line + i + 1, ' ')*/;
 				i += (!ft_strncmp(cmd_list->line + i, ">>", 2));

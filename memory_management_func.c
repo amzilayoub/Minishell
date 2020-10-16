@@ -14,6 +14,23 @@ void	free_cmd_array(void)
 	//free(g_pipe_cmd);
 }
 
+void free_pipe()
+{
+	int i;
+
+	if (g_pipes_count == -1)
+			return ;
+	i = -1;
+	while (++i < g_pipes_count && g_pipes_count > 1)
+	{
+		free(g_pipes_fd[i]);
+		g_pipes_fd[i] = NULL;
+	}
+	free(g_pipes_fd);
+	g_pipes_fd = NULL;
+	g_pipes_count = -1;
+}
+
 void	free_memory(t_mem_alloc **list,int flag)
 {
 	int i;
@@ -28,13 +45,7 @@ void	free_memory(t_mem_alloc **list,int flag)
 	(*list)->mem = NULL;
 	free((*list));
 	(*list) = NULL;
-	// while (++i < g_pipes_count && g_pipes_count > 1)
-	// {
-	// 	free(g_pipes_fd[i]);
-	// 	g_pipes_fd[i] = NULL;
-	// }
-	// free(g_pipes_fd);
-	// g_pipes_fd = NULL;
+	free_pipe();
 }
 
 void	add_mem_helper(t_mem_alloc **list, void *mem)
