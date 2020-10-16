@@ -53,7 +53,7 @@ char	**get_arg(char *line, char **envp)
 			else if (quote && line[i + 1] == quote)
 				shift_char(line + i);
 		}
-		else if (line[i] == '$' && (i == 0 || (i > 0 && line[i - 1] == ' ')))
+		else if (line[i] == '$')
 			i += join_env_var(&line, i, envp);
 		else if ((line[i] == '"' || line[i] == '\'') && !quote)
 		{

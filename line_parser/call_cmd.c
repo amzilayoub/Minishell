@@ -40,7 +40,10 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 		if (!(g_pid = fork()))
 		{
 			execve(list->params[0], list->params, (*envp));
-			FT_PUTSTR_ERR("Minishell: Command not found\n");
+			FT_PUTSTR_ERR(list->params[0]);
+			FT_PUTSTR_ERR(" : ");
+			FT_PUTSTR_ERR(strerror(errno));
+			FT_PUTSTR_ERR("\n");
 			exit(-1);
 		}
 		else if (g_pid < 0)

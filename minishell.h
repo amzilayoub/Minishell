@@ -12,6 +12,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <errno.h>
+# include <string.h>
 
 # define ARRAY_GROWTH 5
 # define BUFFER_TO_READ 1000

@@ -16,8 +16,8 @@ int	join_env_var(char **str, int index, char **envp)
 		add_mem(key);
 		if (!(key = ft_get_env_value(key, envp)))
 			key = "";
-		else
-			add_mem(key);
+		// else
+		// 	add_mem(key);
 	}
 	else
 	{
