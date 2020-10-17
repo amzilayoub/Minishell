@@ -53,6 +53,20 @@ void	env_append(char *str, char ***envp)
 	(*envp)[++g_env_available_index] = NULL;
 }
 
+int	print_env_vars(char **envp)
+{
+	int i;
+
+	i = -1;
+	while (envp[++i])
+	{
+		FT_PUTSTR("declare -x ");
+		FT_PUTSTR(envp[i]);
+		FT_PUTSTR("\n");
+	}
+	return (1);
+}
+
 int	ft_export(char **args, char ***envp)
 {
 	int i;
@@ -60,7 +74,9 @@ int	ft_export(char **args, char ***envp)
 	int len_key;
 
 	if (!(*args))
-		return (1);
+	{
+		return print_env_vars((*envp));
+	}
 	if (!(key = get_key((*args))))
 	{
 		//error
@@ -83,6 +99,7 @@ int	ft_export(char **args, char ***envp)
 	if (!(*envp)[i])
 		env_append(ft_strdup((*args)), envp);
 	//printf("LAST = %s | %c\n", (*envp)[i], (*envp)[i][len_key]);
-	ft_export(&args[1], envp);
+	if (args[1])
+		ft_export(&args[1], envp);
 	return (0);
 }

@@ -14,6 +14,7 @@
 # include <signal.h>
 # include <errno.h>
 # include <string.h>
+# include <dirent.h>
 
 # define ARRAY_GROWTH 5
 # define BUFFER_TO_READ 1000

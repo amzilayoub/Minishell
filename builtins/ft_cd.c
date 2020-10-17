@@ -23,7 +23,7 @@ int	ft_cd(char **args, char ***envp)
 		FT_PUTSTR_ERR("bash : cd : TOO MANY ARGUMENT\n");
 		return (1);
 	}
-	if ((prev_dir = !ft_strcmp(args[0], "-")))
+	if (args[0] && (prev_dir = !ft_strcmp(args[0], "-")))
 	{
 		if (!(dir = ft_get_env_value("$OLDPWD", (*envp))))
 		{
@@ -31,7 +31,7 @@ int	ft_cd(char **args, char ***envp)
 			return (1);
 		}
 	}
-	if (args[0][0] == '~')
+	if (args[0] && args[0][0] == '~')
 	{
 		if (!(dir = ft_strjoin(ft_get_env_value("$HOME", (*envp)), &args[0][1])))
 		{

@@ -80,5 +80,11 @@ char	**get_arg(char *line, char **envp)
 	else
 		add_mem(tmp);
 	args[++j] = NULL;
+	i = -1;
+	if (!args[0])
+	{
+		args[0] = ft_strdup("");
+		args[1] = NULL;
+	}
 	return (args);
 }
