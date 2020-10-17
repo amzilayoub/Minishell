@@ -77,7 +77,6 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 		}
 		else
 			wait(&g_status);
-		printf("XXXX = %d\n", g_status);
 	}
 	call_commands_helper(list->next, envp, ++pipe_index);
 }
