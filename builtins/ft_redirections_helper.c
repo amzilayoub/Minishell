@@ -24,9 +24,9 @@ int	ft_redirections_helper(char **args, int flags)
 	{
 			line[i] = '\0';
 	        text = ft_strjoin(text, line);
-	        add_mem(line);
 	        add_mem(text);
 	}
+	add_mem(line);
 	//write(fd, text, ft_strlen(text));
 	//write(1, line, ft_strlen(text));
 	// print the other parameters
