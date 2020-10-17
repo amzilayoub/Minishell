@@ -15,4 +15,6 @@ X-> 7- implement those shortcut : ctrl-C, ctrl-D, ctrl-\
 
 
 
-test : write a variable that is not exist => echo $mdfksdfsjkdbfjh
+Solved - test : write a variable that is not exist => echo $mdfksdfsjkdbfjh
+solved - export with a value inside a double/single quote
+if we give it a directory name, it should print 'command not found' instead of is a directory

@@ -36,11 +36,13 @@ char	**get_arg(char *line, char **envp)
 	char quote;
 	int j;
 	int start;
+	int space;
 	char *tmp;
 
 	i = -1;
 	start = 0;
 	j = -1;
+	space = 0;
 	//printf("LEN = %i\n", get_arg_len(line));
 	args = (char**)malloc(sizeof(char*) * (get_arg_len(line) + 1));
 	quote = 0;
@@ -53,7 +55,7 @@ char	**get_arg(char *line, char **envp)
 			else if (quote && line[i + 1] == quote)
 				shift_char(line + i);
 		}
-		else if (line[i] == '$')
+		else if (line[i] == '$' && !quote)
 			i += join_env_var(&line, i, envp);
 		else if ((line[i] == '"' || line[i] == '\'') && !quote)
 		{
@@ -63,6 +65,13 @@ char	**get_arg(char *line, char **envp)
 		else if (line[i] == quote && !(quote = 0))
 		{
 			args[++j] = ft_substr(line, start, i - start);
+			if (line[space + 1] != line[i])
+			{
+				add_mem(args[j]);
+				tmp = ft_substr(line, space + 1, start - space - 2);
+				args[j] = ft_strjoin(tmp, args[j]);
+				add_mem(tmp);
+			}
 			start = i + 1;
 		}
 		else if (!quote && line[i] == ' '/* && (i += skip_char(line + i, ' ') - 1)*/)
@@ -71,6 +80,7 @@ char	**get_arg(char *line, char **envp)
 				args[++j] = tmp;
 			else
 				add_mem(tmp);
+			space = i;
 			i += skip_char(line + i, ' ') - 1;
 			start = i + 1;
 		}

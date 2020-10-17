@@ -42,7 +42,11 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 	{
 		if (!(g_pid = fork()))
 		{
-			if ((directory = opendir(list->params[0])))
+			execve(list->params[0], list->params, (*envp));
+			tmp = ft_strjoin("/bin/", list->params[0]);
+			add_mem(tmp);
+			execve(tmp, list->params, (*envp));
+			if ((tmp = ft_strnstr(list->params[0], "/", ft_strlen(list->params[0]))) && (directory = opendir(list->params[0])))
 			{
 				FT_PUTSTR_ERR(list->params[0]);
 				FT_PUTSTR_ERR(" : is a direcotory\n");
@@ -51,22 +55,19 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 			}
 			else
 			{
-				execve(list->params[0], list->params, (*envp));
-				tmp = ft_strjoin("/bin/", list->params[0]);
-				add_mem(tmp);
-				execve(tmp, list->params, (*envp));
-				if (!ft_strnstr(list->params[0], "/", ft_strlen(list->params[0])))
-				{
-					FT_PUTSTR_ERR("Minishell : Command not found !\n");
-				}
-				else
+				if (tmp)
 				{
 					FT_PUTSTR_ERR(list->params[0]);
 					FT_PUTSTR_ERR(" : ");
 					FT_PUTSTR_ERR(strerror(errno));
 					FT_PUTSTR_ERR("\n");
 				}
+				else
+				{
+					FT_PUTSTR_ERR("Minishell : Command not found!\n");
+				}
 				exit(errno);
+				
 			}
 		}
 		else if (g_pid < 0)
