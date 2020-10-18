@@ -5,13 +5,18 @@ void	free_cmd_array(void)
 	int i;
 
 	i = -1;
-	//while (g_cmd_char[++i])
-		//free(g_cmd_char[i]);
-	//free(g_cmd_char);
-	i = -1;
-	//while (g_pipe_cmd[++i])
-	//	free(g_pipe_cmd[i]);
-	//free(g_pipe_cmd);
+	// if (!g_first_dup_env)
+	// 	return ;
+	// while (g_envp[++i])
+	// 	free(g_envp[i]);
+	//free(g_envp);
+	// while (g_cmd_char[++i])
+	//  	free(g_cmd_char[i]);
+	// free(g_cmd_char);
+	// i = -1;
+	// while (g_pipe_cmd[++i])
+	//  	free(g_pipe_cmd[i]);
+	// free(g_pipe_cmd);
 }
 
 void free_pipe()

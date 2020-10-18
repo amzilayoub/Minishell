@@ -1,8 +1,20 @@
-# include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 19:50:20 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/18 19:50:33 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 char	*ft_getcwd(void)
 {
-	int	nb;
+	int		nb;
 	char	*old_path;
 	char	*path;
 
@@ -19,10 +31,11 @@ char	*ft_getcwd(void)
 		getcwd(path, nb);
 		nb *= 2;
 	}
+	free(old_path);
 	return (path);
 }
 
-int	ft_pwd(char **args, char ***envp)
+int		ft_pwd(char **args, char ***envp)
 {
 	char *wd;
 

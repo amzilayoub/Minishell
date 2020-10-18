@@ -1,4 +1,16 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 16:37:08 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/18 18:13:20 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 void	init_builtins(void)
 {
@@ -34,6 +46,7 @@ void	init_env_var(char **envp)
 void	init(char **envp)
 {
 	g_cmd_list = NULL;
+	g_envp = NULL;
 	g_pid = 0;
 	g_mem_alloc = NULL;
 	g_pipe_cmd = ft_split("| >> > <", ' ');

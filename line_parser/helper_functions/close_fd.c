@@ -10,4 +10,5 @@ void	close_fd(void)
 		close(g_pipes_fd[i][0]);
 		close(g_pipes_fd[i][1]);
 	}
+	open_stdio();
 }

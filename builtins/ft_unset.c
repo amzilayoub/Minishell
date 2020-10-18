@@ -1,6 +1,18 @@
-# include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 20:05:51 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/18 20:06:40 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	check_error(char **args)
+#include "../minishell.h"
+
+int		check_error(char **args)
 {
 	int i;
 	int j;
@@ -32,7 +44,7 @@ void	remove_env_var(char ***envp, int index)
 	free((*envp)[index]);
 }
 
-int	ft_unset(char **args, char ***envp)
+int		ft_unset(char **args, char ***envp)
 {
 	int i;
 	int key_len;
@@ -45,11 +57,12 @@ int	ft_unset(char **args, char ***envp)
 	key_len = ft_strlen((*args));
 	while ((*envp)[++i])
 	{
-		if (!ft_strncmp((*envp)[i], (*args), key_len) && (*envp)[i][key_len] == '=')
+		if (!ft_strncmp((*envp)[i], (*args), key_len)
+			&& (*envp)[i][key_len] == '=')
 		{
 			remove_env_var(envp, i);
 			g_env_available_index--;
-			break;
+			break ;
 		}
 	}
 	ft_unset(args + 1, envp);

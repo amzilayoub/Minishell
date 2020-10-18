@@ -90,6 +90,7 @@ char		g_there_is_error;
 char		*g_error_msg;
 char		g_first_dup_env;
 pid_t		g_pid;
+char		**g_envp;
 
 
 /*
@@ -115,7 +116,7 @@ int	is_redirection(char *red, char *line);
 void	(*g_cmd_fun[4])(char *arg, char ***envp);
 void	shell_loop(char **envp);
 char	*shift_char(char *str);
-int	skip_char(char *line, char c);
+int		skip_char(char *line, char c);
 char	*ft_get_env_value(char *key, char **envp);
 char	*ft_getcwd(void);
 
@@ -126,7 +127,7 @@ char	*ft_getcwd(void);
 **-------------------------------------------------**
 */
 
-int	list_cmd_size(t_piped_cmd *list);;
+int		list_cmd_size(t_piped_cmd *list);;
 void	clear_cmd_list(t_cmd **list);
 void	create_cmd_list(t_cmd **list, char *line);
 void	add_cmd(t_piped_cmd **list, char *line);

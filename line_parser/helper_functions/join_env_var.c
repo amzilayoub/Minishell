@@ -31,7 +31,9 @@ int	join_env_var(char **str, int index, char **envp)
 	add_mem(suff);
 	pre = ft_strjoin(pre, key);
 	add_mem(pre);
+	//add_mem((*str));
 	(*str) = ft_strjoin(pre, suff);
+	add_mem((*str));
 	// substract 1 bcuz of the pre increment in the get_arg loop
 	return (ft_strlen(key) - 1);
 }

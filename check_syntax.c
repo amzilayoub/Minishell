@@ -1,10 +1,22 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_syntax.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 16:16:17 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/18 16:32:06 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 char	check_semicolons(char *line)
 {
-	int i;
-	int start;
-	char quote;
+	int		i;
+	int		start;
+	char	quote;
 
 	g_there_is_error = 0;
 	i = skip_char(line, ' ') - 1;
@@ -29,12 +41,6 @@ char	check_semicolons(char *line)
 	return (0);
 }
 
-
-// exemple echo hh || echo test => hh
-// : echo hello ||| echo test => error
-// : echo hello |  | echo tattoor => error
-
-
 void	remove_useless_cmd(char **line, int index)
 {
 	if (index)
@@ -42,6 +48,25 @@ void	remove_useless_cmd(char **line, int index)
 		add_mem((*line));
 		(*line) = ft_substr((*line), 0, index);
 	}
+}
+
+char	check_pipes_error_helper(char **line, int *i, int *first_double_pipe)
+{
+	if ((*line)[(*i) + 1] == '|' && (*i))
+	{
+		if (!(*first_double_pipe))
+			(*first_double_pipe) = (*i) - 1;
+		(*i) += skip_char(&(*line)[(*i) + 1], ' ');
+		if ((*line)[(*i) + 1] == '|')
+			return (set_error("Minishell: syntax error near to '|'\n"));
+	}
+	else
+	{
+		(*i) += skip_char((*line) + (*i) + 1, ' ');
+		if ((*line)[(*i) + 1] == '|' || !(*line)[(*i) + 1])
+			return (set_error("Minishell: syntax error near to '|'\n"));
+	}
+	return (0);
 }
 
 char	check_pipes_error(char **line)
@@ -64,21 +89,8 @@ char	check_pipes_error(char **line)
 		else if ((*line)[i] == quote)
 			quote = 0;
 		if (!quote && (*line)[i] == '|')
-		{
-			if ((*line)[i + 1] == '|' && ++i)
-			{
-				first_double_pipe = (first_double_pipe) ? first_double_pipe : i - 1;
-				i += skip_char(&(*line)[i + 1], ' ');
-				if ((*line)[i + 1] == '|')
-					return (set_error("Minishell: syntax error near to '|'\n"));
-			}
-			else
-			{
-				i += skip_char((*line) + i + 1, ' ');
-				if ((*line)[i + 1] == '|' || !(*line)[i + 1])
-					return (set_error("Minishell: syntax error near to '|'\n"));
-			}
-		}
+			if (check_pipes_error_helper(line, &i, &first_double_pipe))
+				return (g_there_is_error);
 	}
 	remove_useless_cmd(line, first_double_pipe);
 	return (0);

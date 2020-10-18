@@ -1,4 +1,16 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 16:33:56 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/18 16:34:18 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 char	set_error(char *error_msg)
 {
@@ -7,7 +19,7 @@ char	set_error(char *error_msg)
 	return (g_there_is_error);
 }
 
-int	set_error_print(char *error_msg)
+int		set_error_print(char *error_msg)
 {
 	set_error(error_msg);
 	FT_PUTSTR_ERR(error_msg);
