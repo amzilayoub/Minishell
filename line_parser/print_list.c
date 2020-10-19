@@ -1,19 +1,27 @@
-# include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_list.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/19 12:37:10 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 12:37:59 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 void	print_cmd(t_piped_cmd *list)
 {
-	static int j = 1;
-	int i;
+	static int	j = 1;
+	int			i;
 
 	if (list)
 	{
 		i = -1;
-		//printf("--------------------  FD = %d ------------------\n", list->fd);
 		while (list->params[++i])
-		{
-			printf("   %i-- |%s|\n",j, list->params[i]);
-			//printf("first CHAR = %d\n", list->params[i][0]);
-		}
+			printf("   %i-- |%s|\n", j, list->params[i]);
 		j++;
 		print_cmd(list->next);
 	}

@@ -1,30 +1,45 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memory_management_func.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/19 12:49:34 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 12:51:06 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/*
+** if (!g_first_dup_env)
+** 	return ;
+** while (g_envp[++i])
+** 	free(g_envp[i]);
+**free(g_envp);
+** while (g_cmd_char[++i])
+**  	free(g_cmd_char[i]);
+** free(g_cmd_char);
+** i = -1;
+** while (g_pipe_cmd[++i])
+**  	free(g_pipe_cmd[i]);
+** free(g_pipe_cmd);
+*/
 
 void	free_cmd_array(void)
 {
 	int i;
 
 	i = -1;
-	// if (!g_first_dup_env)
-	// 	return ;
-	// while (g_envp[++i])
-	// 	free(g_envp[i]);
-	//free(g_envp);
-	// while (g_cmd_char[++i])
-	//  	free(g_cmd_char[i]);
-	// free(g_cmd_char);
-	// i = -1;
-	// while (g_pipe_cmd[++i])
-	//  	free(g_pipe_cmd[i]);
-	// free(g_pipe_cmd);
 }
 
-void free_pipe()
+void	free_pipe(void)
 {
 	int i;
 
 	if (g_pipes_count == -1)
-			return ;
+		return ;
 	i = -1;
 	while (++i < g_pipes_count && g_pipes_count > 1)
 	{
@@ -36,7 +51,7 @@ void free_pipe()
 	g_pipes_count = -1;
 }
 
-void	free_memory(t_mem_alloc **list,int flag)
+void	free_memory(t_mem_alloc **list, int flag)
 {
 	int i;
 

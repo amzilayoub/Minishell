@@ -1,4 +1,16 @@
-# include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   linked_list_func.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/19 12:36:36 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 12:36:59 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 void	clear_cmd_list_helper(t_piped_cmd **list)
 {
@@ -32,7 +44,7 @@ void	clear_cmd_list(t_cmd **list)
 	(*list) = NULL;
 }
 
-int	list_cmd_size(t_piped_cmd *list)
+int		list_cmd_size(t_piped_cmd *list)
 {
 	if (!list)
 		return (0);
@@ -47,7 +59,7 @@ void	add_cmd(t_piped_cmd **list, char *line)
 		return ;
 	}
 	if ((*list))
-		add_cmd(&((*list)->next), line);	
+		add_cmd(&((*list)->next), line);
 	else
 	{
 		(*list) = (t_piped_cmd*)malloc(sizeof(t_piped_cmd));

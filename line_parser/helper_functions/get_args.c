@@ -1,10 +1,22 @@
-# include "../../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_args.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/19 11:06:24 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 11:54:59 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	get_arg_len(char *line)
+#include "../../minishell.h"
+
+int		get_arg_len(char *line)
 {
-	int i;
-	int len;
-	char quote;
+	int		i;
+	int		len;
+	char	quote;
 
 	quote = 0;
 	i = -1;
@@ -29,68 +41,87 @@ int	get_arg_len(char *line)
 	return (len);
 }
 
-char	**get_arg(char *line, char **envp)
+void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 {
-	int i;
-	char **args;
-	char quote;
-	int j;
-	int start;
-	int space;
 	char *tmp;
 
-	i = -1;
-	start = 0;
-	j = -1;
-	space = 0;
-	//printf("LEN = %i\n", get_arg_len(line));
-	args = (char**)malloc(sizeof(char*) * (get_arg_len(line) + 1));
-	quote = 0;
-	while (line[++i])
+	if (!vars->quote && (*line)[vars->i] == ' ')
 	{
-		if (line[i] == '\\')
-		{
-			if (!quote || line[i + 1] == '\\')
-				shift_char(line + i);
-			else if (quote && line[i + 1] == quote)
-				shift_char(line + i);
-		}
-		else if (line[i] == '$' && !quote)
-			i += join_env_var(&line, i, envp);
-		else if ((line[i] == '"' || line[i] == '\'') && !quote)
-		{
-			start = i + 1;
-			quote = line[i];
-		}
-		else if (line[i] == quote && !(quote = 0))
-		{
-			args[++j] = ft_substr(line, start, i - start);
-			if (line[space + 1] != line[i])
-			{
-				add_mem(args[j]);
-				tmp = ft_substr(line, space + 1, start - space - 2);
-				args[j] = ft_strjoin(tmp, args[j]);
-				add_mem(tmp);
-			}
-			start = i + 1;
-		}
-		else if (!quote && line[i] == ' '/* && (i += skip_char(line + i, ' ') - 1)*/)
-		{
-			if ((tmp = ft_substr(line, start, i - start))[0])
-				args[++j] = tmp;
-			else
-				add_mem(tmp);
-			space = i;
-			i += skip_char(line + i, ' ') - 1;
-			start = i + 1;
-		}
+		if ((tmp = ft_substr((*line), vars->start, vars->i - vars->start))[0])
+			(*args)[++vars->j] = tmp;
+		else
+			add_mem(tmp);
+		vars->space = vars->i;
+		vars->i += skip_char((*line) + vars->i, ' ') - 1;
+		vars->start = vars->i + 1;
 	}
-	if ((tmp = ft_substr(line, start, i - start))[0])
-		args[++j] = tmp;
+}
+
+void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
+{
+	char	*tmp;
+
+	if ((*line)[vars->i] == vars->quote && !(vars->quote = 0))
+	{
+		(*args)[++vars->j] = ft_substr((*line),
+									vars->start, vars->i - vars->start);
+		if ((*line)[vars->space + 1] != (*line)[vars->i])
+		{
+			add_mem((*args)[vars->j]);
+			tmp = ft_substr((*line), vars->space + 1,
+							vars->start - vars->space - 2);
+			(*args)[vars->j] = ft_strjoin(tmp, (*args)[vars->j]);
+			add_mem(tmp);
+		}
+		vars->start = vars->i + 1;
+	}
+	else
+		insert_arg(vars, line, args);
+}
+
+void	get_arg_helper(t_arg_manip *vars, char **line,
+						char **envp, char ***args)
+{
+	char *tmp;
+
+	while ((*line)[++vars->i])
+	{
+		if ((*line)[vars->i] == '\\' && ((!vars->quote ||
+			(*line)[vars->i + 1] == '\\') || (vars->quote &&
+			(*line)[vars->i + 1] == vars->quote)))
+			shift_char((*line) + vars->i);
+		else if ((*line)[vars->i] == '$' && !vars->quote)
+			vars->i += join_env_var(line, vars->i, envp);
+		else if (((*line)[vars->i] == '"' ||
+			(*line)[vars->i] == '\'') && !vars->quote)
+		{
+			vars->start = vars->i + 1;
+			vars->quote = (*line)[vars->i];
+		}
+		else
+			quotes_checks(vars, line, args);
+	}
+}
+
+char	**get_arg(char *line, char **envp)
+{
+	char		**args;
+	char		*tmp;
+	t_arg_manip	vars;
+
+	vars.i = -1;
+	vars.start = 0;
+	vars.j = -1;
+	vars.space = 0;
+	args = (char**)malloc(sizeof(char*) * (get_arg_len(line) + 1));
+	vars.quote = 0;
+	get_arg_helper(&vars, &line, envp, &args);
+	if ((tmp = ft_substr(line, vars.start, vars.i - vars.start))[0])
+		args[++vars.j] = tmp;
 	else
 		add_mem(tmp);
-	args[++j] = NULL;
-	i = -1;
+	args[++vars.j] = NULL;
+	vars.i = -1;
 	if (!args[0])
 	{
 		args[0] = ft_strdup("");

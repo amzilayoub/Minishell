@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 19:33:10 by aamzil            #+#    #+#             */
-/*   Updated: 2019/10/30 14:41:42 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 11:04:51 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # define GET_NEXT_LINE_H
 
 # define BUFFER_SIZE 700
-
 
 # include <stdlib.h>
 

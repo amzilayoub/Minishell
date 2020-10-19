@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/19 12:56:12 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 12:58:46 by aamzil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 
 # define MINISHELL_H
@@ -34,36 +46,34 @@
 **--------------------------------*
 */
 
-typedef struct s_piped_cmd
+typedef struct	s_piped_cmd
 {
-	char	*line;
-	char	**params;
-	struct s_piped_cmd *next;
-}		t_piped_cmd;
+	char				*line;
+	char				**params;
+	struct s_piped_cmd	*next;
+}				t_piped_cmd;
 
 typedef	struct	s_cmd
 {
-	char		*line;
-	t_piped_cmd	*cmd;
+	char			*line;
+	t_piped_cmd		*cmd;
 	struct s_cmd	*next;
-}		t_cmd;
+}				t_cmd;
 
 typedef struct	s_mem_alloc
 {
-	void *mem;
-	struct s_mem_alloc *next;
-}		t_mem_alloc;
+	void				*mem;
+	struct s_mem_alloc	*next;
+}				t_mem_alloc;
 
-
-/*
-**------------------------------------------------------**
-** MEMORY MANAGEMENT FUNCTIONS
-**------------------------------------------------------**
-*/
-
-void	add_mem(void *mem);
-void	free_memory(t_mem_alloc **list, int flag);
-
+typedef	struct	s_arg_manip
+{
+	int		i;
+	int		j;
+	int		space;
+	int		start;
+	char	quote;
+}				t_arg_manip;
 
 /*
 **------------------------------------------------------**
@@ -71,55 +81,63 @@ void	free_memory(t_mem_alloc **list, int flag);
 **------------------------------------------------------**
 */
 
-void	open_stdio(void);
-void	close_fd(void);
-t_mem_alloc	*g_mem_alloc;
-t_cmd		*g_cmd_list;
-int		g_stdio_fd[3];
-int		**g_pipes_fd;
-char		g_read_from_file;
-char		**g_cmd_char;
-char		**g_pipe_cmd;
-int		g_pipes_count;
-int		(*g_builtins[10])(char **args, char ***envp);
-int		g_env_available_index;
-int		g_env_len;
-int		g_status;
-char		*g_next_cmd;
-char		g_there_is_error;
-char		*g_error_msg;
-char		g_first_dup_env;
-pid_t		g_pid;
-char		**g_envp;
+void			open_stdio(void);
+void			close_fd(void);
+t_mem_alloc		*g_mem_alloc;
+t_cmd			*g_cmd_list;
+int				g_stdio_fd[3];
+int				**g_pipes_fd;
+char			g_read_from_file;
+char			**g_cmd_char;
+char			**g_pipe_cmd;
+int				g_pipes_count;
+int				(*g_builtins[10])(char **args, char ***envp);
+int				g_env_available_index;
+int				g_env_len;
+int				g_status;
+char			*g_next_cmd;
+char			g_there_is_error;
+char			*g_error_msg;
+char			g_first_dup_env;
+pid_t			g_pid;
+char			**g_envp;
 
+/*
+**------------------------------------------------------**
+** MEMORY MANAGEMENT FUNCTIONS
+**------------------------------------------------------**
+*/
+
+void			add_mem(void *mem);
+void			free_memory(t_mem_alloc **list, int flag);
 
 /*
 **-------------------------------------------------**
 ** FUNCTIONS USED TO MANAGE THE INPUT
 **-------------------------------------------------**
 */
-void	init(char **envp);
-void	treat_line(char *line);
-void	treat_list(t_cmd *cmd_list);
-void	print_list(t_cmd *list);
-char	**get_arg(char *line, char **envp);
-void	treat_cmd(t_cmd *list, char **envp);
-void	sort_cmd_for_redirections(t_piped_cmd **current, t_piped_cmd **next);
-void	call_commands(t_cmd *list, char ***envp);
-void	set_pipes(void);
-int	join_env_var(char **str, int index, char **envp);
-int	skip_char(char *line, char c);
-char	*shift_char(char *str);
-int	is_redirection(char *red, char *line);
 
-
-void	(*g_cmd_fun[4])(char *arg, char ***envp);
-void	shell_loop(char **envp);
-char	*shift_char(char *str);
-int		skip_char(char *line, char c);
-char	*ft_get_env_value(char *key, char **envp);
-char	*ft_getcwd(void);
-
+void			init(char **envp);
+void			treat_line(char *line);
+void			treat_list(t_cmd *cmd_list);
+void			print_list(t_cmd *list);
+char			**get_arg(char *line, char **envp);
+void			treat_cmd(t_cmd *list, char **envp);
+void			sort_cmd_for_redirections(
+											t_piped_cmd **current,
+											t_piped_cmd **next);
+void			call_commands(t_cmd *list, char ***envp);
+void			set_pipes(void);
+int				join_env_var(char **str, int index, char **envp);
+int				skip_char(char *line, char c);
+char			*shift_char(char *str);
+int				is_redirection(char *red, char *line);
+void			(*g_cmd_fun[4])(char *arg, char ***envp);
+void			shell_loop(char **envp);
+char			*shift_char(char *str);
+int				skip_char(char *line, char c);
+char			*ft_get_env_value(char *key, char **envp);
+char			*ft_getcwd(void);
 
 /*
 **-------------------------------------------------**
@@ -127,11 +145,10 @@ char	*ft_getcwd(void);
 **-------------------------------------------------**
 */
 
-int		list_cmd_size(t_piped_cmd *list);;
-void	clear_cmd_list(t_cmd **list);
-void	create_cmd_list(t_cmd **list, char *line);
-void	add_cmd(t_piped_cmd **list, char *line);
-
+int				list_cmd_size(t_piped_cmd *list);
+void			clear_cmd_list(t_cmd **list);
+void			create_cmd_list(t_cmd **list, char *line);
+void			add_cmd(t_piped_cmd **list, char *line);
 
 /*
 **-------------------------------------------------**
@@ -139,11 +156,11 @@ void	add_cmd(t_piped_cmd **list, char *line);
 **-------------------------------------------------**
 */
 
-char	set_error(char *error_msg);
-char	check_semicolons(char *line);
-char	check_pipes_error(char **line);
-int	set_error_print(char *error_msg);
-
+char			set_error(char *error_msg);
+char			check_semicolons(char *line);
+char			check_pipes_error(char **line);
+int				set_error_print(char *error_msg);
+void			print_cmd_with_error(char *cmd, char *error_msg);
 
 /*
 **-------------------------------------------------**
@@ -151,17 +168,16 @@ int	set_error_print(char *error_msg);
 **-------------------------------------------------**
 */
 
-int	ft_echo(char **args, char ***envp);
-int	ft_pwd(char **args, char ***envp);
-int	ft_input_redir(char **args, char ***envp);
-int	ft_output_redir(char **args, char ***envp);
-int	ft_append_redir(char **args, char ***envp);
-int	ft_env(char **args, char ***envp);
-int	ft_export(char **args, char ***envp);
-int	ft_unset(char **args, char ***envp);
-int	ft_cd(char **args, char ***envp);
-int	ft_exit(char **args, char ***envp);
-
+int				ft_echo(char **args, char ***envp);
+int				ft_pwd(char **args, char ***envp);
+int				ft_input_redir(char **args, char ***envp);
+int				ft_output_redir(char **args, char ***envp);
+int				ft_append_redir(char **args, char ***envp);
+int				ft_env(char **args, char ***envp);
+int				ft_export(char **args, char ***envp);
+int				ft_unset(char **args, char ***envp);
+int				ft_cd(char **args, char ***envp);
+int				ft_exit(char **args, char ***envp);
 
 /*
 **-------------------------------------------------**
@@ -169,7 +185,7 @@ int	ft_exit(char **args, char ***envp);
 **-------------------------------------------------**
 */
 
-int	ft_redirections_helper(char **args, int flags);
-char	*ft_get_env_value(char *key, char **envp);
+int				ft_redirections_helper(char **args, int flags);
+char			*ft_get_env_value(char *key, char **envp);
 
 #endif
