@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:49:16 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 19:49:39 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:18:20 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_input_redir(char **args, char ***envp)
 	int fd;
 	int i;
 
+	(void)envp;
 	i = 0;
 	if (!(*args))
 		return (set_error_print("bash : syntax error\n"));

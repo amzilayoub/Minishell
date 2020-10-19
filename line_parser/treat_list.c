@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:40:06 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 12:46:04 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:21:06 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	insert_commands(t_cmd *cmd_list, char quote, int *i, int *start)
 void	treat_list(t_cmd *cmd_list)
 {
 	int		i;
-	int		j;
 	int		start;
 	char	quote;
 

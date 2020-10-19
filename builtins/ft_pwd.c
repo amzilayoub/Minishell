@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:50:20 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 19:50:33 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:19:01 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int		ft_pwd(char **args, char ***envp)
 {
 	char *wd;
 
+	(void)args;
+	(void)envp;
 	wd = ft_getcwd();
 	FT_PUTSTR(wd);
 	FT_PUTCHAR('\n');

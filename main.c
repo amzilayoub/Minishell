@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:37:57 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 16:37:58 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:16:08 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	init(envp);
 	shell_loop(envp);
 }

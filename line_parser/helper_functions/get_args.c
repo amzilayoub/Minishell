@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 11:06:24 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 11:54:59 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:21:24 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
 void	get_arg_helper(t_arg_manip *vars, char **line,
 						char **envp, char ***args)
 {
-	char *tmp;
-
 	while ((*line)[++vars->i])
 	{
 		if ((*line)[vars->i] == '\\' && ((!vars->quote ||

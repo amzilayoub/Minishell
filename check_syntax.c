@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:16:17 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 16:32:06 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:10:06 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	check_semicolons(char *line)
 {
 	int		i;
-	int		start;
 	char	quote;
 
 	g_there_is_error = 0;

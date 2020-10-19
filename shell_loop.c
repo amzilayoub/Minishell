@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:17:47 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 19:14:20 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:10:58 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		prompt(void)
 
 void	ft_sigint(int num)
 {
+	(void)num;
 	FT_PUTSTR("\n$ ");
 }
 

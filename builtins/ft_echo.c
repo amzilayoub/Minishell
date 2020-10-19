@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 17:17:41 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 17:17:48 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:17:24 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_echo(char **args, char ***envp)
 	int i;
 	int nl;
 
+	(void)envp;
 	nl = new_line(args);
 	i = (nl) ? -1 : 0;
 	while (args[++i])

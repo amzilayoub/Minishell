@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:03:37 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 12:34:14 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/19 13:20:50 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,9 @@ void	fork_it(t_piped_cmd *list, char ***envp, DIR *directory)
 void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 {
 	int		i;
-	int		fd;
 	DIR		*directory;
-	char	*tmp;
 
+	directory = NULL;
 	if (!list)
 		return ;
 	i = -1;
@@ -118,8 +117,6 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 
 void	call_commands(t_cmd *list, char ***envp)
 {
-	int i;
-
 	if (!list)
 		return ;
 	sort_cmd_for_redirections(&list->cmd, &list->cmd->next);
