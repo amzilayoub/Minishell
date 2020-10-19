@@ -1,5 +1,33 @@
 # include "../minishell.h"
 
+void	find_command(char **params, char **envp)
+{
+	char	**bin_path;
+	char	*path;
+	int		i;
+
+	execve(params[0], params, envp);
+	i = -1;
+	path = ft_get_env_value("$PATH", envp);
+	bin_path = ft_split(path, ':');
+	free(path);
+	path = params[0];
+	while (bin_path[++i])
+	{
+		add_mem(bin_path);
+		bin_path[i] = ft_strjoin(bin_path[i], "/");
+		add_mem(bin_path);
+	}
+	add_mem(bin_path);
+	i = -1;
+	while (bin_path[++i])
+	{
+		path = ft_strjoin(bin_path[i], params[0]);
+		add_mem(path);
+		execve(path, params, envp);
+	}
+}
+
 void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 {
 	int i;
@@ -42,10 +70,7 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 	{
 		if (!(g_pid = fork()))
 		{
-			execve(list->params[0], list->params, (*envp));
-			tmp = ft_strjoin("/bin/", list->params[0]);
-			add_mem(tmp);
-			execve(tmp, list->params, (*envp));
+			find_command(list->params, (*envp));
 			if ((tmp = ft_strnstr(list->params[0], "/", ft_strlen(list->params[0]))) && (directory = opendir(list->params[0])))
 			{
 				FT_PUTSTR_ERR(list->params[0]);
