@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:50:44 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 20:05:03 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:28:51 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int		ft_redirections_helper(char **args, int flags)
 		FT_PUTSTR_ERR("bash : can't open this File\n");
 		return (1);
 	}
-	redirection_read_function(args, fd);
+	if (g_is_piped)
+		redirection_read_function(args, fd);
 	return (0);
 }

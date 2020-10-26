@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:37:08 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/18 18:13:20 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:25:50 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	init(char **envp)
 	g_cmd_list = NULL;
 	g_envp = NULL;
 	g_pid = 0;
+	g_is_piped = 0;
 	g_mem_alloc = NULL;
 	g_pipe_cmd = ft_split("| >> > <", ' ');
 	g_read_from_file = 0;

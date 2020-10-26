@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:03:37 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:20:50 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:28:33 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ void	open_pipes(t_piped_cmd *list, int pipe_index)
 {
 	if (pipe_index < g_pipes_count)
 	{
+		g_is_piped = 0;
 		dup2(g_pipes_fd[pipe_index][1], 1);
 		close(g_pipes_fd[pipe_index][1]);
 	}
 	if (!g_read_from_file && (pipe_index != 0 && pipe_index < g_pipes_count))
 	{
+		g_is_piped = 1;
 		dup2(g_pipes_fd[pipe_index - 1][0], 0);
 		close(g_pipes_fd[pipe_index - 1][0]);
 	}
@@ -117,6 +119,7 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 
 void	call_commands(t_cmd *list, char ***envp)
 {
+	g_is_piped = 0;
 	if (!list)
 		return ;
 	sort_cmd_for_redirections(&list->cmd, &list->cmd->next);

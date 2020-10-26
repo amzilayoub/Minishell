@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:56:12 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 12:58:46 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:25:38 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char			*g_next_cmd;
 char			g_there_is_error;
 char			*g_error_msg;
 char			g_first_dup_env;
+char			g_is_piped;
 pid_t			g_pid;
 char			**g_envp;
 

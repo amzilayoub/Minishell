@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 11:06:24 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:21:24 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:02:46 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 		vars->start = vars->i + 1;
 	}
 }
+
+/*
+** this code to treat params like that echo hello"Sdfsdfsdf"
+** tmp = ft_substr((*line), vars->space + 1,
+** 				vars->start - vars->space - 2);
+** (*args)[vars->j] = ft_strjoin(tmp, (*args)[vars->j]);
+*/
 
 void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
 {
