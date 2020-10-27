@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:40:06 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:21:06 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/27 12:44:28 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 void	insert_commands(t_cmd *cmd_list, char quote, int *i, int *start)
 {
 	int j;
+	int k;
 
 	j = -1;
+	k = (*i);
 	while (!quote && g_pipe_cmd[++j])
 	{
 		if (g_pipe_cmd[j][0] == cmd_list->line[(*i)])

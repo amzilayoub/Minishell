@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:49:34 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 12:51:06 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:44:34 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,18 @@ void	free_cmd_array(void)
 	int i;
 
 	i = -1;
+	if (!g_first_dup_env)
+		return ;
+	while (g_envp[++i])
+		free(g_envp[i]);
+	free(g_envp);
+	// while (g_cmd_char[++i])
+	// 	free(g_cmd_char[i]);
+	// free(g_cmd_char);
+	// i = -1;
+	// while (g_pipe_cmd[++i])
+	// 	free(g_pipe_cmd[i]);
+	// free(g_pipe_cmd);
 }
 
 void	free_pipe(void)
