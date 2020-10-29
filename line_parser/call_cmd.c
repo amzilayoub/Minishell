@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:03:37 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/27 17:44:16 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/27 18:45:08 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 			break ;
 		}
 	}
-	if (!g_cmd_char[i] && !list->params[0])
+	if (!g_cmd_char[i] && list->params[0][0])
 		fork_it(list, envp, directory);
 	call_commands_helper(list->next, envp, ++pipe_index);
 }

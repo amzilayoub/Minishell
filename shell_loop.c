@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:17:47 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/27 17:41:45 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/27 18:47:08 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,36 @@ void	ft_sigint(int num)
 ** before close_fd() function
 */
 
+char	*read_line(void)
+{
+	char	*tmp;
+	char	*line;
+	int		n;
+
+	tmp = ft_strdup("");
+	add_mem(tmp);
+	line = NULL;
+	while ((n = get_next_line(0, &tmp)) >= 0)
+	{
+		line = (line) ? ft_strjoin(line, tmp) : tmp;
+		add_mem(line);
+		if (n > 0)
+			break ;
+		else if (n == 0 && !(*tmp) && !(*line))
+			ft_exit(NULL, NULL);
+	}
+	return (line);
+}
+
 void	shell_loop(char **envp)
 {
-	char *line;
+	char	*line;
 
 	signal(SIGINT, ft_sigint);
 	signal(SIGQUIT, ft_sigint);
-	while (prompt() && get_next_line(0, &line) > 0)
+	while (prompt())
 	{
-		add_mem(line);
+		line = read_line();
 		if (check_semicolons(line))
 		{
 			FT_PUTSTR_ERR(ERROR_MSG);
