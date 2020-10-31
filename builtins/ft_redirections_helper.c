@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:50:44 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/26 11:28:51 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/31 11:03:00 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int		ft_redirections_helper(char **args, int flags)
 		return (set_error_print("bash : syntax error\n"));
 	if ((fd = open(args[0], flags, 0777)) < 0)
 	{
-		printf("ERROR = %i\n", errno);
 		FT_PUTSTR_ERR("bash : can't open this File\n");
 		return (1);
 	}

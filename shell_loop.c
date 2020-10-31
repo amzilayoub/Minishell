@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:17:47 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/27 18:47:08 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/10/31 10:54:21 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ char	*read_line(void)
 	line = NULL;
 	while ((n = get_next_line(0, &tmp)) >= 0)
 	{
-		line = (line) ? ft_strjoin(line, tmp) : tmp;
+		if (line)
+		{
+			line = ft_strjoin(line, tmp);
+			add_mem(tmp);
+		}
+		else
+			line = tmp;
 		add_mem(line);
 		if (n > 0)
 			break ;
