@@ -18,11 +18,16 @@ char	*get_key(char *str)
 	char	*key;
 
 	i = -1;
+	if (ft_isdigit((*str)))
+	{
+		print_cmd_with_error("export", "Bad identifier !\n");
+		return (NULL);
+	}
 	while (str[++i])
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
 		{
-			FT_PUTSTR_ERR("bash : export : not a valid identifier\n");
+			FT_PUTSTR_ERR("bash : export : not a valid identifier");
 			return (NULL);
 		}
 		if (str[i] == '=')
@@ -84,7 +89,7 @@ int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 			add_mem((*envp));
 		(*envp) = ft_strdup((*args));
 		if (!g_first_dup_env)
-			add_mem((*envp));
+			add_mem_perma((*envp));
 		return (1);
 	}
 	return (0);
@@ -100,7 +105,8 @@ int		ft_export(char **args, char ***envp)
 		return (print_env_vars((*envp)));
 	if (!(key = get_key((*args))))
 	{
-		ft_export(&args[1], envp);
+		if (args[1])
+			ft_export(&args[1], envp);
 		return (1);
 	}
 	len_key = ft_strlen(key);

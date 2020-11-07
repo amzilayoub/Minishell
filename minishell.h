@@ -84,6 +84,7 @@ typedef	struct	s_arg_manip
 void			open_stdio(void);
 void			close_fd(void);
 t_mem_alloc		*g_mem_alloc;
+t_mem_alloc		*g_mem_perma;
 t_cmd			*g_cmd_list;
 int				g_stdio_fd[3];
 int				**g_pipes_fd;
@@ -150,6 +151,7 @@ int				list_cmd_size(t_piped_cmd *list);
 void			clear_cmd_list(t_cmd **list);
 void			create_cmd_list(t_cmd **list, char *line);
 void			add_cmd(t_piped_cmd **list, char *line);
+void			add_mem_perma(void *mem);
 
 /*
 **-------------------------------------------------**
@@ -188,5 +190,6 @@ int				ft_exit(char **args, char ***envp);
 
 int				ft_redirections_helper(char **args, int flags);
 char			*ft_get_env_value(char *key, char **envp);
+void			env_append(char *str, char ***envp);
 
 #endif

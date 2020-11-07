@@ -24,7 +24,7 @@ char	check_semicolons(char *line)
 	quote = 0;
 	while (line[++i])
 	{
-		if (line[i] == '\\' && ++i)
+		if (line[i] == '\\' && line[i + 1] != '\'' && ++i)
 			continue;
 		if ((line[i] == '"' || line[i] == '\'') && !quote)
 			quote = line[i];
@@ -81,7 +81,7 @@ char	check_pipes_error(char **line)
 	quote = 0;
 	while ((*line)[++i])
 	{
-		if ((*line)[i] == '\\' && ++i)
+		if ((*line)[i] == '\\' && (*line)[i + 1] != '\'' && ++i)
 			continue;
 		if (((*line)[i] == '"' || (*line)[i] == '\'') && !quote)
 			quote = (*line)[i];

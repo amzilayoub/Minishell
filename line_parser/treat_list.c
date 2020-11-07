@@ -48,7 +48,7 @@ void	treat_list(t_cmd *cmd_list)
 	quote = 0;
 	while (cmd_list->line[++i])
 	{
-		if (cmd_list->line[i] == '\\' && ++i)
+		if (cmd_list->line[i] == '\\' && cmd_list->line[i + 1] != '\'' && ++i)
 			continue;
 		if ((cmd_list->line[i] == '\'' || cmd_list->line[i] == '"') && !quote)
 			quote = cmd_list->line[i];

@@ -25,6 +25,8 @@ char	*ft_get_env_value(char *key, char **envp)
 
 	i = -1;
 	len_key = ft_strlen(++key);
+	if (!(*key))
+		return (--key);
 	while (envp[++i])
 	{
 		if (!ft_strncmp(key, envp[i], len_key))
@@ -37,5 +39,7 @@ char	*ft_get_env_value(char *key, char **envp)
 			return (env_value);
 		}
 	}
-	return (NULL);
+	if (!ft_isdigit((*key)))
+		return (NULL);
+	return (key);
 }

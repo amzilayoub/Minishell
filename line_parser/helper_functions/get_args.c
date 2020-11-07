@@ -23,7 +23,7 @@ int		get_arg_len(char *line)
 	len = ((*line) != 0);
 	while (line[++i])
 	{
-		if (line[i] == '\\' && ++i)
+		if (line[i] == '\\' && line[i + 1] != '\'' && ++i)
 			continue;
 		if ((line[i] == '\'' || line[i] == '"') && !quote)
 			quote = line[i];
@@ -93,9 +93,10 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 	{
 		if ((*line)[vars->i] == '\\' && ((!vars->quote ||
 			(*line)[vars->i + 1] == '\\') || (vars->quote &&
-			(*line)[vars->i + 1] == vars->quote)))
+			(*line)[vars->i + 1] == vars->quote)) &&
+			(*line)[vars->i + 1] != '\'')
 			shift_char((*line) + vars->i);
-		else if ((*line)[vars->i] == '$' && !vars->quote)
+		else if ((*line)[vars->i] == '$')
 			vars->i += join_env_var(line, vars->i, envp);
 		else if (((*line)[vars->i] == '"' ||
 			(*line)[vars->i] == '\'') && !vars->quote)

@@ -27,11 +27,13 @@
 ** free(g_pipe_cmd);
 */
 
-void	free_cmd_array(void)
+void	free_cmd_array(t_mem_alloc *list)
 {
-	int i;
-
-	i = -1;
+	if (!list)
+		return ;
+	free_cmd_array(list->next);
+	free(list->mem);
+	free(list);
 }
 
 void	free_pipe(void)
@@ -57,10 +59,10 @@ void	free_memory(t_mem_alloc **list, int flag)
 
 	i = -1;
 	if (flag == FREE_EXIT_MODE)
-		free_cmd_array();
+		free_cmd_array(g_mem_perma);
 	if (!(*list))
 		return ;
-	free_memory(&(*list)->next, flag);
+	free_memory(&(*list)->next, FREE_MODE);
 	free((*list)->mem);
 	(*list)->mem = NULL;
 	free((*list));
