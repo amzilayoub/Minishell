@@ -13,6 +13,8 @@
 
 NAME=minishell
 
+FLAGS=-Wall -Wextra -Werror
+
 SRC= 	check_syntax.c										\
 		errors.c 											\
 		ft_get_env_value.c 									\
@@ -54,7 +56,7 @@ all: $(NAME)
 
 $(NAME):
 	cd libft && make && cd ..
-	gcc -Wall -Wextra -Werror $(SRC) -o $(NAME)
+	gcc -g $(SRC) -o $(NAME)
 
 clean:
 	cd libft && make clean && cd ..

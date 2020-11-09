@@ -40,8 +40,11 @@ void	remove_env_var(char ***envp, int index)
 		(*envp)[index] = (*envp)[index + 1];
 		index++;
 	}
-	free(tmp);
-	free((*envp)[index]);
+	if (g_first_dup_env)
+	{
+		free(tmp);
+		free((*envp)[index]);
+	}
 }
 
 int		ft_unset(char **args, char ***envp)

@@ -19,6 +19,9 @@ void	find_command(char **params, char **envp)
 	int		i;
 
 	execve(params[0], params, envp);
+	path = ft_get_env_value("$PATH", envp);
+	if (!path)
+		return ;
 	i = -1;
 	path = ft_get_env_value("$PATH", envp);
 	bin_path = ft_split(path, ':');
@@ -79,7 +82,7 @@ void	fork_it(t_piped_cmd *list, char ***envp, DIR *directory)
 		else if (tmp)
 			print_cmd_with_error(list->params[0], strerror(errno));
 		else
-			print_cmd_with_error(list->params[0], "Command not found!");
+			print_cmd_with_error(list->params[0], strerror(errno));
 		exit(errno);
 	}
 	else if (g_pid < 0)
