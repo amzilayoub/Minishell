@@ -15,10 +15,8 @@
 void	insert_commands(t_cmd *cmd_list, char quote, int *i, int *start)
 {
 	int j;
-	int k;
 
 	j = -1;
-	k = (*i);
 	while (!quote && g_pipe_cmd[++j])
 	{
 		if (g_pipe_cmd[j][0] == cmd_list->line[(*i)])
