@@ -6,7 +6,7 @@
 #    By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/19 13:04:45 by aamzil            #+#    #+#              #
-#    Updated: 2020/11/06 03:07:36 by aamzil           ###   ########.fr        #
+#    Updated: 2020/11/09 18:00:54 by aamzil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ all: $(NAME)
 
 $(NAME):
 	cd libft && make && cd ..
-	gcc -g $(SRC) -o $(NAME)
+	gcc $(FLAGS) $(SRC) -o $(NAME)
 
 clean:
 	cd libft && make clean && cd ..
