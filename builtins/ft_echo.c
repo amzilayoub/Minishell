@@ -14,9 +14,6 @@
 
 int	new_line(char **args)
 {
-	int i;
-
-	i = -1;
 	if ((*args) && !ft_strncmp((*args), "-n", 2))
 		return (0);
 	return (1);

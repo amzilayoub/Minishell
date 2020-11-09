@@ -55,9 +55,6 @@ void	free_pipe(void)
 
 void	free_memory(t_mem_alloc **list, int flag)
 {
-	int i;
-
-	i = -1;
 	if (flag == FREE_EXIT_MODE)
 		free_cmd_array(g_mem_perma);
 	if (!(*list))
