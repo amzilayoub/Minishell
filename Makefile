@@ -43,6 +43,8 @@ SRC= 	check_syntax.c										\
 		line_parser/treat_cmd.c								\
 		line_parser/treat_line.c							\
 		line_parser/treat_list.c							\
+		line_parser/treat_single_command.c					\
+		line_parser/sort_output_redir.c						\
 		line_parser/helper_functions/close_fd.c				\
 		line_parser/helper_functions/get_args.c				\
 		line_parser/helper_functions/is_redirection.c		\
@@ -56,7 +58,7 @@ all: $(NAME)
 
 $(NAME):
 	cd libft && make && cd ..
-	gcc $(FLAGS) $(SRC) -o $(NAME)
+	gcc -g $(SRC) -o $(NAME)
 
 clean:
 	cd libft && make clean && cd ..

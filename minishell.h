@@ -46,10 +46,19 @@
 **--------------------------------*
 */
 
+typedef struct	s_single_command
+{
+	char					*line;
+	char					**params;
+	struct s_single_command	*next;
+}				t_single_command;
+
 typedef struct	s_piped_cmd
 {
 	char				*line;
-	char				**params;
+	t_single_command	*single_command;
+	// remove this params var
+	// char				**params;
 	struct s_piped_cmd	*next;
 }				t_piped_cmd;
 
@@ -122,12 +131,11 @@ void			free_memory(t_mem_alloc **list, int flag);
 void			init(char **envp);
 void			treat_line(char *line);
 void			treat_list(t_cmd *cmd_list);
+void			treat_single_command(t_cmd *cmd_list);
 void			print_list(t_cmd *list);
 char			**get_arg(char *line, char **envp);
 void			treat_cmd(t_cmd *list, char **envp);
-void			sort_cmd_for_redirections(
-											t_piped_cmd **current,
-											t_piped_cmd **next);
+void			sort_cmd_for_redirections(t_single_command **current, t_single_command **next);
 void			call_commands(t_cmd *list, char ***envp);
 void			set_pipes(void);
 int				join_env_var(char **str, int index, char **envp);
@@ -152,6 +160,7 @@ void			clear_cmd_list(t_cmd **list);
 void			create_cmd_list(t_cmd **list, char *line);
 void			add_cmd(t_piped_cmd **list, char *line);
 void			add_mem_perma(void *mem);
+void			add_single_command(t_single_command **list, char *line);
 
 /*
 **-------------------------------------------------**
@@ -191,5 +200,6 @@ int				ft_exit(char **args, char ***envp);
 int				ft_redirections_helper(char **args, int flags);
 char			*ft_get_env_value(char *key, char **envp);
 void			env_append(char *str, char ***envp);
+void   			sort_output_redir(t_cmd *list);
 
 #endif

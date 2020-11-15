@@ -43,7 +43,7 @@ void	find_command(char **params, char **envp)
 	}
 }
 
-void	open_pipes(t_piped_cmd *list, int pipe_index)
+void	open_pipes(t_piped_cmd *parent_cmd ,t_single_command *list, int pipe_index)
 {
 	if (pipe_index < g_pipes_count)
 	{
@@ -57,7 +57,7 @@ void	open_pipes(t_piped_cmd *list, int pipe_index)
 		dup2(g_pipes_fd[pipe_index - 1][0], 0);
 		close(g_pipes_fd[pipe_index - 1][0]);
 	}
-	if (!list->next && list->params[0][0] != '>')
+	if (!parent_cmd->next && !list->next && list->params[0][0] != '>')
 	{
 		dup2(g_stdio_fd[2], 2);
 		dup2(g_stdio_fd[1], 1);
@@ -65,7 +65,7 @@ void	open_pipes(t_piped_cmd *list, int pipe_index)
 	g_read_from_file = 0;
 }
 
-void	fork_it(t_piped_cmd *list, char ***envp, DIR *directory)
+void	fork_it(t_single_command *list, char ***envp, DIR *directory)
 {
 	char *tmp;
 
@@ -79,8 +79,8 @@ void	fork_it(t_piped_cmd *list, char ***envp, DIR *directory)
 			closedir(directory);
 			exit(0);
 		}
-		else if (tmp)
-			print_cmd_with_error(list->params[0], strerror(errno));
+		else if (!tmp)
+			print_cmd_with_error(list->params[0], "command not found !");
 		else
 			print_cmd_with_error(list->params[0], strerror(errno));
 		exit(errno);
@@ -94,16 +94,17 @@ void	fork_it(t_piped_cmd *list, char ***envp, DIR *directory)
 		wait(&g_status);
 }
 
-void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
-{
-	int		i;
-	DIR		*directory;
 
-	directory = NULL;
+void	call_single_command(t_piped_cmd *parent, t_single_command *list, char ***envp, int *pipe_index)
+{
+	DIR		*directory;
+	int		i;
+
 	if (!list)
 		return ;
 	i = -1;
-	open_pipes(list, pipe_index);
+	open_pipes(parent, list, (*pipe_index));
+	// for multi redirection, the error is here
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
 	if (THERE_IS_ERROR)
 		return ;
@@ -117,21 +118,33 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int pipe_index)
 	}
 	if (!g_cmd_char[i] && list->params[0][0])
 		fork_it(list, envp, directory);
-	call_commands_helper(list->next, envp, ++pipe_index);
+	(*pipe_index)++;
+	call_single_command(parent, list->next, envp, pipe_index);
+}
+
+void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
+{
+	if (!list)
+		return ;
+	sort_cmd_for_redirections(&list->single_command, &list->single_command->next);
+	call_single_command(list, list->single_command, envp, pipe_index);
+	call_commands_helper(list->next, envp, pipe_index);
 }
 
 void	call_commands(t_cmd *list, char ***envp)
 {
+	int pipe_index;
+
+	pipe_index = 0;
 	g_is_piped = 0;
 	if (!list)
 		return ;
-	sort_cmd_for_redirections(&list->cmd, &list->cmd->next);
 	g_pipes_count = list_cmd_size(list->cmd);
 	if (g_pipes_count > 1)
 		set_pipes();
 	else
 		g_pipes_count = 0;
-	call_commands_helper(list->cmd, envp, 0);
+	call_commands_helper(list->cmd, envp, &pipe_index);
 	if (!THERE_IS_ERROR)
 		call_commands(list->next, envp);
 }

@@ -51,7 +51,7 @@ void	init(char **envp)
 	g_is_piped = 0;
 	g_mem_alloc = NULL;
 	g_mem_perma = NULL;
-	g_pipe_cmd = ft_split("| >> > <", ' ');
+	g_pipe_cmd = ft_split(">> > <", ' ');
 	g_read_from_file = 0;
 	init_builtins();
 	init_stdio();

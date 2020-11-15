@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	sort_cmd_for_redirections(t_piped_cmd **current, t_piped_cmd **next)
+void	sort_cmd_for_redirections(t_single_command **current, t_single_command **next)
 {
 	char **tmp;
 

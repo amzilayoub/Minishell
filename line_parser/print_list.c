@@ -12,26 +12,33 @@
 
 #include "../minishell.h"
 
+void	print_single_command(t_single_command *list)
+{
+	if (!list)
+		return ;
+	printf("----- |%s|\n", list->line);
+	int i = -1;
+	while (list->params[++i])
+	{
+		printf("------- %i -> |%s|\n", i + 1, list->params[i]);
+	}
+	print_single_command(list->next);
+}
+
 void	print_cmd(t_piped_cmd *list)
 {
-	static int	j = 1;
-	int			i;
-
-	if (list)
-	{
-		i = -1;
-		while (list->params[++i])
-			printf("   %i-- |%s|\n", j, list->params[i]);
-		j++;
-		print_cmd(list->next);
-	}
+	if (!list)
+		return ;
+	printf("-- |%s|\n", list->line);
+	print_single_command(list->single_command);
+	print_cmd(list->next);
 }
 
 void	print_list(t_cmd *list)
 {
 	if (list)
 	{
-		printf("%s\n", list->line);
+		printf("|%s|\n", list->line);
 		print_cmd(list->cmd);
 		print_list(list->next);
 	}

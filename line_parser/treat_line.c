@@ -18,8 +18,8 @@ void	treat_line(char *line)
 	int		start;
 	char	quote;
 
-	i = -1;
-	start = 0;
+	i = skip_char(line, ' ') - 1;
+	start = skip_char(line, ' ');
 	quote = 0;
 	while (line[++i])
 	{

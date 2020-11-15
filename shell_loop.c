@@ -36,6 +36,7 @@ char	*read_line(void)
 	int		n;
 
 	tmp = ft_strdup("");
+	g_there_is_error = 0;
 	add_mem(tmp);
 	line = NULL;
 	while ((n = get_next_line(0, &tmp)) >= 0)
@@ -68,6 +69,8 @@ void	shell_loop(char **envp)
 		if (check_semicolons(line))
 		{
 			FT_PUTSTR_ERR(ERROR_MSG);
+			clear_cmd_list(&g_cmd_list);
+			free_memory(&g_mem_alloc, FREE_MODE);
 			continue;
 		}
 		treat_line(line);
@@ -75,10 +78,15 @@ void	shell_loop(char **envp)
 		if (THERE_IS_ERROR)
 		{
 			FT_PUTSTR_ERR(ERROR_MSG);
+			clear_cmd_list(&g_cmd_list);
+			free_memory(&g_mem_alloc, FREE_MODE);
 			continue;
 		}
+		sort_output_redir(g_cmd_list);
+		treat_single_command(g_cmd_list);
 		treat_cmd(g_cmd_list, envp);
-		call_commands(g_cmd_list, &envp);
+		print_list(g_cmd_list);
+		// call_commands(g_cmd_list, &envp);
 		close_fd();
 		clear_cmd_list(&g_cmd_list);
 		free_memory(&g_mem_alloc, FREE_MODE);

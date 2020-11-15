@@ -22,12 +22,12 @@ void	clear_cmd_list_helper(t_piped_cmd **list)
 	clear_cmd_list_helper(&(*list)->next);
 	free((*list)->line);
 	(*list)->line = NULL;
-	while ((*list)->params[++i])
-	{
-		free((*list)->params[i]);
-		(*list)->params[i] = NULL;
-	}
-	free((*list)->params);
+	// while ((*list)->params[++i])
+	// {
+	// 	free((*list)->params[i]);
+	// 	(*list)->params[i] = NULL;
+	// }
+	// free((*list)->params);
 	free((*list));
 	(*list) = NULL;
 }
@@ -44,11 +44,18 @@ void	clear_cmd_list(t_cmd **list)
 	(*list) = NULL;
 }
 
+int		list_cmd_size_helper(t_single_command *list)
+{
+	if (!list)
+		return (0);
+	return (1 + list_cmd_size_helper(list->next));
+}
+
 int		list_cmd_size(t_piped_cmd *list)
 {
 	if (!list)
 		return (0);
-	return (1 + list_cmd_size(list->next));
+	return (list_cmd_size_helper(list->single_command) + list_cmd_size(list->next));
 }
 
 void	add_cmd(t_piped_cmd **list, char *line)
@@ -64,6 +71,26 @@ void	add_cmd(t_piped_cmd **list, char *line)
 	{
 		(*list) = (t_piped_cmd*)malloc(sizeof(t_piped_cmd));
 		(*list)->line = line;
+		(*list)->single_command = NULL;
+		(*list)->next = NULL;
+	}
+}
+
+
+void	add_single_command(t_single_command **list, char *line)
+{
+	if (!(*line))
+	{
+		add_mem(line);
+		return ;
+	}
+	if ((*list))
+		add_single_command(&((*list)->next), line);
+	else
+	{
+		(*list) = (t_single_command*)malloc(sizeof(t_single_command));
+		(*list)->line = line;
+		(*list)->params = NULL;
 		(*list)->next = NULL;
 	}
 }

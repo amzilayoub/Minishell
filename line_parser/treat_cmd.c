@@ -12,11 +12,20 @@
 
 #include "../minishell.h"
 
-void	treat_cmd_helper(t_piped_cmd *list, char **envp)
+void	get_commands_arg(t_single_command *list, char **envp)
 {
 	if (!list)
 		return ;
 	list->params = get_arg(list->line, envp);
+	get_commands_arg(list->next, envp);
+	
+}
+
+void	treat_cmd_helper(t_piped_cmd *list, char **envp)
+{
+	if (!list)
+		return ;
+	get_commands_arg(list->single_command, envp);
 	treat_cmd_helper(list->next, envp);
 }
 
