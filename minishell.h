@@ -112,6 +112,7 @@ char			g_first_dup_env;
 char			g_is_piped;
 pid_t			g_pid;
 char			**g_envp;
+char			*g_line;
 
 /*
 **------------------------------------------------------**

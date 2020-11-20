@@ -106,6 +106,8 @@ void	call_single_command(t_piped_cmd *parent, t_single_command *list, char ***en
 	open_pipes(parent, list, (*pipe_index));
 	// for multi redirection, the error is here
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
+	g_next_cmd = (!g_next_cmd && parent->next) ? parent->next->single_command->params[0] : g_next_cmd;
+	// dprintf(STDERR_FILENO, "LINE = %s\n", g_next_cmd);
 	if (THERE_IS_ERROR)
 		return ;
 	while (g_cmd_char[++i])

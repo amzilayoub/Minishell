@@ -20,14 +20,14 @@ void	sort_cmd_for_redirections(t_single_command **current, t_single_command **ne
 		return ;
 	if ((*next)->params[0][0] == '<')
 	{
-		if ((*current)->params[0][0] == '>')
-			(*next) = (*next)->next;
-		else
-		{
+		// if ((*current)->params[0][0] == '>')
+		// 	(*next) = (*next)->next;
+		// else
+		// {
 			tmp = (*current)->params;
 			(*current)->params = (*next)->params;
 			(*next)->params = tmp;
-		}
+		// }
 	}
 	sort_cmd_for_redirections(next, &(*next)->next);
 }

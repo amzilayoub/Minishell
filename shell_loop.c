@@ -20,6 +20,10 @@ int		prompt(void)
 void	ft_sigint(int num)
 {
 	(void)num;
+	if (g_line != NULL)
+	{
+		g_line = NULL;
+	}
 	FT_PUTSTR("\n$ ");
 }
 
@@ -32,48 +36,46 @@ void	ft_sigint(int num)
 char	*read_line(void)
 {
 	char	*tmp;
-	char	*line;
 	int		n;
 
 	tmp = ft_strdup("");
 	g_there_is_error = 0;
 	add_mem(tmp);
-	line = NULL;
+	g_line = NULL;
 	while ((n = get_next_line(0, &tmp)) >= 0)
 	{
-		if (line)
+		if (g_line)
 		{
-			line = ft_strjoin(line, tmp);
+			g_line = ft_strjoin(g_line, tmp);
 			add_mem(tmp);
 		}
 		else
-			line = tmp;
-		add_mem(line);
+			g_line = tmp;
+		add_mem(g_line);
 		if (n > 0)
 			break ;
-		else if (n == 0 && !(*tmp) && !(*line))
+		else if (n == 0 && !(*tmp) && !(*g_line))
 			ft_exit(NULL, NULL);
 	}
-	return (line);
+	return (g_line);
 }
 
 void	shell_loop(char **envp)
 {
-	char	*line;
-
 	signal(SIGINT, ft_sigint);
+	// Ctrl - C free the line
 	signal(SIGQUIT, ft_sigint);
 	while (prompt())
 	{
-		line = read_line();
-		if (check_semicolons(line))
+		g_line = read_line();
+		if (check_semicolons(g_line))
 		{
 			FT_PUTSTR_ERR(ERROR_MSG);
 			clear_cmd_list(&g_cmd_list);
 			free_memory(&g_mem_alloc, FREE_MODE);
 			continue;
 		}
-		treat_line(line);
+		treat_line(g_line);
 		treat_list(g_cmd_list);
 		if (THERE_IS_ERROR)
 		{
@@ -82,11 +84,11 @@ void	shell_loop(char **envp)
 			free_memory(&g_mem_alloc, FREE_MODE);
 			continue;
 		}
-		sort_output_redir(g_cmd_list);
+		// sort_output_redir(g_cmd_list);
 		treat_single_command(g_cmd_list);
 		treat_cmd(g_cmd_list, envp);
-		print_list(g_cmd_list);
-		// call_commands(g_cmd_list, &envp);
+		// print_list(g_cmd_list);
+		call_commands(g_cmd_list, &envp);
 		close_fd();
 		clear_cmd_list(&g_cmd_list);
 		free_memory(&g_mem_alloc, FREE_MODE);

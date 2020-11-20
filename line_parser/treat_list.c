@@ -19,7 +19,7 @@ static void	insert_commands(t_cmd *cmd_list, char quote, int *i, int *start)
 		add_cmd(&cmd_list->cmd, ft_substr(cmd_list->line,
 								(*start), (*i) - (*start)));
 		(*start) = (*i) + 1 + skip_char(cmd_list->line + (*i) + 1, ' ');
-		(*i) += (*start) - 1;
+		(*i) = (*start) - 1;
 	}
 }
 

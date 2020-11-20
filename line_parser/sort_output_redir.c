@@ -15,7 +15,7 @@ int     find_redirection(char *line, int n)
             quote = line[i];
         else if (line[i] == quote)
             quote = 0;
-        else if (!quote && line[i] == '>')
+        else if (!quote && (line[i] == '>' || line[i] == '<'))
         {
             if (n == 0)
                 return (i);
@@ -53,33 +53,41 @@ void    sort_output_redir_helper(t_piped_cmd *list)
     char    *pre;
     char    *suff;
     int     i;
+    int     where_to_cut;
+    int     filename;
     int     len;
+    int     tmpLen;
 
     // i should recode this part
     if (!list)
         return ;
+    where_to_cut = -1;
     i = 0;
+    where_to_cut = find_redirection(list->line, i);
     while ((start = find_redirection(list->line, i)) != -1)
     {
-        end = start + 1 + (list->line[start + 1] == '>');
-        end += skip_file_name(list->line + end);
         if (i == 0)
-        {
-            pre = ft_substr(list->line, 0 , start);
-            suff = ft_substr(list->line, end, ft_strlen(list->line));
-            add_mem(pre);
-            add_mem(suff);
-            pre = ft_strjoin(pre, suff);
-            len = ft_strlen(pre);
-            suff = ft_substr(list->line, start, end - start);
             add_mem(list->line);
-            list->line = ft_strjoin(pre, suff);
-        }
-        else
-        {
-
-        }
-        
+        filename = start + 1 + (list->line[start + 1] == '>');
+        filename += skip_file_name(list->line + filename);
+        if ((end = find_redirection(list->line, i + 1)) == -1)
+            end = ft_strlen(list->line);
+        // joining the command with the argument
+        pre = ft_substr(list->line, 0, where_to_cut);
+        suff = ft_substr(list->line, filename, abs(filename - end));
+        add_mem(pre);
+        add_mem(suff);
+        pre = ft_strjoin(pre, suff);
+        tmpLen = ft_strlen(pre);
+        // joining the redirection with the command
+        suff = ft_substr(list->line, where_to_cut, filename - where_to_cut);
+        pre = ft_strjoin(pre, suff);
+        add_mem(pre);
+        add_mem(suff);
+        // suff = ft_substr(list->line, filename + abs(filename - end), ft_strlen(list->line));
+        // joining the last of the line, with the command and redirection
+        list->line = ft_strjoin(pre, list->line + filename + abs(filename - end));
+        where_to_cut = tmpLen;
         i++;
     }
     sort_output_redir_helper(list->next);
