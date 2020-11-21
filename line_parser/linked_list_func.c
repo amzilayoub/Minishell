@@ -12,22 +12,34 @@
 
 #include "../minishell.h"
 
-void	clear_cmd_list_helper(t_piped_cmd **list)
+void	clear_single_command(t_single_command **list)
 {
 	int i;
 
-	i = -1;
 	if (!(*list))
 		return ;
+	i = -1;
+	clear_single_command(&(*list)->next);
+	free((*list)->line);
+	(*list)->line = NULL;
+	while ((*list)->params[++i])
+	{
+		free((*list)->params[i]);
+		(*list)->params[i] = NULL;
+	}
+	free((*list)->params);
+	free((*list));
+	(*list) = NULL;
+}
+
+void	clear_cmd_list_helper(t_piped_cmd **list)
+{
+	if (!(*list))
+		return ;
+	clear_single_command(&((*list)->single_command));
 	clear_cmd_list_helper(&(*list)->next);
 	free((*list)->line);
 	(*list)->line = NULL;
-	// while ((*list)->params[++i])
-	// {
-	// 	free((*list)->params[i]);
-	// 	(*list)->params[i] = NULL;
-	// }
-	// free((*list)->params);
 	free((*list));
 	(*list) = NULL;
 }

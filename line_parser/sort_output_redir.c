@@ -76,11 +76,12 @@ void    sort_output_redir_helper(t_piped_cmd *list)
         pre = ft_substr(list->line, 0, where_to_cut);
         suff = ft_substr(list->line, filename, abs(filename - end));
         add_mem(pre);
-        add_mem(suff);
         pre = ft_strjoin(pre, suff);
         tmpLen = ft_strlen(pre);
         // joining the redirection with the command
+        add_mem(suff);
         suff = ft_substr(list->line, where_to_cut, filename - where_to_cut);
+        add_mem(pre);
         pre = ft_strjoin(pre, suff);
         add_mem(pre);
         add_mem(suff);

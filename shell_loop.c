@@ -63,7 +63,6 @@ char	*read_line(void)
 void	shell_loop(char **envp)
 {
 	signal(SIGINT, ft_sigint);
-	// Ctrl - C free the line
 	signal(SIGQUIT, ft_sigint);
 	while (prompt())
 	{
@@ -84,7 +83,7 @@ void	shell_loop(char **envp)
 			free_memory(&g_mem_alloc, FREE_MODE);
 			continue;
 		}
-		// sort_output_redir(g_cmd_list);
+		sort_output_redir(g_cmd_list);
 		treat_single_command(g_cmd_list);
 		treat_cmd(g_cmd_list, envp);
 		// print_list(g_cmd_list);
