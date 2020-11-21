@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 11:06:24 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/26 11:02:46 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/11/21 19:00:35 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ int		get_arg_len(char *line)
 			continue;
 		if ((line[i] == '\'' || line[i] == '"') && !quote)
 			quote = line[i];
-		else if (line[i] == quote)
-		{
-			len++;
+		else if (line[i] == quote && ++len)
 			quote = 0;
-		}
 		else if (!quote && (line[i] == ' ' || line[i] == '>' || line[i] == '<'))
 		{
 			i += skip_char(&line[i], ' ');
@@ -60,8 +57,9 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 	}
 	else if ((*line)[vars->i] == '>' || (*line)[vars->i] == '<')
 	{
-		(*args)[++vars->j] = ft_substr((*line), vars-> i, 1 + ((*line)[vars->i + 1] == '>'));
-		vars->i += + 1 + ((*line)[vars->i + 1] == '>');
+		(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
+				((*line)[vars->i + 1] == '>'));
+		vars->i += 1 + ((*line)[vars->i + 1] == '>');
 		vars->i += skip_char((*line) + vars->i, ' ') - 1;
 		vars->start = vars->i + 1;
 	}

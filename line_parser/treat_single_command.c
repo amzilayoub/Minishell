@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
-static void insert_commands(t_piped_cmd *list, char quote, int *i, int *start)
+static void		insert_commands(t_piped_cmd *list, char quote,
+								int *i, int *start)
 {
 	int j;
 
@@ -31,7 +32,7 @@ static void insert_commands(t_piped_cmd *list, char quote, int *i, int *start)
 	}
 }
 
-void	    treat_single_command_helper(t_piped_cmd *list)
+void			treat_single_command_helper(t_piped_cmd *list)
 {
 	int		i;
 	int		start;
@@ -52,15 +53,15 @@ void	    treat_single_command_helper(t_piped_cmd *list)
 			quote = 0;
 		insert_commands(list, quote, &i, &start);
 	}
-	add_single_command(&list->single_command, ft_substr(list->line, start, i - start + 1));
+	add_single_command(&list->single_command,
+						ft_substr(list->line, start, i - start + 1));
 	treat_single_command_helper(list->next);
 }
 
-
-void	treat_single_command(t_cmd *cmd_list)
+void			treat_single_command(t_cmd *cmd_list)
 {
-    if (!cmd_list)
-        return ;
-    treat_single_command_helper(cmd_list->cmd);
-    treat_single_command(cmd_list->next);
+	if (!cmd_list)
+		return ;
+	treat_single_command_helper(cmd_list->cmd);
+	treat_single_command(cmd_list->next);
 }

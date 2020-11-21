@@ -60,6 +60,18 @@ char	*read_line(void)
 	return (g_line);
 }
 
+char	syntax_error(char boolean_var)
+{
+	if (boolean_var)
+	{
+		FT_PUTSTR_ERR(ERROR_MSG);
+		clear_cmd_list(&g_cmd_list);
+		free_memory(&g_mem_alloc, FREE_MODE);
+		return (1);
+	}
+	return (0);
+}
+
 void	shell_loop(char **envp)
 {
 	signal(SIGINT, ft_sigint);
@@ -67,26 +79,15 @@ void	shell_loop(char **envp)
 	while (prompt())
 	{
 		g_line = read_line();
-		if (check_semicolons(g_line))
-		{
-			FT_PUTSTR_ERR(ERROR_MSG);
-			clear_cmd_list(&g_cmd_list);
-			free_memory(&g_mem_alloc, FREE_MODE);
-			continue;
-		}
+		if (syntax_error(check_semicolons(g_line)))
+			continue ;
 		treat_line(g_line);
 		treat_list(g_cmd_list);
-		if (THERE_IS_ERROR)
-		{
-			FT_PUTSTR_ERR(ERROR_MSG);
-			clear_cmd_list(&g_cmd_list);
-			free_memory(&g_mem_alloc, FREE_MODE);
-			continue;
-		}
+		if (syntax_error(THERE_IS_ERROR))
+			continue ;
 		sort_output_redir(g_cmd_list);
 		treat_single_command(g_cmd_list);
 		treat_cmd(g_cmd_list, envp);
-		// print_list(g_cmd_list);
 		call_commands(g_cmd_list, &envp);
 		close_fd();
 		clear_cmd_list(&g_cmd_list);

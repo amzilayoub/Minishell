@@ -6,7 +6,7 @@
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:38:22 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 12:38:24 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/11/21 18:57:08 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	get_commands_arg(t_single_command *list, char **envp)
 		return ;
 	list->params = get_arg(list->line, envp);
 	get_commands_arg(list->next, envp);
-	
 }
 
 void	treat_cmd_helper(t_piped_cmd *list, char **envp)

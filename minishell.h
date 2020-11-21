@@ -57,8 +57,6 @@ typedef struct	s_piped_cmd
 {
 	char				*line;
 	t_single_command	*single_command;
-	// remove this params var
-	// char				**params;
 	struct s_piped_cmd	*next;
 }				t_piped_cmd;
 
@@ -136,7 +134,9 @@ void			treat_single_command(t_cmd *cmd_list);
 void			print_list(t_cmd *list);
 char			**get_arg(char *line, char **envp);
 void			treat_cmd(t_cmd *list, char **envp);
-void			sort_cmd_for_redirections(t_single_command **current, t_single_command **next);
+void			sort_cmd_for_redirections(
+								t_single_command **current,
+								t_single_command **next);
 void			call_commands(t_cmd *list, char ***envp);
 void			set_pipes(void);
 int				join_env_var(char **str, int index, char **envp);
@@ -201,6 +201,12 @@ int				ft_exit(char **args, char ***envp);
 int				ft_redirections_helper(char **args, int flags);
 char			*ft_get_env_value(char *key, char **envp);
 void			env_append(char *str, char ***envp);
-void   			sort_output_redir(t_cmd *list);
+void			sort_output_redir(t_cmd *list);
+void			sort_output_redir_helper(t_piped_cmd *list);
+void			call_single_command(
+					t_piped_cmd *parent,
+					t_single_command *list,
+					char ***envp,
+					int *pipe_index);
 
 #endif

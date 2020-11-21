@@ -37,7 +37,9 @@ SRC= 	check_syntax.c										\
 		builtins/ft_redirections_helper.c					\
 		builtins/ft_unset.c									\
 		line_parser/call_cmd.c								\
+		line_parser/call_cmd_helper.c						\
 		line_parser/linked_list_func.c						\
+		line_parser/linked_list_func_helper.c				\
 		line_parser/print_list.c							\
 		line_parser/sort_cmd.c								\
 		line_parser/treat_cmd.c								\
@@ -45,6 +47,7 @@ SRC= 	check_syntax.c										\
 		line_parser/treat_list.c							\
 		line_parser/treat_single_command.c					\
 		line_parser/sort_output_redir.c						\
+		line_parser/sort_output_redir_helper.c				\
 		line_parser/helper_functions/close_fd.c				\
 		line_parser/helper_functions/get_args.c				\
 		line_parser/helper_functions/is_redirection.c		\

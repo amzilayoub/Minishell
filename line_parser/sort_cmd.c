@@ -12,7 +12,15 @@
 
 #include "../minishell.h"
 
-void	sort_cmd_for_redirections(t_single_command **current, t_single_command **next)
+/*
+**	if ((*current)->params[0][0] == '>')
+**		(*next) = (*next)->next;
+**	else
+**	{
+*/
+
+void	sort_cmd_for_redirections(t_single_command **current,
+									t_single_command **next)
 {
 	char **tmp;
 
@@ -20,14 +28,9 @@ void	sort_cmd_for_redirections(t_single_command **current, t_single_command **ne
 		return ;
 	if ((*next)->params[0][0] == '<')
 	{
-		// if ((*current)->params[0][0] == '>')
-		// 	(*next) = (*next)->next;
-		// else
-		// {
-			tmp = (*current)->params;
-			(*current)->params = (*next)->params;
-			(*next)->params = tmp;
-		// }
+		tmp = (*current)->params;
+		(*current)->params = (*next)->params;
+		(*next)->params = tmp;
 	}
 	sort_cmd_for_redirections(next, &(*next)->next);
 }
