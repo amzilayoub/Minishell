@@ -77,19 +77,7 @@ void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
 	char	*tmp;
 
 	if ((*line)[vars->i] == vars->quote && !(vars->quote = 0))
-	{
-		(*args)[++vars->j] = ft_substr((*line),
-									vars->start, vars->i - vars->start);
-		if ((*line)[vars->space + 1] != (*line)[vars->i])
-		{
-			add_mem((*args)[vars->j]);
-			tmp = ft_substr((*line), vars->space + 1,
-							vars->start - vars->space - 2);
-			(*args)[vars->j] = ft_strjoin(tmp, (*args)[vars->j]);
-			add_mem(tmp);
-		}
-		vars->start = vars->i + 1;
-	}
+		shift_char((*line) + vars->i);
 	else
 		insert_arg(vars, line, args);
 }
@@ -109,8 +97,8 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 		else if (((*line)[vars->i] == '"' ||
 			(*line)[vars->i] == '\'') && !vars->quote)
 		{
-			vars->start = vars->i + 1;
 			vars->quote = (*line)[vars->i];
+			shift_char((*line) + vars->i);
 		}
 		else
 			quotes_checks(vars, line, args);
