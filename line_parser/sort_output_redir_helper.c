@@ -81,14 +81,15 @@ void	join_lines_helper(
 	pre = ft_substr(list->line, 0, (*where_to_cut));
 	suff = ft_substr(list->line, filename, abs(filename - end));
 	add_mem(pre);
+	add_mem(suff);
 	pre = ft_strjoin(pre, suff);
+	add_mem(pre);
 	tmplen = ft_strlen(pre);
-	add_mem(suff);
 	suff = ft_substr(list->line, (*where_to_cut), filename - (*where_to_cut));
-	add_mem(pre);
 	pre = ft_strjoin(pre, suff);
 	add_mem(pre);
 	add_mem(suff);
+	add_mem(list->line);
 	list->line = ft_strjoin(pre, list->line + filename + abs(filename - end));
 	(*where_to_cut) = tmplen;
 }
@@ -98,8 +99,6 @@ void	join_lines(t_piped_cmd *list, int i, int start, int *where_to_cut)
 	int		end;
 	int		filename;
 
-	if (i == 0)
-		add_mem(list->line);
 	filename = start + 1 + (list->line[start + 1] == '>');
 	filename += skip_file_name(list->line + filename);
 	if ((end = find_redirection(list->line, i + 1)) == -1)
