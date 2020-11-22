@@ -74,8 +74,6 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 
 void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
 {
-	char	*tmp;
-
 	if ((*line)[vars->i] == vars->quote && !(vars->quote = 0))
 		shift_char((*line) + vars->i);
 	else

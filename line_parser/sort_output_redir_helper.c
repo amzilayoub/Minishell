@@ -31,6 +31,8 @@ int		find_redirection(char *line, int n)
 		{
 			if (n == 0)
 				return (i);
+			if (line[i + 1] == '>')
+				++i;
 			n--;
 		}
 	}
@@ -114,7 +116,6 @@ void	sort_output_redir_helper(t_piped_cmd *list)
 
 	if (!list)
 		return ;
-	where_to_cut = -1;
 	i = 0;
 	where_to_cut = find_redirection(list->line, i);
 	while ((start = find_redirection(list->line, i)) != -1)

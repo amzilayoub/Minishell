@@ -61,7 +61,7 @@ all: $(NAME)
 
 $(NAME):
 	cd libft && make && cd ..
-	gcc -g $(SRC) -o $(NAME)
+	gcc $(FLAGS) $(SRC) -o $(NAME)
 
 clean:
 	cd libft && make clean && cd ..

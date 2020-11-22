@@ -116,6 +116,7 @@ void	call_single_command(
 
 	if (!list)
 		return ;
+	directory = NULL;
 	i = -1;
 	open_pipes(parent, list, (*pipe_index));
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
