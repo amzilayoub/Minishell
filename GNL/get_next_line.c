@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../libft/libft.h"
 
 int		free_buf(char *buf)
 {
@@ -24,7 +25,7 @@ int		get_next_line(int fd, char **line)
 	char		*buf;
 	int			n;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || !line || !(buf = malloc(BUFFER_SIZE)))
+	if (fd < 0 || !line || !(buf = ft_calloc(BUFFER_SIZE + 1, 1)))
 		return (-1);
 	while (1)
 	{

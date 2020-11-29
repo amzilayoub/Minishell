@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../libft/libft.h"
 
 char	*my_realloc(char *dst, char *src, int len)
 {
@@ -23,7 +24,7 @@ char	*my_realloc(char *dst, char *src, int len)
 	i = -1;
 	malloc_len = (has_nl(src, 0) < len) ? has_nl(src, 0) : len;
 	malloc_len += has_nl(dst, 0);
-	if (!(tmp = (char*)malloc(malloc_len + 1)))
+	if (!(tmp = (char*)ft_calloc(malloc_len + 1, 1)))
 		return (0);
 	while (dst && dst[++i])
 		tmp[i] = dst[i];
@@ -74,7 +75,7 @@ char	*sdp(char *s1, char *right_s)
 
 	i = -1;
 	lensrc = has_nl(s1, 0);
-	if (!(ptr = (char*)malloc(lensrc + 1)))
+	if (!(ptr = (char*)ft_calloc(lensrc + 1, 1)))
 		return (0);
 	while (s1[++i])
 		ptr[i] = s1[i];

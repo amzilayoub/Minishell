@@ -13,7 +13,7 @@
 
 NAME=minishell
 
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-Wall -Wextra -Werror -fsanitize=address
 
 SRC= 	check_syntax.c										\
 		errors.c 											\
