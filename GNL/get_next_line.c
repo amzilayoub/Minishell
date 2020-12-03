@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboutahr <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 13:46:08 by aamzil            #+#    #+#             */
-/*   Updated: 2019/10/30 14:43:56 by aamzil           ###   ########.fr       */
+/*   Created: 2019/10/16 13:46:08 by aboutahr            #+#    #+#             */
+/*   Updated: 2019/10/30 14:43:56 by aboutahr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../libft/libft.h"
 
 int		free_buf(char *buf)
 {
@@ -24,7 +25,7 @@ int		get_next_line(int fd, char **line)
 	char		*buf;
 	int			n;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || !line || !(buf = malloc(BUFFER_SIZE)))
+	if (fd < 0 || !line || !(buf = ft_calloc(BUFFER_SIZE + 1, 1)))
 		return (-1);
 	while (1)
 	{

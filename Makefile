@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+         #
+#    By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/10/19 13:04:45 by aamzil            #+#    #+#              #
-#    Updated: 2020/11/09 18:00:54 by aamzil           ###   ########.fr        #
+#    Created: 2020/10/19 13:04:45 by aboutahr            #+#    #+#              #
+#    Updated: 2020/11/09 18:00:54 by aboutahr           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,17 @@ SRC= 	check_syntax.c										\
 		builtins/ft_redirections_helper.c					\
 		builtins/ft_unset.c									\
 		line_parser/call_cmd.c								\
+		line_parser/call_cmd_helper.c						\
 		line_parser/linked_list_func.c						\
+		line_parser/linked_list_func_helper.c				\
 		line_parser/print_list.c							\
 		line_parser/sort_cmd.c								\
 		line_parser/treat_cmd.c								\
 		line_parser/treat_line.c							\
 		line_parser/treat_list.c							\
+		line_parser/treat_single_command.c					\
+		line_parser/sort_output_redir.c						\
+		line_parser/sort_output_redir_helper.c				\
 		line_parser/helper_functions/close_fd.c				\
 		line_parser/helper_functions/get_args.c				\
 		line_parser/helper_functions/is_redirection.c		\
@@ -60,9 +65,9 @@ $(NAME):
 
 clean:
 	cd libft && make clean && cd ..
-	rm -rf $(NAME)
 
 fclean: clean
 	cd libft && make fclean && cd ..
+	rm -rf $(NAME)
 
 re : fclean all

@@ -3,35 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   treat_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/19 12:40:06 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/27 12:44:28 by aamzil           ###   ########.fr       */
+/*   Created: 2020/10/19 12:40:06 by aboutahr            #+#    #+#             */
+/*   Updated: 2020/10/27 12:44:28 by aboutahr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	insert_commands(t_cmd *cmd_list, char quote, int *i, int *start)
+static void	insert_commands(t_cmd *cmd_list, char quote, int *i, int *start)
 {
-	int j;
-
-	j = -1;
-	while (!quote && g_pipe_cmd[++j])
+	if (cmd_list->line[(*i)] == '|' && !quote)
 	{
-		if (g_pipe_cmd[j][0] == cmd_list->line[(*i)])
-		{
-			add_cmd(&cmd_list->cmd, ft_substr(cmd_list->line,
-									(*start), (*i) - (*start)));
-			(*start) = (*i) +
-					is_redirection(g_pipe_cmd[j], cmd_list->line + (*i));
-			(*i) += (!ft_strncmp(cmd_list->line + (*i), ">>", 2));
-			break ;
-		}
+		add_cmd(&cmd_list->cmd, ft_substr(cmd_list->line,
+								(*start), (*i) - (*start)));
+		(*start) = (*i) + 1 + skip_char(cmd_list->line + (*i) + 1, ' ');
+		(*i) = (*start) - 1;
 	}
 }
 
-void	treat_list(t_cmd *cmd_list)
+void		treat_list(t_cmd *cmd_list)
 {
 	int		i;
 	int		start;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   treat_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/19 12:38:41 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/26 11:32:05 by aamzil           ###   ########.fr       */
+/*   Created: 2020/10/19 12:38:41 by aboutahr            #+#    #+#             */
+/*   Updated: 2020/10/26 11:32:05 by aboutahr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	treat_line(char *line)
 	int		start;
 	char	quote;
 
-	i = -1;
-	start = 0;
+	i = skip_char(line, ' ') - 1;
+	start = skip_char(line, ' ');
 	quote = 0;
 	while (line[++i])
 	{

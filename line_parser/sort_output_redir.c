@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   sort_output_redir.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboutahr <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/12 18:43:14 by aboutahr            #+#    #+#             */
-/*   Updated: 2019/10/18 13:32:45 by aboutahr           ###   ########.fr       */
+/*   Created: 2020/11/21 17:56:11 by aboutahr            #+#    #+#             */
+/*   Updated: 2020/11/21 19:01:21 by aboutahr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int		ft_lstsize(t_list *lst)
+void	sort_output_redir(t_cmd *list)
 {
-	int		i;
-	t_list	*tmp;
-
-	i = 0;
-	tmp = lst;
-	while (lst)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);
+	if (!list)
+		return ;
+	sort_output_redir_helper(list->cmd);
+	sort_output_redir(list->next);
 }

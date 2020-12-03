@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 16:37:08 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/26 11:25:50 by aamzil           ###   ########.fr       */
+/*   Created: 2020/10/18 16:37:08 by aboutahr            #+#    #+#             */
+/*   Updated: 2020/10/26 11:25:50 by aboutahr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init(char **envp)
 	g_is_piped = 0;
 	g_mem_alloc = NULL;
 	g_mem_perma = NULL;
-	g_pipe_cmd = ft_split("| >> > <", ' ');
+	g_pipe_cmd = ft_split(">> > <", ' ');
 	g_read_from_file = 0;
 	init_builtins();
 	init_stdio();

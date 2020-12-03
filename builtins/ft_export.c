@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 17:20:38 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/26 11:47:16 by aamzil           ###   ########.fr       */
+/*   Created: 2020/10/18 17:20:38 by aboutahr            #+#    #+#             */
+/*   Updated: 2020/10/26 11:47:16 by aboutahr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		print_env_vars(char **envp)
 
 int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 {
-	if (!ft_strncmp((*envp), key, len_key))
+	if (!ft_strncmp((*envp), key, len_key) && (*envp)[len_key] == '=')
 	{
 		if (g_first_dup_env)
 			add_mem((*envp));
