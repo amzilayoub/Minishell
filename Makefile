@@ -13,7 +13,7 @@
 
 NAME=minishell
 
-FLAGS=-g -Wall -Wextra -Werror
+FLAGS=-Wall -Wextra -Werror
 
 SRC= 	check_syntax.c										\
 		errors.c 											\
@@ -65,9 +65,9 @@ $(NAME):
 
 clean:
 	cd libft && make clean && cd ..
-	rm -rf $(NAME)
 
 fclean: clean
 	cd libft && make fclean && cd ..
+	rm -rf $(NAME)
 
 re : fclean all

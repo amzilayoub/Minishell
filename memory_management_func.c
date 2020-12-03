@@ -12,20 +12,26 @@
 
 #include "minishell.h"
 
-/*
-** if (!g_first_dup_env)
-** 	return ;
-** while (g_envp[++i])
-** 	free(g_envp[i]);
-**free(g_envp);
-** while (g_cmd_char[++i])
-**  	free(g_cmd_char[i]);
-** free(g_cmd_char);
-** i = -1;
-** while (g_pipe_cmd[++i])
-**  	free(g_pipe_cmd[i]);
-** free(g_pipe_cmd);
-*/
+void	free_all(void)
+{
+	int i;
+
+	i = -1;
+	while (g_cmd_char[++i])
+		free(g_cmd_char[i]);
+	free(g_cmd_char);
+	i = -1;
+	while (g_pipe_cmd[++i])
+		free(g_pipe_cmd[i]);
+	free(g_pipe_cmd);
+	if (g_first_dup_env)
+	{
+		i = -1;
+		while (g_envp[++i])
+			free(g_envp[i]);
+		free(g_envp);
+	}
+}
 
 void	free_cmd_array(t_mem_alloc *list)
 {
@@ -56,7 +62,10 @@ void	free_pipe(void)
 void	free_memory(t_mem_alloc **list, int flag)
 {
 	if (flag == FREE_EXIT_MODE)
+	{
+		free_all();
 		free_cmd_array(g_mem_perma);
+	}
 	if (!(*list))
 		return ;
 	free_memory(&(*list)->next, FREE_MODE);
@@ -65,21 +74,4 @@ void	free_memory(t_mem_alloc **list, int flag)
 	free((*list));
 	(*list) = NULL;
 	free_pipe();
-}
-
-void	add_mem_helper(t_mem_alloc **list, void *mem)
-{
-	if ((*list))
-		add_mem_helper(&(*list)->next, mem);
-	else
-	{
-		(*list) = (t_mem_alloc*)malloc((sizeof(t_mem_alloc)));
-		(*list)->mem = mem;
-		(*list)->next = NULL;
-	}
-}
-
-void	add_mem(void *mem)
-{
-	add_mem_helper(&g_mem_alloc, mem);
 }
