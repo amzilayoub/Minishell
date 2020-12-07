@@ -208,13 +208,6 @@ void			call_single_command(
 					t_single_command *list,
 					char ***envp,
 					int *pipe_index);
-					
-/*
-**-------------------------------------------------**
-** SORT ENVP + FREE
-**-------------------------------------------------**
-*/
-
-char **ft_sort(char **envp);
+char      **ft_sort(char **envp);
 
 #endif
