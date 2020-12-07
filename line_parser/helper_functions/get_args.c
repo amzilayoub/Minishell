@@ -93,6 +93,8 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 			(*line)[vars->i + 1] == vars->quote)) &&
 			(*line)[vars->i + 1] != '\'')
 			shift_char((*line) + vars->i);
+		else if ((*line)[vars->i] == '\\' && vars->i++)
+			continue ;
 		else if ((*line)[vars->i] == '$' && vars->quote != '\'')
 			vars->i += join_env_var(line, vars->i, envp);
 		else if (((*line)[vars->i] == '"' ||
