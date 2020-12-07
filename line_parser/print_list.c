@@ -6,7 +6,7 @@
 /*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:37:10 by aamzil            #+#    #+#             */
-/*   Updated: 2020/12/07 14:02:53 by aboutahr         ###   ########.fr       */
+/*   Updated: 2020/12/07 17:21:08 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	print_list(t_cmd *list)
 {
 	if (list)
 	{
-		printf("|%s|\n", list->line);
+		FT_PUTSTR("----- |");
+		FT_PUTSTR(list->line);
+		FT_PUTSTR("|\n");
 		print_cmd(list->cmd);
 		print_list(list->next);
 	}
