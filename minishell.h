@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/19 12:56:12 by aboutahr            #+#    #+#             */
-/*   Updated: 2020/10/26 14:04:43 by aboutahr           ###   ########.fr       */
+/*   Created: 2020/10/19 12:56:12 by aamzil            #+#    #+#             */
+/*   Updated: 2020/12/04 17:46:11 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,5 +208,13 @@ void			call_single_command(
 					t_single_command *list,
 					char ***envp,
 					int *pipe_index);
+					
+/*
+**-------------------------------------------------**
+** SORT ENVP + FREE
+**-------------------------------------------------**
+*/
+
+char **ft_sort(char **envp);
 
 #endif

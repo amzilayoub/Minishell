@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 17:20:38 by aboutahr            #+#    #+#             */
-/*   Updated: 2020/10/26 11:47:16 by aboutahr           ###   ########.fr       */
+/*   Created: 2020/10/18 17:20:38 by aamzil            #+#    #+#             */
+/*   Updated: 2020/12/04 17:48:03 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,18 @@ void	env_append(char *str, char ***envp)
 int		print_env_vars(char **envp)
 {
 	int i;
+	char **sort;
 
+	sort = ft_sort(envp);
 	i = -1;
-	while (envp[++i])
+	while (sort[++i])
 	{
 		FT_PUTSTR("declare -x ");
-		FT_PUTSTR(envp[i]);
+		FT_PUTSTR(sort[i]);
+		free(sort[i]);
 		FT_PUTSTR("\n");
 	}
+	free(sort);
 	return (1);
 }
 

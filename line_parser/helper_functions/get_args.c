@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboutahr <aboutahr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/19 11:06:24 by aboutahr            #+#    #+#             */
-/*   Updated: 2020/11/21 19:00:35 by aboutahr           ###   ########.fr       */
+/*   Created: 2020/10/19 11:06:24 by aamzil            #+#    #+#             */
+/*   Updated: 2020/11/21 19:00:35 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
 {
 	if ((*line)[vars->i] == vars->quote && !(vars->quote = 0))
+	{
 		shift_char((*line) + vars->i);
+		vars->i--;
+	}
 	else
 		insert_arg(vars, line, args);
 }
@@ -90,7 +93,7 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 			(*line)[vars->i + 1] == vars->quote)) &&
 			(*line)[vars->i + 1] != '\'')
 			shift_char((*line) + vars->i);
-		if ((*line)[vars->i] == '$' && vars->quote != '\'')
+		else if ((*line)[vars->i] == '$' && vars->quote != '\'')
 			vars->i += join_env_var(line, vars->i, envp);
 		else if (((*line)[vars->i] == '"' ||
 			(*line)[vars->i] == '\'') && !vars->quote)
