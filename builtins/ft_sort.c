@@ -6,24 +6,29 @@
 /*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:40:12 by aboutahr          #+#    #+#             */
-/*   Updated: 2020/12/04 17:53:00 by aboutahr         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:42:21 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_cpyfree(char *d, char *s)
+void	ft_cpyfree(char **d, char **s)
 {
-    d = ft_strdup(s);
-    free(s);
+	char *tmp;
+
+	tmp = ft_strdup(*d);
+	free(*d);
+	*d = ft_strdup(*s);
+	free(*s);
+	*s = ft_strdup(tmp);
+	free(tmp);
 }
 
-char    **ft_sort(char **envp)
+char	**ft_sort(char **envp)
 {
-    int i;
-	int c;
-	char **sort;
-	char *tmp;
+	int		i;
+	int		c;
+	char	**sort;
 
 	i = -1;
 	c = 0;
@@ -41,18 +46,8 @@ char    **ft_sort(char **envp)
 	{
 		c = i;
 		while (sort[++c])
-		{
 			if (ft_strcmp(sort[i], sort[c]) > 0)
-			{
-				tmp = ft_strdup(sort[i]);
-				free(sort[i]);
-                //ft_cpyfree(tmp = NULL, sort[i]);
-				sort[i] = ft_strdup(sort[c]);
-				free(sort[c]);
-				sort[c] = ft_strdup(tmp);
-				free(tmp);
-			}
-		}
+				ft_cpyfree(&sort[i], &sort[c]);
 	}
-    return (sort);
+	return (sort);
 }

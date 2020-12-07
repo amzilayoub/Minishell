@@ -6,7 +6,7 @@
 /*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:56:12 by aamzil            #+#    #+#             */
-/*   Updated: 2020/12/04 17:46:11 by aboutahr         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:14:06 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,6 @@ void			call_single_command(
 					t_single_command *list,
 					char ***envp,
 					int *pipe_index);
-char      **ft_sort(char **envp);
+char			**ft_sort(char **envp);
 
 #endif

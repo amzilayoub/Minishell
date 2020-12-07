@@ -6,7 +6,7 @@
 /*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 17:20:38 by aamzil            #+#    #+#             */
-/*   Updated: 2020/12/04 17:48:03 by aboutahr         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:15:34 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	env_append(char *str, char ***envp)
 
 int		print_env_vars(char **envp)
 {
-	int i;
-	char **sort;
+	int		i;
+	char	**sort;
 
 	sort = ft_sort(envp);
 	i = -1;
