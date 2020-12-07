@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+         #
+#    By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/19 13:04:45 by aamzil            #+#    #+#              #
-#    Updated: 2020/11/09 18:00:54 by aamzil           ###   ########.fr        #
+#    Updated: 2020/12/04 17:52:58 by aboutahr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC= 	check_syntax.c										\
 		builtins/ft_echo.c									\
 		builtins/ft_env.c									\
 		builtins/ft_exit.c									\
+		builtins/ft_sort.c									\
 		builtins/ft_export.c								\
 		builtins/ft_input_redir.c							\
 		builtins/ft_output_redir.c							\
