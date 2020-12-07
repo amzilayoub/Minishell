@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:37:10 by aamzil            #+#    #+#             */
-/*   Updated: 2020/11/21 18:58:01 by aamzil           ###   ########.fr       */
+/*   Updated: 2020/12/07 14:02:53 by aboutahr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ void	print_single_command(t_single_command *list)
 
 	if (!list)
 		return ;
-	printf("----- |%s|\n", list->line);
+	FT_PUTSTR("----- |");
+	FT_PUTSTR(list->line);
+	FT_PUTSTR("|\n");
 	i = -1;
 	while (list->params[++i])
 	{
-		printf("------- %i -> |%s|\n", i + 1, list->params[i]);
+		ft_putnbr_fd(i + 1, 1);
+		FT_PUTSTR("-> |");
+		FT_PUTSTR(list->params[i]);
+		FT_PUTSTR("|\n");
 	}
 	print_single_command(list->next);
 }
@@ -31,7 +36,9 @@ void	print_cmd(t_piped_cmd *list)
 {
 	if (!list)
 		return ;
-	printf("-- |%s|\n", list->line);
+	FT_PUTSTR("----- |");
+	FT_PUTSTR(list->line);
+	FT_PUTSTR("|\n");
 	print_single_command(list->single_command);
 	print_cmd(list->next);
 }
