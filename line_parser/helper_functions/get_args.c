@@ -84,7 +84,7 @@ void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
 }
 
 void	get_arg_helper(t_arg_manip *vars, char **line,
-						char **envp, char ***args)
+						char ***envp, char ***args)
 {
 	while ((*line)[++vars->i])
 	{
@@ -109,7 +109,7 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 	}
 }
 
-char	**get_arg(char *line, char **envp)
+char	**get_arg(char *line, char ***envp)
 {
 	char		**args;
 	char		*tmp;

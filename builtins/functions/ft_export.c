@@ -40,11 +40,12 @@ char	*get_key(char *str)
 	return (key);
 }
 
-void	env_append(char *str, char ***envp)
+char	**env_append(char *str, char ***envp)
 {
 	int		i;
 	char	**new_envp;
 
+	new_envp = NULL;
 	if (g_env_available_index == g_env_len)
 	{
 		g_env_len += ARRAY_GROWTH;
@@ -61,10 +62,11 @@ void	env_append(char *str, char ***envp)
 		new_envp[i] = NULL;
 		g_first_dup_env = 1;
 		g_envp = new_envp;
-		envp = &new_envp;
+		(*envp) = new_envp;
 	}
 	(*envp)[g_env_available_index] = str;
 	(*envp)[++g_env_available_index] = NULL;
+	return (*envp);
 }
 
 int		print_env_vars(char **envp)
@@ -73,6 +75,7 @@ int		print_env_vars(char **envp)
 	char	**sort;
 
 	sort = ft_sort(envp);
+	sort = envp;
 	i = -1;
 	while (sort[++i])
 	{
@@ -89,11 +92,11 @@ int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 {
 	if (!ft_strncmp((*envp), key, len_key) && (*envp)[len_key] == '=')
 	{
-		// if (g_first_dup_env)
-			// add_mem((*envp));
+		if (g_first_dup_env)
+			add_mem((*envp));
 		(*envp) = ft_strdup((*args));
-		// if (!g_first_dup_env)
-			// add_mem_perma((*envp));
+		if (!g_first_dup_env)
+			add_mem_perma((*envp));
 		return (1);
 	}
 	return (0);
@@ -121,7 +124,7 @@ int		ft_export(char **args, char ***envp)
 			break ;
 	}
 	if (!(*envp)[i])
-		env_append(ft_strdup((*args)), envp);
+		(*envp) = env_append(ft_strdup((*args)), envp);
 	if (args[1])
 		ft_export(&args[1], envp);
 	return (0);

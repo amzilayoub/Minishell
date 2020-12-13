@@ -34,7 +34,7 @@ void	concat_vars(char **str, char *key, int i, int index)
 	add_mem((*str));
 }
 
-int		join_env_var(char **str, int index, char **envp)
+int		join_env_var(char **str, int index, char ***envp)
 {
 	int		i;
 	char	*key;
@@ -47,7 +47,7 @@ int		join_env_var(char **str, int index, char **envp)
 			i++;
 		key = ft_substr((*str), index, i - index);
 		add_mem(key);
-		if (!(key = ft_get_env_value(key, envp)))
+		if (!(key = ft_get_env_value(key, (*envp))))
 			key = "";
 	}
 	else

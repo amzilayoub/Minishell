@@ -87,7 +87,7 @@ void	shell_loop(char **envp)
 			continue ;
 		get_args_after_redir(g_cmd_list);
 		treat_single_command(g_cmd_list);
-		treat_cmd(g_cmd_list, envp);
+		treat_cmd(g_cmd_list, &envp);
 		// print_list(g_cmd_list);
 		g_error_n = 0;
 		close_fd();

@@ -40,6 +40,7 @@ void	init_env_var(char **envp)
 	while (envp[g_env_len])
 		g_env_len++;
 	g_env_available_index = g_env_len;
+	printf("g_env_available_index = %d\n", g_env_available_index);
 }
 
 void	init(char **envp)

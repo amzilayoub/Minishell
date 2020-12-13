@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	get_commands_arg(t_single_command *list, char **envp)
+void	get_commands_arg(t_single_command *list, char ***envp)
 {
 	if (!list)
 		return ;
@@ -20,7 +20,7 @@ void	get_commands_arg(t_single_command *list, char **envp)
 	get_commands_arg(list->next, envp);
 }
 
-void	treat_cmd_helper(t_piped_cmd *list, char **envp)
+void	treat_cmd_helper(t_piped_cmd *list, char ***envp)
 {
 	if (!list)
 		return ;
@@ -28,12 +28,12 @@ void	treat_cmd_helper(t_piped_cmd *list, char **envp)
 	treat_cmd_helper(list->next, envp);
 }
 
-void	treat_cmd(t_cmd *list, char **envp)
+void	treat_cmd(t_cmd *list, char ***envp)
 {
 	if (!list)
 		return ;
 	treat_cmd_helper(list->cmd, envp);
 	sort_redir(list->cmd);
-	call_commands(list->cmd, &envp);
+	call_commands(list->cmd, envp);
 	treat_cmd(list->next, envp);
 }

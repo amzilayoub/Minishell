@@ -134,14 +134,14 @@ void			treat_line(char *line);
 void			treat_list(t_cmd *cmd_list);
 void			treat_single_command(t_cmd *cmd_list);
 void			print_list(t_cmd *list);
-char			**get_arg(char *line, char **envp);
-void			treat_cmd(t_cmd *list, char **envp);
+char			**get_arg(char *line, char ***envp);
+void			treat_cmd(t_cmd *list, char ***envp);
 void			sort_cmd_for_redirections(
 								t_single_command **current,
 								t_single_command **next);
 void			call_commands(t_piped_cmd *list, char ***envp);
 void			set_pipes(void);
-int				join_env_var(char **str, int index, char **envp);
+int				join_env_var(char **str, int index, char ***envp);
 int				skip_char(char *line, char c);
 char			*shift_char(char *str);
 int				is_redirection(char *red, char *line);
@@ -201,8 +201,7 @@ int				ft_exit(char **args, char ***envp);
 */
 
 int				ft_redirections_helper(char **args, int flags);
-char			*ft_get_env_value(char *key, char **envp);
-void			env_append(char *str, char ***envp);
+char			**env_append(char *str, char ***envp);
 void			sort_redir(t_piped_cmd *list);
 void			get_args_after_redir(t_cmd *list);
 void			get_args_after_redir_helper(t_piped_cmd *list);
