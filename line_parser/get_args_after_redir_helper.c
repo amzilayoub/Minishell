@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_output_redir_helper.c                         :+:      :+:    :+:   */
+/*   get_args_after_redir_helper.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -108,7 +108,7 @@ void	join_lines(t_piped_cmd *list, int i, int start, int *where_to_cut)
 	join_lines_helper(list, filename, end, where_to_cut);
 }
 
-void	sort_output_redir_helper(t_piped_cmd *list)
+void	get_args_after_redir_helper(t_piped_cmd *list)
 {
 	int		start;
 	int		i;
@@ -123,5 +123,5 @@ void	sort_output_redir_helper(t_piped_cmd *list)
 		join_lines(list, i, start, &where_to_cut);
 		i++;
 	}
-	sort_output_redir_helper(list->next);
+	get_args_after_redir_helper(list->next);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_output_redir.c                                :+:      :+:    :+:   */
+/*   get_args_after_redir.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,10 +12,10 @@
 
 #include "../minishell.h"
 
-void	sort_output_redir(t_cmd *list)
+void	get_args_after_redir(t_cmd *list)
 {
 	if (!list)
 		return ;
-	sort_output_redir_helper(list->cmd);
-	sort_output_redir(list->next);
+	get_args_after_redir_helper(list->cmd);
+	get_args_after_redir(list->next);
 }

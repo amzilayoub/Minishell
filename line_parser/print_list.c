@@ -18,7 +18,7 @@ void	print_single_command(t_single_command *list)
 
 	if (!list)
 		return ;
-	FT_PUTSTR("----- |");
+	FT_PUTSTR("----- |\n");
 	FT_PUTSTR(list->line);
 	FT_PUTSTR("|\n");
 	i = -1;
@@ -36,9 +36,9 @@ void	print_cmd(t_piped_cmd *list)
 {
 	if (!list)
 		return ;
-	FT_PUTSTR("----- |");
-	FT_PUTSTR(list->line);
-	FT_PUTSTR("|\n");
+	FT_PUTSTR("----- PIPE ------\n");
+	// FT_PUTSTR(list->line);
+	// FT_PUTSTR("|\n");
 	print_single_command(list->single_command);
 	print_cmd(list->next);
 }
@@ -47,9 +47,9 @@ void	print_list(t_cmd *list)
 {
 	if (list)
 	{
-		FT_PUTSTR("----- |");
-		FT_PUTSTR(list->line);
-		FT_PUTSTR("|\n");
+		FT_PUTSTR("----- |\n");
+		// FT_PUTSTR(list->line);
+		// FT_PUTSTR("|\n");
 		print_cmd(list->cmd);
 		print_list(list->next);
 	}

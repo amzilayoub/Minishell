@@ -31,9 +31,12 @@ void	write_to_file(char **args, char *text, int new_line, int fd)
 		if (new_line)
 			ft_putchar_fd('\n', fd);
 	}
-	ft_putstr_fd(text, 1);
-	if (new_line)
-		ft_putchar_fd('\n', 1);
+	else
+	{
+		ft_putstr_fd(text, 1);
+		if (new_line)
+			ft_putchar_fd('\n', 1);
+	}
 }
 
 void	redirection_read_function(char **args, int fd)

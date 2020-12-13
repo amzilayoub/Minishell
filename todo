@@ -1,3 +1,7 @@
-echo kdjfgskdfg > file < main.c
-echo kjsdfksjdf <> file
-echo papapapapapa > $ppp
+X - echo kdjfgskdfg > file < main.c
+X - echo hhh |> file
+X - > file < main.c > fff
+X - echo kjsdfksjdf <> file
+X - echo papapapapapa > $ppp
+export not woorking anymore
+Redirection syntax error

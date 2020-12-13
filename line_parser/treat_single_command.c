@@ -22,6 +22,8 @@ static void		insert_commands(t_piped_cmd *list, char quote,
 	{
 		if (g_pipe_cmd[j][0] == list->line[(*i)])
 		{
+			if (list->line[(*i)] == '<' && list->line[(*i) + 1] == '>')
+				list->line[(*i) + 1] = ' ';
 			add_single_command(&list->single_command, ft_substr(list->line,
 									(*start), (*i) - (*start)));
 			(*start) = (*i) +

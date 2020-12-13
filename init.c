@@ -44,21 +44,9 @@ void	init_env_var(char **envp)
 
 void	init(char **envp)
 {
-	char	*env[2];
-	char	*tmp;
+	// char	*env[2];
+	// char	*tmp;
 
-	env[0] = ft_get_env_value("$PATH", envp);
-	add_mem(env[0]);
-	tmp = ft_getcwd();
-	add_mem(tmp);
-	tmp = ft_strjoin(tmp, "/builtins/bin:");
-	add_mem(tmp);
-	env[0] = ft_strjoin(tmp, env[0]);
-	add_mem(env[0]);
-	env[0] = ft_strjoin("PATH=", env[0]);
-	add_mem(env[0]);
-	env[1] = NULL;
-	ft_export(env, &envp);
 	g_cmd_list = NULL;
 	g_envp = NULL;
 	g_pid = 0;
@@ -71,6 +59,18 @@ void	init(char **envp)
 	init_builtins();
 	init_stdio();
 	init_env_var(envp);
+	// env[0] = ft_get_env_value("$PATH", envp);
+	// add_mem(env[0]);
+	// tmp = ft_getcwd();
+	// add_mem(tmp);
+	// tmp = ft_strjoin(tmp, "/builtins/bin:");
+	// add_mem(tmp);
+	// env[0] = ft_strjoin(tmp, env[0]);
+	// add_mem(env[0]);
+	// env[0] = ft_strjoin("PATH=", env[0]);
+	// add_mem(env[0]);
+	// env[1] = NULL;
+	// ft_export(env, &envp);
 	g_there_is_error = 0;
 	g_error_msg = NULL;
 }

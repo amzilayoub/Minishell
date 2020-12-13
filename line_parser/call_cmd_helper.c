@@ -122,8 +122,6 @@ void	call_single_command(
 	i = -1;
 	open_pipes(parent, list, (*pipe_index));
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
-	if (!g_next_cmd && parent->next)
-		g_next_cmd = parent->next->single_command->params[0];
 	if (THERE_IS_ERROR)
 		return ;
 	while (g_cmd_char[++i])

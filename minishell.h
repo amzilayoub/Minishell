@@ -203,9 +203,9 @@ int				ft_exit(char **args, char ***envp);
 int				ft_redirections_helper(char **args, int flags);
 char			*ft_get_env_value(char *key, char **envp);
 void			env_append(char *str, char ***envp);
-void			sort_input_redir(t_piped_cmd *list);
-void			sort_output_redir(t_cmd *list);
-void			sort_output_redir_helper(t_piped_cmd *list);
+void			sort_redir(t_piped_cmd *list);
+void			get_args_after_redir(t_cmd *list);
+void			get_args_after_redir_helper(t_piped_cmd *list);
 void			call_single_command(
 					t_piped_cmd *parent,
 					t_single_command *list,

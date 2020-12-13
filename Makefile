@@ -46,9 +46,9 @@ SRC= 	check_syntax.c										\
 		line_parser/treat_line.c							\
 		line_parser/treat_list.c							\
 		line_parser/treat_single_command.c					\
-		line_parser/sort_output_redir.c						\
-		line_parser/sort_input_redir.c						\
-		line_parser/sort_output_redir_helper.c				\
+		line_parser/get_args_after_redir.c					\
+		line_parser/get_args_after_redir_helper.c			\
+		line_parser/sort_redir.c						\
 		line_parser/helper_functions/close_fd.c				\
 		line_parser/helper_functions/get_args.c				\
 		line_parser/helper_functions/is_redirection.c		\
