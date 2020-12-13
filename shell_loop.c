@@ -88,7 +88,8 @@ void	shell_loop(char **envp)
 		sort_output_redir(g_cmd_list);
 		treat_single_command(g_cmd_list);
 		treat_cmd(g_cmd_list, envp);
-		call_commands(g_cmd_list, &envp);
+		print_list(g_cmd_list);
+		g_error_n = 0;
 		close_fd();
 		clear_cmd_list(&g_cmd_list);
 		free_memory(&g_mem_alloc, FREE_MODE);

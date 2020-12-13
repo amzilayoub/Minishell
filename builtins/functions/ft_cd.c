@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char	cd_error_handling_helper(char **args, char **dir, char ***envp)
 {
@@ -19,6 +19,7 @@ char	cd_error_handling_helper(char **args, char **dir, char ***envp)
 		(*dir) = ft_strjoin(ft_get_env_value("$HOME", (*envp)), &args[0][1]);
 		if (!(*dir))
 		{
+			// i'm comming back to you
 			FT_PUTSTR_ERR("bash : cd : HOME not set : ERROR \n");
 			return (1);
 		}
@@ -28,8 +29,8 @@ char	cd_error_handling_helper(char **args, char **dir, char ***envp)
 	(*dir) = (*dir) ? *dir : args[0];
 	if (chdir(*dir) < 0)
 	{
-		FT_PUTSTR("bash : cd : No such file or directory\n");
-		return (1);
+		FT_PUTSTR_ERR("bash : cd : No such file or directory\n");
+		return (errno);
 	}
 	return (0);
 }
@@ -40,15 +41,16 @@ char	cd_error_handling(char **args, char **dir, char ***envp, char *prev_dir)
 	{
 		if (!((*dir) = ft_get_env_value("$HOME", (*envp))))
 		{
+			// i'm comming back to you
 			FT_PUTSTR_ERR("bash : cd : HOME not SET : ERROR \n");
 			return (1);
 		}
 	}
-	else if (args[1])
-	{
-		FT_PUTSTR_ERR("bash : cd : TOO MANY ARGUMENT\n");
-		return (1);
-	}
+	// else if (args[1])
+	// {
+	// 	FT_PUTSTR_ERR("bash : cd : TOO MANY ARGUMENT\n");
+	// 	return (1);
+	// }
 	if (args[0] && ((*prev_dir) = !ft_strcmp(args[0], "-")))
 	{
 		if (!((*dir) = ft_get_env_value("$OLDPWD", (*envp))))
@@ -69,7 +71,7 @@ int		ft_cd(char **args, char ***envp)
 
 	prev_dir = 0;
 	dir = NULL;
-	if (cd_error_handling(args, &dir, envp, &prev_dir))
+	if ((g_there_is_error = cd_error_handling(args, &dir, envp, &prev_dir)))
 		return (g_there_is_error);
 	cur_dir = ft_getcwd();
 	add_mem(cur_dir);

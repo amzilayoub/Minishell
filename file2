@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 17:18:14 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:17:40 by aamzil           ###   ########.fr       */
+/*   Created: 2020/10/18 16:37:57 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 13:16:08 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-int	ft_env(char **args, char ***envp)
+int	main(int argc, char **argv, char **envp)
 {
-	int i;
-
-	(void)args;
-	i = -1;
-	while ((*envp)[++i])
-	{
-		FT_PUTSTR((*envp)[i]);
-		FT_PUTCHAR('\n');
-	}
-	return (0);
+	(void)argc;
+	(void)argv;
+	init(envp);
+	shell_loop(envp);
 }

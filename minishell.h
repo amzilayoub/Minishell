@@ -39,6 +39,7 @@
 # define ERROR_MSG g_error_msg
 # define FREE_EXIT_MODE 1
 # define FREE_MODE 0
+# define TOEXITSTATUS(x) (((_W_INT(x) << 8)))
 
 /*
 **--------------------------------*
@@ -104,7 +105,8 @@ int				g_env_available_index;
 int				g_env_len;
 int				g_status;
 char			*g_next_cmd;
-char			g_there_is_error;
+int				g_there_is_error;
+int				g_error_n;
 char			*g_error_msg;
 char			g_first_dup_env;
 char			g_is_piped;
@@ -137,7 +139,7 @@ void			treat_cmd(t_cmd *list, char **envp);
 void			sort_cmd_for_redirections(
 								t_single_command **current,
 								t_single_command **next);
-void			call_commands(t_cmd *list, char ***envp);
+void			call_commands(t_piped_cmd *list, char ***envp);
 void			set_pipes(void);
 int				join_env_var(char **str, int index, char **envp);
 int				skip_char(char *line, char c);
@@ -169,10 +171,10 @@ void			add_single_command(t_single_command **list, char *line);
 **-------------------------------------------------**
 */
 
-char			set_error(char *error_msg);
-char			check_semicolons(char *line);
-char			check_pipes_error(char **line);
-int				set_error_print(char *error_msg);
+int				set_error(char *error_msg, int error_n);
+int				check_semicolons(char *line);
+int				check_pipes_error(char **line);
+int				set_error_print(char *error_msg, int error_n);
 void			print_cmd_with_error(char *cmd, char *error_msg);
 
 /*
@@ -201,6 +203,7 @@ int				ft_exit(char **args, char ***envp);
 int				ft_redirections_helper(char **args, int flags);
 char			*ft_get_env_value(char *key, char **envp);
 void			env_append(char *str, char ***envp);
+void			sort_input_redir(t_piped_cmd *list);
 void			sort_output_redir(t_cmd *list);
 void			sort_output_redir_helper(t_piped_cmd *list);
 void			call_single_command(

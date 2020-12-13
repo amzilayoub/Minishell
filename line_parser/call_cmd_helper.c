@@ -26,7 +26,7 @@ void	concat_command(char **bin_path, char **params, char **envp)
 	}
 }
 
-void	find_command(char **params, char **envp)
+char	find_command(char **params, char **envp)
 {
 	char	**bin_path;
 	char	*path;
@@ -35,7 +35,7 @@ void	find_command(char **params, char **envp)
 	execve(params[0], params, envp);
 	path = ft_get_env_value("$PATH", envp);
 	if (!path)
-		return ;
+		return (1);
 	i = -1;
 	path = ft_get_env_value("$PATH", envp);
 	bin_path = ft_split(path, ':');
@@ -49,6 +49,7 @@ void	find_command(char **params, char **envp)
 	}
 	add_mem(bin_path);
 	concat_command(bin_path, params, envp);
+	return (0);
 }
 
 void	open_pipes(
@@ -78,11 +79,12 @@ void	open_pipes(
 
 void	fork_it(t_single_command *list, char ***envp, DIR *directory)
 {
-	char *tmp;
+	char	*tmp;
+	char	ret;
 
 	if (!(g_pid = fork()))
 	{
-		find_command(list->params, (*envp));
+		ret = find_command(list->params, (*envp));
 		tmp = ft_strnstr(list->params[0], "/", ft_strlen(list->params[0]));
 		if ((directory = opendir(list->params[0])) && tmp)
 		{
@@ -90,7 +92,7 @@ void	fork_it(t_single_command *list, char ***envp, DIR *directory)
 			closedir(directory);
 			exit(0);
 		}
-		else if (!tmp)
+		else if (!tmp && !ret)
 			print_cmd_with_error(list->params[0], "command not found !");
 		else
 			print_cmd_with_error(list->params[0], strerror(errno));
@@ -129,6 +131,7 @@ void	call_single_command(
 		if (!ft_strcmp(g_cmd_char[i], list->params[0]))
 		{
 			g_status = g_builtins[i](list->params + 1, envp);
+			g_status = TOEXITSTATUS(g_status);
 			break ;
 		}
 	}

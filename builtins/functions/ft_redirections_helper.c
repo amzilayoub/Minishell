@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	write_to_file(char **args, char *text, int new_line, int fd)
 {
@@ -64,11 +64,11 @@ int		ft_redirections_helper(char **args, int flags)
 	int fd;
 
 	if (!(*args))
-		return (set_error_print("bash : syntax error\n"));
+		return (set_error_print("bash : syntax error\n", 258));
 	if ((fd = open(args[0], flags, 0777)) < 0)
 	{
 		FT_PUTSTR_ERR("bash : can't open this File\n");
-		return (1);
+		return (errno);
 	}
 	if (g_is_piped)
 		redirection_read_function(args, fd);

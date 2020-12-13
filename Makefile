@@ -13,7 +13,7 @@
 
 NAME=minishell
 
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-g -Wall -Wextra -Werror
 
 SRC= 	check_syntax.c										\
 		errors.c 											\
@@ -25,18 +25,17 @@ SRC= 	check_syntax.c										\
 		shell_loop.c 										\
 		GNL/get_next_line.c									\
 		GNL/get_next_line_utils.c							\
-		builtins/ft_append_redir.c							\
-		builtins/ft_cd.c									\
-		builtins/ft_echo.c									\
-		builtins/ft_env.c									\
-		builtins/ft_exit.c									\
-		builtins/ft_sort.c									\
-		builtins/ft_export.c								\
-		builtins/ft_input_redir.c							\
-		builtins/ft_output_redir.c							\
-		builtins/ft_pwd.c									\
-		builtins/ft_redirections_helper.c					\
-		builtins/ft_unset.c									\
+		builtins/functions/ft_append_redir.c				\
+		builtins/functions/ft_cd.c							\
+		builtins/functions/ft_echo.c						\
+		builtins/functions/ft_exit.c						\
+		builtins/functions/ft_sort.c						\
+		builtins/functions/ft_export.c						\
+		builtins/functions/ft_input_redir.c					\
+		builtins/functions/ft_output_redir.c				\
+		builtins/functions/ft_pwd.c							\
+		builtins/functions/ft_redirections_helper.c			\
+		builtins/functions/ft_unset.c						\
 		line_parser/call_cmd.c								\
 		line_parser/call_cmd_helper.c						\
 		line_parser/linked_list_func.c						\
@@ -48,6 +47,7 @@ SRC= 	check_syntax.c										\
 		line_parser/treat_list.c							\
 		line_parser/treat_single_command.c					\
 		line_parser/sort_output_redir.c						\
+		line_parser/sort_input_redir.c						\
 		line_parser/sort_output_redir_helper.c				\
 		line_parser/helper_functions/close_fd.c				\
 		line_parser/helper_functions/get_args.c				\
@@ -62,6 +62,7 @@ all: $(NAME)
 
 $(NAME):
 	cd libft && make && cd ..
+	gcc $(FLAGS) builtins/functions/ft_env.c libft/libft.a -o builtins/bin/env
 	gcc $(FLAGS) $(SRC) -o $(NAME)
 
 clean:
@@ -70,5 +71,6 @@ clean:
 fclean: clean
 	cd libft && make fclean && cd ..
 	rm -rf $(NAME)
+	rm -rf builtins/bin/env
 
 re : fclean all

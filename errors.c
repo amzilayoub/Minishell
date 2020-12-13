@@ -12,16 +12,17 @@
 
 #include "minishell.h"
 
-char	set_error(char *error_msg)
+int		set_error(char *error_msg, int error_n)
 {
 	g_error_msg = error_msg;
-	g_there_is_error = 1;
+	g_there_is_error = error_n;
+	g_error_n = error_n;
 	return (g_there_is_error);
 }
 
-int		set_error_print(char *error_msg)
+int		set_error_print(char *error_msg, int error_n)
 {
-	set_error(error_msg);
+	set_error(error_msg, error_n);
 	FT_PUTSTR_ERR(error_msg);
 	return (THERE_IS_ERROR);
 }

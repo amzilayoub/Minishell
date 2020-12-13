@@ -88,15 +88,9 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 {
 	while ((*line)[++vars->i])
 	{
-		// if ((*line)[vars->i] == '\\' && ((!vars->quote ||
-		// 	(*line)[vars->i + 1] == '\\') || (vars->quote &&
-		// 	(*line)[vars->i + 1] == vars->quote)) &&
-		// 	(*line)[vars->i + 1] != '\'')
-		// 	shift_char((*line) + vars->i);
-		// else if ((*line)[vars->i] == '\\' && ++vars->i && )
-		// 	continue ;
 		if ((*line)[vars->i] == '\\' && vars->quote != '\'' &&
-			(!vars->quote || (vars->quote && ((*line)[vars->i + 1] == vars->quote
+			(!vars->quote || (vars->quote &&
+			((*line)[vars->i + 1] == vars->quote
 			|| (*line)[vars->i + 1] == '\\' || (*line)[vars->i + 1] == '$'))))
 			shift_char((*line) + vars->i);
 		else if ((*line)[vars->i] == '\\' && vars->quote != '\'')

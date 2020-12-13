@@ -16,14 +16,14 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 {
 	if (!list)
 		return ;
-	sort_cmd_for_redirections(
-				&list->single_command,
-				&list->single_command->next);
+	// sort_cmd_for_redirections(
+	// 			&list->single_command,
+	// 			&list->single_command->next);
 	call_single_command(list, list->single_command, envp, pipe_index);
 	call_commands_helper(list->next, envp, pipe_index);
 }
 
-void	call_commands(t_cmd *list, char ***envp)
+void	call_commands(t_piped_cmd *list, char ***envp)
 {
 	int pipe_index;
 
@@ -31,12 +31,10 @@ void	call_commands(t_cmd *list, char ***envp)
 	g_is_piped = 0;
 	if (!list)
 		return ;
-	g_pipes_count = list_cmd_size(list->cmd);
+	g_pipes_count = list_cmd_size(list);
 	if (g_pipes_count > 1)
 		set_pipes();
 	else
 		g_pipes_count = 0;
-	call_commands_helper(list->cmd, envp, &pipe_index);
-	if (!THERE_IS_ERROR)
-		call_commands(list->next, envp);
+	call_commands_helper(list, envp, &pipe_index);
 }

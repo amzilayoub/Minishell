@@ -33,5 +33,7 @@ void	treat_cmd(t_cmd *list, char **envp)
 	if (!list)
 		return ;
 	treat_cmd_helper(list->cmd, envp);
+	sort_input_redir(list->cmd);
+	call_commands(list->cmd, &envp);
 	treat_cmd(list->next, envp);
 }

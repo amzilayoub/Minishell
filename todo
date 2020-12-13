@@ -1,0 +1,3 @@
+echo kdjfgskdfg > file < main.c
+echo kjsdfksjdf <> file
+echo papapapapapa > $ppp

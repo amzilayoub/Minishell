@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_input_redir.c                                   :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 19:49:16 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:18:20 by aamzil           ###   ########.fr       */
+/*   Created: 2020/10/18 17:18:14 by aamzil            #+#    #+#             */
+/*   Updated: 2020/10/19 13:17:40 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-int	ft_input_redir(char **args, char ***envp)
+int	ft_env(char **args, char ***envp)
 {
-	int fd;
 	int i;
 
-	(void)envp;
-	i = 0;
-	if (!(*args))
-		return (set_error_print("bash : syntax error\n"));
-	while (args[i])
-		i++;
-	if ((fd = open(args[i - 1], O_RDONLY)) < 0)
+	(void)args;
+	i = -1;
+	while ((*envp)[++i])
 	{
-		FT_PUTSTR_ERR("bash : can't open this File\n");
-		return (1);
+		FT_PUTSTR((*envp)[i]);
+		FT_PUTCHAR('\n');
 	}
-	g_read_from_file = 1;
-	dup2(fd, 0);
-	close(fd);
+	return (0);
+}
+
+
+int		main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	ft_env(argv, &envp);
 	return (0);
 }
