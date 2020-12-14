@@ -3,5 +3,5 @@ X - echo hhh |> file
 X - > file < main.c > fff
 X - echo kjsdfksjdf <> file
 X - echo papapapapapa > $ppp
-export not woorking anymore
+X - export not woorking anymore
 Redirection syntax error
