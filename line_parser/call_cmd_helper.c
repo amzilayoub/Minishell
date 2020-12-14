@@ -115,11 +115,13 @@ void	call_single_command(
 {
 	DIR		*directory;
 	int		i;
+	int		is_exit;
 
 	if (!list)
 		return ;
 	directory = NULL;
 	i = -1;
+	is_exit = 0;
 	open_pipes(parent, list, (*pipe_index));
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
 	if (THERE_IS_ERROR)
@@ -128,12 +130,14 @@ void	call_single_command(
 	{
 		if (!ft_strcmp(g_cmd_char[i], list->params[0]))
 		{
+			if (!ft_strcmp("exit", list->params[0]) && parent->next && (is_exit = 1))
+				continue ;
 			g_status = g_builtins[i](list->params + 1, envp);
 			g_status = TOEXITSTATUS(g_status);
 			break ;
 		}
 	}
-	if (!g_cmd_char[i] && list->params[0][0])
+	if (!g_cmd_char[i] && list->params[0][0] && !is_exit)
 		fork_it(list, envp, directory);
 	(*pipe_index)++;
 	call_single_command(parent, list->next, envp, pipe_index);

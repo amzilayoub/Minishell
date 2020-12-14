@@ -4,4 +4,5 @@ X - > file < main.c > fff
 X - echo kjsdfksjdf <> file
 X - echo papapapapapa > $ppp
 X - export not woorking anymore
-Redirection syntax error
+X - Redirection syntax error
+exit with pipe

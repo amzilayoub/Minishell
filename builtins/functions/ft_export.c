@@ -75,7 +75,6 @@ int		print_env_vars(char **envp)
 	char	**sort;
 
 	sort = ft_sort(envp);
-	sort = envp;
 	i = -1;
 	while (sort[++i])
 	{
