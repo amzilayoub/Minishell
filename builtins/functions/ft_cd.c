@@ -20,8 +20,9 @@ char	cd_error_handling_helper(char **args, char **dir, char ***envp)
 		if (!(*dir))
 		{
 			// i'm comming back to you
-			FT_PUTSTR_ERR("bash : cd : HOME not set : ERROR \n");
-			return (1);
+			return (set_error_print("Minishell : cd : HOME not set : ERROR \n", 1));
+			// FT_PUTSTR_ERR("Minishell : cd : HOME not set : ERROR \n");
+			// return (1);
 		}
 		else
 			add_mem((*dir));
@@ -29,8 +30,9 @@ char	cd_error_handling_helper(char **args, char **dir, char ***envp)
 	(*dir) = (*dir) ? *dir : args[0];
 	if (chdir(*dir) < 0)
 	{
-		FT_PUTSTR_ERR("bash : cd : No such file or directory\n");
-		return (errno);
+		return (set_error_print("Minishell : cd : No such file or directory\n", 1));
+		// FT_PUTSTR_ERR("Minishell : cd : No such file or directory\n");
+		// return (1);
 	}
 	return (0);
 }
@@ -42,21 +44,23 @@ char	cd_error_handling(char **args, char **dir, char ***envp, char *prev_dir)
 		if (!((*dir) = ft_get_env_value("$HOME", (*envp))))
 		{
 			// i'm comming back to you
-			FT_PUTSTR_ERR("bash : cd : HOME not SET : ERROR \n");
-			return (1);
+			return (set_error_print("Minishell : cd : HOME not SET : ERROR \n", 1));
+			// FT_PUTSTR_ERR("Minishell : cd : HOME not SET : ERROR \n");
+			// return (1);
 		}
 	}
 	// else if (args[1])
 	// {
-	// 	FT_PUTSTR_ERR("bash : cd : TOO MANY ARGUMENT\n");
+	// 	FT_PUTSTR_ERR("Minishell : cd : TOO MANY ARGUMENT\n");
 	// 	return (1);
 	// }
 	if (args[0] && ((*prev_dir) = !ft_strcmp(args[0], "-")))
 	{
 		if (!((*dir) = ft_get_env_value("$OLDPWD", (*envp))))
 		{
-			FT_PUTSTR_ERR("bash : cd : OLDPWD not SET : ERROR \n");
-			return (1);
+			return (set_error_print("Minishell : cd : OLDPWD not SET : ERROR \n", 1));
+			// FT_PUTSTR_ERR("Minishell : cd : OLDPWD not SET : ERROR \n");
+			// return (1);
 		}
 	}
 	return (cd_error_handling_helper(args, dir, envp));

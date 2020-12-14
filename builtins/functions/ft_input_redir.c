@@ -20,13 +20,14 @@ int	ft_input_redir(char **args, char ***envp)
 	(void)envp;
 	i = 0;
 	if (!(*args))
-		return (set_error_print("bash : syntax error\n", 258));
+		return (set_error_print("Minishell : syntax error\n", 258));
 	while (args[i])
 		i++;
 	if ((fd = open(args[i - 1], O_RDONLY)) < 0)
 	{
-		FT_PUTSTR_ERR("bash : can't open this File\n");
-		return (1);
+		return (set_error_print("Minishell : can't open this File\n", errno));
+		// FT_PUTSTR_ERR("Minishell : can't open this File\n");
+		// return (1);
 	}
 	g_read_from_file = 1;
 	dup2(fd, 0);

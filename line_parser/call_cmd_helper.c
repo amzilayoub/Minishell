@@ -90,10 +90,13 @@ void	fork_it(t_single_command *list, char ***envp, DIR *directory)
 		{
 			print_cmd_with_error(list->params[0], "is a direcotory");
 			closedir(directory);
-			exit(0);
+			exit(126);
 		}
 		else if (!tmp && !ret)
+		{
 			print_cmd_with_error(list->params[0], "command not found !");
+			exit(127);
+		}
 		else
 			print_cmd_with_error(list->params[0], strerror(errno));
 		exit(errno);
@@ -125,7 +128,10 @@ void	call_single_command(
 	open_pipes(parent, list, (*pipe_index));
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
 	if (THERE_IS_ERROR)
+	{
+		THERE_IS_ERROR = 0;
 		return ;
+	}
 	while (g_cmd_char[++i])
 	{
 		if (!ft_strcmp(g_cmd_char[i], list->params[0]))

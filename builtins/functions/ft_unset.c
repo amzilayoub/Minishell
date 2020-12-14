@@ -55,7 +55,8 @@ int		ft_unset(char **args, char ***envp)
 	if (!(*args))
 		return (0);
 	if (check_error(args))
-		FT_PUTSTR_ERR("bash : unset : not a valid identifier\n");
+		set_error_print("Minishell : unset : not a valid identifier\n", 1);
+		// FT_PUTSTR_ERR("Minishell : unset : not a valid identifier\n");
 	i = -1;
 	key_len = ft_strlen((*args));
 	while ((*envp)[++i])

@@ -12,31 +12,58 @@
 
 #include "../../minishell.h"
 
-int	ft_exit(char **args, char ***envp)
+char	is_numeric(char *str)
 {
 	int i;
 
-	(void)args;
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
+
+int	ft_exit(char **args, char ***envp)
+{
+	int many_args;
+	int is_number;
+
 	(void)envp;
 	close_fd();
 	open_stdio();
 	FT_PUTSTR("exit\n");
-	if (args && (*args) != NULL)
-	{
-		i = -1;
-		while ((*args)[++i])
-		{
-			if (!ft_isdigit((*args)[i]))
-			{
-				print_cmd_with_error((*args),
-					"Sorry but my exit works without arguments !");
-				break ;
-			}
-		}
-	}
 	FT_PUTSTR_ERR("See you buddy !\n");
-	free_memory(&g_mem_alloc, FREE_EXIT_MODE);
-	clear_cmd_list(&g_cmd_list);
-	exit(0);
-	return (0);
+	many_args = 0;
+	is_number = 0;
+	if (args[0])
+	{
+		is_number = is_numeric(args[0]);
+		many_args += (args[1] != NULL);
+	}
+	if ((*args) && !is_number)
+	{
+		FT_PUTSTR_ERR("Minishell: exit: numeric argument required\n");
+		free_memory(&g_mem_alloc, FREE_EXIT_MODE);
+		clear_cmd_list(&g_cmd_list);
+		exit(255);
+	}
+	else if (many_args && is_number)
+		FT_PUTSTR_ERR("Minishell: exit: too many arguments\n");
+	else if (!many_args && is_number)
+	{
+		is_number = ft_atoi(args[0]);
+		free_memory(&g_mem_alloc, FREE_EXIT_MODE);
+		clear_cmd_list(&g_cmd_list);
+		exit(is_number);
+	}
+	else
+	{
+		free_memory(&g_mem_alloc, FREE_EXIT_MODE);
+		clear_cmd_list(&g_cmd_list);
+		exit(0);
+	}
+	return (1);
 }

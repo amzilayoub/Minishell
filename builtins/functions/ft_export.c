@@ -20,14 +20,14 @@ char	*get_key(char *str)
 	i = -1;
 	if (ft_isdigit((*str)))
 	{
-		print_cmd_with_error("export", "Bad identifier !\n");
+		print_cmd_with_error("export", "Bad identifier !");
 		return (NULL);
 	}
 	while (str[++i])
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
 		{
-			FT_PUTSTR_ERR("bash : export : not a valid identifier");
+			FT_PUTSTR_ERR("Minishell : export : not a valid identifier\n");
 			return (NULL);
 		}
 		if (str[i] == '=')

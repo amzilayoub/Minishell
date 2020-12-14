@@ -5,4 +5,6 @@ X - echo kjsdfksjdf <> file
 X - echo papapapapapa > $ppp
 X - export not woorking anymore
 X - Redirection syntax error
-exit with pipe
+X - exit with pipe
+Exit status in errors
+cd with unsetted OLDPWD/HOME

@@ -27,6 +27,13 @@ void	ft_sigint(int num)
 	FT_PUTSTR("\n$ ");
 }
 
+void	ft_sigquit(int num)
+{
+	(void)num;
+
+	return ;
+}
+
 /*
 ** To see the commands with their parmams,
 ** add this line print_list(g_cmd_list)
@@ -75,7 +82,7 @@ char	syntax_error(char boolean_var)
 void	shell_loop(char **envp)
 {
 	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigint);
+	signal(SIGQUIT, ft_sigquit);
 	while (prompt())
 	{
 		g_line = read_line();
