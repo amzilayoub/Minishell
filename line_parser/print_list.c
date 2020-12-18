@@ -18,11 +18,10 @@ void	print_single_command(t_single_command *list)
 
 	if (!list)
 		return ;
-	FT_PUTSTR("----- |\n");
 	FT_PUTSTR(list->line);
-	FT_PUTSTR("|\n");
+	FT_PUTSTR("\n");
 	i = -1;
-	while (list->params[++i])
+	while (list->params && list->params[++i])
 	{
 		ft_putnbr_fd(i + 1, 1);
 		FT_PUTSTR("-> |");
@@ -47,7 +46,7 @@ void	print_list(t_cmd *list)
 {
 	if (list)
 	{
-		FT_PUTSTR("----- |\n");
+		FT_PUTSTR("------------------------------- |\n");
 		// FT_PUTSTR(list->line);
 		// FT_PUTSTR("|\n");
 		print_cmd(list->cmd);

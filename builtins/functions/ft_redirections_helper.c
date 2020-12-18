@@ -74,7 +74,7 @@ int		ft_redirections_helper(char **args, int flags)
 		// FT_PUTSTR_ERR("Minishell : can't open this File\n");
 		// return (errno);
 	}
-	if (g_is_piped)
+	if (g_is_piped && g_input_read)
 		redirection_read_function(args, fd);
 	return (0);
 }

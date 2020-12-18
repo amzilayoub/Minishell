@@ -12,6 +12,24 @@
 
 #include "../minishell.h"
 
+int		execute_builtin(char **cmd, int (*funs[])(char **args, char ***envp) ,t_single_command *list, char ***envp)
+{
+	int i;
+
+	i = -1;
+	while (cmd[++i])
+	{
+		if (!ft_strcmp(cmd[i], list->params[0]))
+		{
+			g_status = funs[i](list->params + 1, envp);
+			g_builtin_error = g_status;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+
 void	concat_command(char **bin_path, char **params, char **envp)
 {
 	int		i;
@@ -77,13 +95,15 @@ void	open_pipes(
 	g_read_from_file = 0;
 }
 
-void	fork_it(t_single_command *list, char ***envp, DIR *directory)
+void	fork_it(t_single_command *list, char ***envp, DIR *directory, int (*fun)(char **cmd,int (*funs[])(char **args, char ***envp),  t_single_command *list, char ***envp))
 {
 	char	*tmp;
 	char	ret;
 
 	if (!(g_pid = fork()))
 	{
+		if (fun != NULL && fun(g_cmd_char, g_builtins, list, envp) == 1)
+			exit(g_status);
 		ret = find_command(list->params, (*envp));
 		tmp = ft_strnstr(list->params[0], "/", ft_strlen(list->params[0]));
 		if ((directory = opendir(list->params[0])) && tmp)
@@ -118,13 +138,10 @@ void	call_single_command(
 {
 	DIR		*directory;
 	int		i;
-	int		is_exit;
 
 	if (!list)
 		return ;
 	directory = NULL;
-	i = -1;
-	is_exit = 0;
 	open_pipes(parent, list, (*pipe_index));
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
 	if (THERE_IS_ERROR)
@@ -132,19 +149,16 @@ void	call_single_command(
 		THERE_IS_ERROR = 0;
 		return ;
 	}
-	while (g_cmd_char[++i])
+	i = -1;
+	// if (execute_builtin(g_pipe_cmd))
+	// if (!g_cmd_char[i] && list->params[0][0])
+	if (g_pipes_count == 0)
 	{
-		if (!ft_strcmp(g_cmd_char[i], list->params[0]))
-		{
-			if (!ft_strcmp("exit", list->params[0]) && parent->next && (is_exit = 1))
-				continue ;
-			g_status = g_builtins[i](list->params + 1, envp);
-			g_status = TOEXITSTATUS(g_status);
-			break ;
-		}
+		if (execute_builtin(g_cmd_char, g_builtins, list, envp) == 0)
+			fork_it(list, envp, directory, NULL);
 	}
-	if (!g_cmd_char[i] && list->params[0][0] && !is_exit)
-		fork_it(list, envp, directory);
+	else
+		fork_it(list, envp, directory, &execute_builtin);
 	(*pipe_index)++;
 	call_single_command(parent, list->next, envp, pipe_index);
 }

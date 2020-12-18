@@ -14,7 +14,7 @@
 
 void	init_builtins(void)
 {
-	g_cmd_char = ft_split("echo cd pwd export unset exit >> > <", ' ');
+	g_cmd_char = ft_split("echo cd pwd export unset exit", ' ');
 	g_builtins[0] = &ft_echo;
 	g_builtins[1] = &ft_cd;
 	g_builtins[2] = &ft_pwd;
@@ -24,6 +24,9 @@ void	init_builtins(void)
 	g_builtins[6] = &ft_append_redir;
 	g_builtins[7] = &ft_output_redir;
 	g_builtins[8] = &ft_input_redir;
+	g_redirections[0] = &ft_append_redir;
+	g_redirections[1] = &ft_output_redir;
+	g_redirections[2] = &ft_input_redir;
 }
 
 void	init_stdio(void)
@@ -47,6 +50,22 @@ void	init(char **envp)
 	char	*env[2];
 	char	*tmp;
 
+	g_cmd_list = NULL;
+	g_builtin_error = 0;
+	g_envp = NULL;
+	g_pid = 0;
+	g_error_n = 0;
+	g_is_piped = 0;
+	g_mem_alloc = NULL;
+	g_mem_perma = NULL;
+	g_pipe_cmd = ft_split(">> > <", ' ');
+	g_cmd_exec_without_pipe = ft_split("exit export unset cd", ' ');
+	g_read_from_file = 0;
+	init_builtins();
+	init_stdio();
+	init_env_var(envp);
+	g_there_is_error = 0;
+	g_error_msg = NULL;
 	env[0] = ft_get_env_value("$PATH", envp);
 	tmp = ft_getcwd();
 	add_mem(tmp);
@@ -58,18 +77,4 @@ void	init(char **envp)
 	add_mem(env[0]);
 	env[1] = NULL;
 	ft_export(env, &envp);
-	g_cmd_list = NULL;
-	g_envp = NULL;
-	g_pid = 0;
-	g_error_n = 0;
-	g_is_piped = 0;
-	g_mem_alloc = NULL;
-	g_mem_perma = NULL;
-	g_pipe_cmd = ft_split(">> > <", ' ');
-	g_read_from_file = 0;
-	init_builtins();
-	init_stdio();
-	init_env_var(envp);
-	g_there_is_error = 0;
-	g_error_msg = NULL;
 }

@@ -19,6 +19,10 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 	// sort_cmd_for_redirections(
 	// 			&list->single_command,
 	// 			&list->single_command->next);
+	if (list->single_command && list->single_command->params[0] && list->single_command->params[0][0] == '>')
+		g_input_read = 0;
+	else
+		g_input_read = 1;
 	call_single_command(list, list->single_command, envp, pipe_index);
 	call_commands_helper(list->next, envp, pipe_index);
 }

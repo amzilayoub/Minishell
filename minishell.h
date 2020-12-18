@@ -98,9 +98,11 @@ int				g_stdio_fd[3];
 int				**g_pipes_fd;
 char			g_read_from_file;
 char			**g_cmd_char;
+char			**g_cmd_exec_without_pipe;
 char			**g_pipe_cmd;
 int				g_pipes_count;
 int				(*g_builtins[10])(char **args, char ***envp);
+int				(*g_redirections[3])(char **args, char ***envp);
 int				g_env_available_index;
 int				g_env_len;
 int				g_status;
@@ -113,6 +115,8 @@ char			g_is_piped;
 pid_t			g_pid;
 char			**g_envp;
 char			*g_line;
+int				g_builtin_error;
+int				g_input_read;
 
 /*
 **------------------------------------------------------**

@@ -35,5 +35,6 @@ void	treat_cmd(t_cmd *list, char ***envp)
 	treat_cmd_helper(list->cmd, envp);
 	sort_redir(list->cmd);
 	call_commands(list->cmd, envp);
+	// print_list(g_cmd_list);
 	treat_cmd(list->next, envp);
 }

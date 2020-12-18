@@ -13,7 +13,7 @@
 
 NAME=minishell
 
-FLAGS=-g -Wall -Wextra -Werror
+FLAGS=-g
 
 SRC= 	check_syntax.c										\
 		errors.c 											\

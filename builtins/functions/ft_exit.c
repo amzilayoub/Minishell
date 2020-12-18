@@ -38,12 +38,12 @@ int	ft_exit(char **args, char ***envp)
 	FT_PUTSTR_ERR("See you buddy !\n");
 	many_args = 0;
 	is_number = 0;
-	if (args[0])
+	if (args && args[0])
 	{
 		is_number = is_numeric(args[0]);
 		many_args += (args[1] != NULL);
 	}
-	if ((*args) && !is_number)
+	if (args && (*args) && !is_number)
 	{
 		FT_PUTSTR_ERR("Minishell: exit: numeric argument required\n");
 		free_memory(&g_mem_alloc, FREE_EXIT_MODE);

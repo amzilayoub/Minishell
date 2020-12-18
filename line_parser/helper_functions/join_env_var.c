@@ -54,10 +54,13 @@ int		join_env_var(char **str, int index, char ***envp)
 	{
 		i++;
 		if (g_error_n)
-			key = ft_itoa(g_error_n);
+			key = ft_itoa(g_status);
+		else if (g_builtin_error)
+			key = ft_itoa(g_builtin_error);
 		else
 			key = ft_itoa(WEXITSTATUS(g_status));
 		add_mem(key);
+		g_builtin_error = 0;
 	}
 	concat_vars(str, key, i, index);
 	return (ft_strlen(key) - 1);
