@@ -56,6 +56,7 @@ void	init(char **envp)
 	g_pid = 0;
 	g_error_n = 0;
 	g_is_piped = 0;
+	g_is_exit = 0;
 	g_mem_alloc = NULL;
 	g_mem_perma = NULL;
 	g_pipe_cmd = ft_split(">> > <", ' ');

@@ -38,6 +38,7 @@ int	ft_exit(char **args, char ***envp)
 	FT_PUTSTR_ERR("See you buddy !\n");
 	many_args = 0;
 	is_number = 0;
+	g_is_exit = 1;
 	if (args && args[0])
 	{
 		is_number = is_numeric(args[0]);

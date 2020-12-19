@@ -117,6 +117,7 @@ char			**g_envp;
 char			*g_line;
 int				g_builtin_error;
 int				g_input_read;
+int				g_is_exit;
 
 /*
 **------------------------------------------------------**
