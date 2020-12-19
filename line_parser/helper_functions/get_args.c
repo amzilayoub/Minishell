@@ -55,7 +55,7 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 		vars->i += skip_char((*line) + vars->i, ' ') - 1;
 		vars->start = vars->i + 1;
 	}
-	else if ((*line)[vars->i] == '>' || (*line)[vars->i] == '<')
+	else if (!vars->quote && ((*line)[vars->i] == '>' || (*line)[vars->i] == '<'))
 	{
 		(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
 				((*line)[vars->i + 1] == '>'));
@@ -88,13 +88,19 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 {
 	while ((*line)[++vars->i])
 	{
-		if ((*line)[vars->i] == '\\' && vars->quote != '\'' &&
-			(!vars->quote || (vars->quote &&
-			((*line)[vars->i + 1] == vars->quote
-			|| (*line)[vars->i + 1] == '\\' || (*line)[vars->i + 1] == '$'))))
+		// if ((*line)[vars->i] == '\\' && vars->quote != '\'' &&
+		// 	(!vars->quote || (vars->quote &&
+		// 	((*line)[vars->i + 1] == vars->quote
+		// 	|| (*line)[vars->i + 1] == '\\' || (*line)[vars->i + 1] == '$'))))
+		// 	{
+		// 		shift_char((*line) + vars->i);
+		// 	}
+		if ((*line)[vars->i] == '\\' && vars->quote == '\'')
+			continue ;
+		else if ((*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\\')
 			shift_char((*line) + vars->i);
-		else if ((*line)[vars->i] == '\\' && vars->quote != '\'')
-			vars->i++;
+		else if ((*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '"')
+			shift_char((*line) + vars->i);
 		else if ((*line)[vars->i] == '$' && vars->quote != '\'')
 			vars->i += join_env_var(line, vars->i, envp);
 		else if (((*line)[vars->i] == '"' ||
