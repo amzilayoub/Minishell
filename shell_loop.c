@@ -92,7 +92,7 @@ void	shell_loop(char **envp)
 		treat_list(g_cmd_list);
 		if (syntax_error(THERE_IS_ERROR))
 			continue ;
-		// get_args_after_redir(g_cmd_list);
+		get_args_after_redir(g_cmd_list);
 		treat_single_command(g_cmd_list);
 		g_is_exit = 0;
 		treat_cmd(g_cmd_list, &envp);

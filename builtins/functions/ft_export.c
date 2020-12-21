@@ -18,7 +18,7 @@ char	*get_key(char *str)
 	char	*key;
 
 	i = -1;
-	if (ft_isdigit((*str)))
+	if (ft_isdigit((*str)) || (*str) == '=')
 	{
 		print_cmd_with_error("export", "Bad identifier !");
 		return (NULL);

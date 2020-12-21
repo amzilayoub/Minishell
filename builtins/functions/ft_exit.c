@@ -32,10 +32,10 @@ int	ft_exit(char **args, char ***envp)
 	int is_number;
 
 	(void)envp;
+	FT_PUTSTR("exit\n");
+	FT_PUTSTR("See you buddy !\n");
 	close_fd();
 	open_stdio();
-	FT_PUTSTR("exit\n");
-	FT_PUTSTR_ERR("See you buddy !\n");
 	many_args = 0;
 	is_number = 0;
 	g_is_exit = 1;

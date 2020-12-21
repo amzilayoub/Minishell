@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+
+char	*get_lowercase(char *str)
+{
+	char	*lower;
+	int		i;
+
+	if (str == NULL)
+		return (NULL);
+	lower = ft_strdup(str);
+	i = -1;
+	while (lower[++i])
+		lower[i] = ft_tolower(lower[i]);
+	return (lower);
+}
+
 void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 {
 	if (!list)
@@ -23,6 +38,7 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 		g_input_read = 0;
 	else
 		g_input_read = 1;
+	list->single_command->cmd_lowercase = get_lowercase(list->single_command->params[0]);
 	call_single_command(list, list->single_command, envp, pipe_index);
 	call_commands_helper(list->next, envp, pipe_index);
 }

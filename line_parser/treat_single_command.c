@@ -20,7 +20,7 @@ static void		insert_commands(t_piped_cmd *list, char quote,
 	j = -1;
 	while (!quote && g_pipe_cmd[++j])
 	{
-		if (!ft_strncmp(g_pipe_cmd[j], &list->line[(*i)], ft_strlen(g_pipe_cmd[j])))
+		if (g_pipe_cmd[j][0] == list->line[(*i)])
 		{
 			add_single_command(&list->single_command, ft_substr(list->line,
 									(*start), (*i) - (*start)));
@@ -42,7 +42,7 @@ void			treat_single_command_helper(t_piped_cmd *list)
 		return ;
 	i = skip_char(list->line, ' ') - 1;
 	start = i + 1;
-	quote = i + 1;
+	quote = 0;
 	while (list->line[++i])
 	{
 		if (list->line[i] == '\\' && list->line[i + 1] != '\'' && ++i)

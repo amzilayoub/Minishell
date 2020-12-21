@@ -50,6 +50,7 @@
 typedef struct	s_single_command
 {
 	char					*line;
+	char					*cmd_lowercase;
 	char					**params;
 	struct s_single_command	*next;
 }				t_single_command;

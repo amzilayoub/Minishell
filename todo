@@ -9,6 +9,8 @@ X - exit with pipe
 X - echo hello ; ""
 X - echo atr | tr -d a | > allo ;
 X - echo hello |> file
+X - > tt echo > 55 fwefwe
+free single command list and check if cmd_lowercase is not NULL before free it
 -----------
 X - echo "    g " > "   o   ".txt
 -----------

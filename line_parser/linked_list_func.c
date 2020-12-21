@@ -59,6 +59,7 @@ void	add_single_command(t_single_command **list, char *line)
 		(*list) = (t_single_command*)malloc(sizeof(t_single_command));
 		(*list)->line = line;
 		(*list)->params = NULL;
+		(*list)->cmd_lowercase = NULL;
 		(*list)->next = NULL;
 	}
 }

@@ -19,7 +19,7 @@ int		execute_builtin(char **cmd, int (*funs[])(char **args, char ***envp) ,t_sin
 	i = -1;
 	while (cmd[++i])
 	{
-		if (!ft_strcmp(cmd[i], list->params[0]))
+		if (!ft_strcmp(cmd[i], list->cmd_lowercase))
 		{
 			g_status = funs[i](list->params + 1, envp);
 			g_builtin_error = g_status;
