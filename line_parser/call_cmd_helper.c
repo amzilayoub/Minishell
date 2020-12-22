@@ -153,6 +153,7 @@ void	call_single_command(
 	g_error_n = 0;
 	g_builtin_error = 0;
 	g_status = 0;
+	list->cmd_lowercase = get_lowercase(list->params[0]);
 	n = execute_builtin(g_pipe_cmd, g_redirections, list, envp);
 	if (g_pipes_count == 0 && n == 0)
 	{

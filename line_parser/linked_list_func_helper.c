@@ -21,7 +21,9 @@ void	clear_single_command(t_single_command **list)
 	i = -1;
 	clear_single_command(&(*list)->next);
 	free((*list)->line);
+	free((*list)->cmd_lowercase);
 	(*list)->line = NULL;
+	(*list)->cmd_lowercase = NULL;
 	while ((*list)->params[++i])
 	{
 		free((*list)->params[i]);

@@ -10,7 +10,11 @@ X - echo hello ; ""
 X - echo atr | tr -d a | > allo ;
 X - echo hello |> file
 X - > tt echo > 55 fwefwe
-free single command list and check if cmd_lowercase is not NULL before free it
+X - free single command list and check if cmd_lowercase is not NULL before free it
+X - echo "\$PATH"
+X - > file > hello echo "test" > go
+export a= b
+export a =b
 -----------
 X - echo "    g " > "   o   ".txt
 -----------

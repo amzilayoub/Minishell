@@ -38,7 +38,6 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 		g_input_read = 0;
 	else
 		g_input_read = 1;
-	list->single_command->cmd_lowercase = get_lowercase(list->single_command->params[0]);
 	call_single_command(list, list->single_command, envp, pipe_index);
 	call_commands_helper(list->next, envp, pipe_index);
 }

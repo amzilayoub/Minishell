@@ -59,6 +59,7 @@ void	init(char **envp)
 	g_is_exit = 0;
 	g_mem_alloc = NULL;
 	g_mem_perma = NULL;
+	g_shell_env = NULL;
 	g_pipe_cmd = ft_split(">> > <", ' ');
 	g_cmd_exec_without_pipe = ft_split("exit export unset cd", ' ');
 	g_read_from_file = 0;

@@ -33,7 +33,7 @@ char	*get_key(char *str)
 		if (str[i] == '=')
 			break ;
 	}
-	if (!str[i])
+	if (!str[i] && (g_export_error = 1))
 		return (NULL);
 	key = ft_substr(str, 0, i);
 	add_mem(key);
@@ -69,6 +69,31 @@ char	**env_append(char *str, char ***envp)
 	return (*envp);
 }
 
+
+void	print_single_var(char *str)
+{
+	int i;
+
+	i = -1;
+	FT_PUTSTR("declare -x ");
+	while (str[++i])
+	{
+		if (str[i] == '=')
+			break ;
+		FT_PUTCHAR(str[i]);
+	}
+	if (!str[i])
+	{
+		FT_PUTSTR("\n");
+		return ;
+	}
+	FT_PUTSTR("=\"");
+	while (str[++i])
+		FT_PUTCHAR(str[i]);
+	FT_PUTCHAR('"');
+	FT_PUTSTR("\n");
+}
+
 int		print_env_vars(char **envp)
 {
 	int		i;
@@ -78,12 +103,11 @@ int		print_env_vars(char **envp)
 	i = -1;
 	while (sort[++i])
 	{
-		FT_PUTSTR("declare -x ");
-		FT_PUTSTR(sort[i]);
+		print_single_var(sort[i]);
 		free(sort[i]);
-		FT_PUTSTR("\n");
 	}
 	free(sort);
+	print_shell_env(g_shell_env);
 	return (1);
 }
 
@@ -107,10 +131,13 @@ int		ft_export(char **args, char ***envp)
 	char	*key;
 	int		len_key;
 
+	g_export_error = 0;
 	if (!(*args))
 		return (print_env_vars((*envp)));
 	if (!(key = get_key((*args))))
 	{
+		if (g_export_error)
+			push_back(&g_shell_env, ft_strdup((*args)));
 		if (args[1])
 			ft_export(&args[1], envp);
 		return (1);
@@ -126,5 +153,6 @@ int		ft_export(char **args, char ***envp)
 		(*envp) = env_append(ft_strdup((*args)), envp);
 	if (args[1])
 		ft_export(&args[1], envp);
+	remove_shell_env(&g_shell_env);
 	return (0);
 }

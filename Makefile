@@ -16,6 +16,7 @@ NAME=minishell
 FLAGS=-g
 
 SRC= 	check_syntax.c										\
+		push_back.c											\
 		errors.c 											\
 		ft_get_env_value.c 									\
 		init.c 												\

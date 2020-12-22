@@ -97,9 +97,11 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 		// 	}
 		// if ((*line)[vars->i] == '\\' && vars->quote == '\'')
 		// 	continue ;
-		if ((*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\\')
+		if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\\')
 			shift_char((*line) + vars->i);
-		else if ((*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '"')
+		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '"')
+			shift_char((*line) + vars->i);
+		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '$')
 			shift_char((*line) + vars->i);
 		else if ((*line)[vars->i] == '\\' && ++vars->i)
 			continue ;
