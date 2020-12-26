@@ -33,7 +33,7 @@ char	*get_key(char *str)
 		if (str[i] == '=')
 			break ;
 	}
-	if (!str[i] && (g_export_error = 1))
+	if (!str[i] && i == 0)
 		return (NULL);
 	key = ft_substr(str, 0, i);
 	add_mem(key);
@@ -107,13 +107,12 @@ int		print_env_vars(char **envp)
 		free(sort[i]);
 	}
 	free(sort);
-	print_shell_env(g_shell_env);
 	return (1);
 }
 
 int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 {
-	if (!ft_strncmp((*envp), key, len_key) && (*envp)[len_key] == '=')
+	if (!ft_strncmp((*envp), key, len_key) && ((*envp)[len_key] == '=' || !(*envp)[len_key]))
 	{
 		if (g_first_dup_env)
 			add_mem((*envp));
@@ -131,13 +130,10 @@ int		ft_export(char **args, char ***envp)
 	char	*key;
 	int		len_key;
 
-	g_export_error = 0;
 	if (!(*args))
 		return (print_env_vars((*envp)));
 	if (!(key = get_key((*args))))
 	{
-		if (g_export_error)
-			push_back(&g_shell_env, ft_strdup((*args)));
 		if (args[1])
 			ft_export(&args[1], envp);
 		return (1);
@@ -153,6 +149,5 @@ int		ft_export(char **args, char ***envp)
 		(*envp) = env_append(ft_strdup((*args)), envp);
 	if (args[1])
 		ft_export(&args[1], envp);
-	remove_shell_env(&g_shell_env);
 	return (0);
 }

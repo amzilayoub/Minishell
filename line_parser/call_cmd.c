@@ -21,6 +21,8 @@ char	*get_lowercase(char *str)
 	if (str == NULL)
 		return (NULL);
 	lower = ft_strdup(str);
+	if (!ft_strcmp(str, "EXIT"))
+		return (lower);
 	i = -1;
 	while (lower[++i])
 		lower[i] = ft_tolower(lower[i]);

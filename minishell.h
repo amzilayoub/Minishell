@@ -135,7 +135,6 @@ char			*g_line;
 int				g_builtin_error;
 int				g_input_read;
 int				g_is_exit;
-char			g_export_error;
 
 /*
 **------------------------------------------------------**
@@ -235,9 +234,6 @@ void			call_single_command(
 					int *pipe_index);
 char			**ft_sort(char **envp);
 char			*get_lowercase(char *str);
-void			push_back(t_shell_env **list, char *var);
-void			print_shell_env(t_shell_env *list);
 void			print_single_var(char *str);
-void			remove_shell_env(t_shell_env **list);
 
 #endif

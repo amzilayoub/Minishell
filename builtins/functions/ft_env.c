@@ -20,6 +20,8 @@ int	ft_env(char **args, char ***envp)
 	i = -1;
 	while ((*envp)[++i])
 	{
+		if (!ft_strchr((*envp)[i], '='))
+			continue ;
 		FT_PUTSTR((*envp)[i]);
 		FT_PUTCHAR('\n');
 	}
