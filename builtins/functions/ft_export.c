@@ -112,14 +112,17 @@ int		print_env_vars(char **envp)
 
 int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 {
-	if (!ft_strncmp((*envp), key, len_key) && ((*envp)[len_key] == '=' || !(*envp)[len_key]))
+	if (!ft_strncmp((*envp), key, len_key))
 	{
-		if (g_first_dup_env)
+		if (((*args)[len_key] == '=' || !(*envp)[len_key]))
+		{
+			if (g_first_dup_env)
 			add_mem((*envp));
-		(*envp) = ft_strdup((*args));
-		if (!g_first_dup_env)
-			add_mem_perma((*envp));
-		return (1);
+			(*envp) = ft_strdup((*args));
+			if (!g_first_dup_env)
+				add_mem_perma((*envp));
+			return (1);
+		}
 	}
 	return (0);
 }

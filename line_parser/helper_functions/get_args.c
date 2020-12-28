@@ -23,13 +23,13 @@ int		get_arg_len(char *line)
 	len = ((*line) != 0);
 	while (line[++i])
 	{
-		if (line[i] == '\\' && line[i + 1] != '\'' && ++i)
+		if (line[i] == '\\' && ++i)
 			continue;
 		if ((line[i] == '\'' || line[i] == '"') && !quote)
 			quote = line[i];
 		else if (line[i] == quote && ++len)
 			quote = 0;
-		else if (!quote && (line[i] == ' ' || line[i] == '>' || line[i] == '<'))
+		else if (!quote && (line[i] == ' '/* || line[i] == '>' || line[i] == '<'*/))
 		{
 			i += skip_char(&line[i], ' ');
 			// i += (line[i] == '>' || line[i] == '<');
@@ -59,14 +59,14 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 		vars->i += skip_char((*line) + vars->i, ' ') - 1;
 		vars->start = vars->i + 1;
 	}
-	else if (!vars->quote && ((*line)[vars->i] == '>' || (*line)[vars->i] == '<'))
-	{
-		(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
-				((*line)[vars->i + 1] == '>'));
-		vars->i += 1 + ((*line)[vars->i + 1] == '>');
-		vars->i += skip_char((*line) + vars->i, ' ') - 1;
-		vars->start = vars->i + 1;
-	}
+	// else if (!vars->quote && ((*line)[vars->i] == '>' || (*line)[vars->i] == '<'))
+	// {
+	// 	(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
+	// 			((*line)[vars->i + 1] == '>'));
+	// 	vars->i += 1 + ((*line)[vars->i + 1] == '>');
+	// 	vars->i += skip_char((*line) + vars->i, ' ') - 1;
+	// 	vars->start = vars->i + 1;
+	// }
 }
 
 /*
@@ -108,11 +108,13 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 			shift_char((*line) + vars->i);
 		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '$')
 			shift_char((*line) + vars->i);
-		else if (!vars->quote && (*line)[vars->i] == '\\')
+		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\'')
 		{
-		// 	// shift_char((*line) + vars->i);
+			shift_char((*line) + vars->i);
 		// 	// printf("QUOTE = %d\nLINE = %s\n--------------------------\n", vars->quote, &(*line)[vars->i]);
 		}
+		else if (vars->quote == '"' && (*line)[vars->i] == '\\')
+			shift_char((*line) + vars->i);
 		else if ((*line)[vars->i] == '\\' && ++vars->i)
 			continue ;
 		else if ((*line)[vars->i] == '$' && vars->quote != '\'')
@@ -142,7 +144,7 @@ char	**get_arg(char *line, char ***envp)
 	args = (char**)malloc(sizeof(char*) * (get_arg_len(line) + 1));
 	vars.quote = 0;
 	get_arg_helper(&vars, &line, envp, &args);
-	printf("FINAL LINE = %s\n", line);
+	// printf("FINAL LINE = %s\n", line);
 	if ((tmp = ft_substr(line, vars.start, vars.i - vars.start))[0])
 		args[++vars.j] = tmp;
 	else

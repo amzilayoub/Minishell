@@ -32,8 +32,6 @@ int	ft_exit(char **args, char ***envp)
 	int is_number;
 
 	(void)envp;
-	FT_PUTSTR("exit\n");
-	FT_PUTSTR("See you buddy !\n");
 	close_fd();
 	open_stdio();
 	many_args = 0;

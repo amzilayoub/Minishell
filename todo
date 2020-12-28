@@ -13,8 +13,9 @@ X - > tt echo > 55 fwefwe
 X - free single command list and check if cmd_lowercase is not NULL before free it
 X - echo "\$PATH"
 X - > file > hello echo "test" > go
-export a= b
-export a =b
+X - export a= b
+X - export a =b
+exit | cat
 -----------
 X - echo "    g " > "   o   ".txt
 -----------
