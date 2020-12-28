@@ -32,8 +32,8 @@ int		get_arg_len(char *line)
 		else if (!quote && (line[i] == ' ' || line[i] == '>' || line[i] == '<'))
 		{
 			i += skip_char(&line[i], ' ');
-			i += (line[i] == '>' || line[i] == '<');
-			i += (line[i] == '>');
+			// i += (line[i] == '>' || line[i] == '<');
+			// i += (line[i] == '>');
 			i -= 1;
 			len++;
 		}
@@ -47,10 +47,14 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 
 	if (!vars->quote && (*line)[vars->i] == ' ')
 	{
+		// printf("INSERT ARG = %s\n%s\n", (*line), (*line) + vars->i);
+		// printf("START = %d\n", vars->start);
+		// printf("I = %d\n", vars->i);
 		if ((tmp = ft_substr((*line), vars->start, vars->i - vars->start))[0])
 			(*args)[++vars->j] = tmp;
 		else
 			add_mem(tmp);
+		// printf("ARG = %s\n", tmp);
 		vars->space = vars->i;
 		vars->i += skip_char((*line) + vars->i, ' ') - 1;
 		vars->start = vars->i + 1;
@@ -97,12 +101,18 @@ void	get_arg_helper(t_arg_manip *vars, char **line,
 		// 	}
 		// if ((*line)[vars->i] == '\\' && vars->quote == '\'')
 		// 	continue ;
+		// printf("QUOTE = %d\nLINE = %s\n--------------------------\n", vars->quote, &(*line)[vars->i]);
 		if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\\')
 			shift_char((*line) + vars->i);
 		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '"')
 			shift_char((*line) + vars->i);
 		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '$')
 			shift_char((*line) + vars->i);
+		else if (!vars->quote && (*line)[vars->i] == '\\')
+		{
+		// 	// shift_char((*line) + vars->i);
+		// 	// printf("QUOTE = %d\nLINE = %s\n--------------------------\n", vars->quote, &(*line)[vars->i]);
+		}
 		else if ((*line)[vars->i] == '\\' && ++vars->i)
 			continue ;
 		else if ((*line)[vars->i] == '$' && vars->quote != '\'')
@@ -132,6 +142,7 @@ char	**get_arg(char *line, char ***envp)
 	args = (char**)malloc(sizeof(char*) * (get_arg_len(line) + 1));
 	vars.quote = 0;
 	get_arg_helper(&vars, &line, envp, &args);
+	printf("FINAL LINE = %s\n", line);
 	if ((tmp = ft_substr(line, vars.start, vars.i - vars.start))[0])
 		args[++vars.j] = tmp;
 	else
