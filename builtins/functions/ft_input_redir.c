@@ -25,7 +25,9 @@ int	ft_input_redir(char **args, char ***envp)
 		i++;
 	if ((fd = open(args[i - 1], O_RDONLY)) < 0)
 	{
-		return (set_error_print("Minishell : can't open this File\n", errno));
+		print_cmd_with_error(args[0], strerror(errno));
+		// FT_PUTSTR_ERR("Minishell : can't open this File\n");
+		return (set_error("", errno));
 		// FT_PUTSTR_ERR("Minishell : can't open this File\n");
 		// return (1);
 	}

@@ -144,11 +144,11 @@ void	call_single_command(
 	directory = NULL;
 	open_pipes(parent, list, (*pipe_index));
 	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
-	// if (THERE_IS_ERROR)
-	// {
-	// 	THERE_IS_ERROR = 0;
-	// 	return ;
-	// }
+	if (THERE_IS_ERROR)
+	{
+		THERE_IS_ERROR = 0;
+		return ;
+	}
 	g_there_is_error = 0;
 	g_error_n = 0;
 	g_builtin_error = 0;

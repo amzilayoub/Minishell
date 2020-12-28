@@ -70,9 +70,9 @@ int		ft_redirections_helper(char **args, int flags)
 		return (set_error_print("Minishell : syntax error\n", 258));
 	if ((fd = open(args[0], flags, 0777)) < 0)
 	{
-		set_error_print("Minishell : can't open this File\n", errno);
+		print_cmd_with_error(args[0], strerror(errno));
 		// FT_PUTSTR_ERR("Minishell : can't open this File\n");
-		// return (errno);
+		return (set_error("", errno));
 	}
 	if (g_is_piped && g_input_read)
 		redirection_read_function(args, fd);
