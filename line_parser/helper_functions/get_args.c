@@ -29,11 +29,11 @@ int		get_arg_len(char *line)
 			quote = line[i];
 		else if (line[i] == quote && ++len)
 			quote = 0;
-		else if (!quote && (line[i] == ' '/* || line[i] == '>' || line[i] == '<'*/))
+		else if (!quote && (line[i] == ' ' || line[i] == '>' || line[i] == '<'))
 		{
 			i += skip_char(&line[i], ' ');
-			// i += (line[i] == '>' || line[i] == '<');
-			// i += (line[i] == '>');
+			i += (line[i] == '>' || line[i] == '<');
+			i += (line[i] == '>');
 			i -= 1;
 			len++;
 		}
@@ -59,14 +59,14 @@ void	insert_arg(t_arg_manip *vars, char **line, char ***args)
 		vars->i += skip_char((*line) + vars->i, ' ') - 1;
 		vars->start = vars->i + 1;
 	}
-	// else if (!vars->quote && ((*line)[vars->i] == '>' || (*line)[vars->i] == '<'))
-	// {
-	// 	(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
-	// 			((*line)[vars->i + 1] == '>'));
-	// 	vars->i += 1 + ((*line)[vars->i + 1] == '>');
-	// 	vars->i += skip_char((*line) + vars->i, ' ') - 1;
-	// 	vars->start = vars->i + 1;
-	// }
+	else if (!vars->quote && ((*line)[vars->i] == '>' || (*line)[vars->i] == '<'))
+	{
+		(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
+				((*line)[vars->i + 1] == '>'));
+		vars->i += 1 + ((*line)[vars->i + 1] == '>');
+		vars->i += skip_char((*line) + vars->i, ' ') - 1;
+		vars->start = vars->i + 1;
+	}
 }
 
 /*
