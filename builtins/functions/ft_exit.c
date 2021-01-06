@@ -25,23 +25,8 @@ char	is_numeric(char *str)
 	return (1);
 }
 
-
-int	ft_exit(char **args, char ***envp)
+void	exit_error_handling(char **args, int is_number, int many_args)
 {
-	int many_args;
-	int is_number;
-
-	(void)envp;
-	close_fd();
-	open_stdio();
-	many_args = 0;
-	is_number = 0;
-	g_is_exit = 1;
-	if (args && args[0])
-	{
-		is_number = is_numeric(args[0]);
-		many_args += (args[1] != NULL);
-	}
 	if (args && (*args) && !is_number)
 	{
 		FT_PUTSTR_ERR("Minishell: exit: numeric argument required\n");
@@ -64,5 +49,24 @@ int	ft_exit(char **args, char ***envp)
 		clear_cmd_list(&g_cmd_list);
 		exit(0);
 	}
+}
+
+int		ft_exit(char **args, char ***envp)
+{
+	int many_args;
+	int is_number;
+
+	(void)envp;
+	close_fd();
+	open_stdio();
+	many_args = 0;
+	is_number = 0;
+	g_is_exit = 1;
+	if (args && args[0])
+	{
+		is_number = is_numeric(args[0]);
+		many_args += (args[1] != NULL);
+	}
+	exit_error_handling(args, is_number, many_args);
 	return (1);
 }

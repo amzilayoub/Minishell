@@ -71,8 +71,7 @@ int		ft_redirections_helper(char **args, int flags)
 	if ((fd = open(args[0], flags, 0777)) < 0)
 	{
 		print_cmd_with_error(args[0], strerror(errno));
-		// FT_PUTSTR_ERR("Minishell : can't open this File\n");
-		return (set_error("", errno));
+		return (set_error("Minishell : can't open this File\n", errno));
 	}
 	if (g_is_piped && g_input_read)
 		redirection_read_function(args, fd);

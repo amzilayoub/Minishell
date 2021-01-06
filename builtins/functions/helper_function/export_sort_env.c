@@ -6,11 +6,11 @@
 /*   By: aboutahr <aboutahr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:40:12 by aboutahr          #+#    #+#             */
-/*   Updated: 2020/12/07 14:42:21 by aboutahr         ###   ########.fr       */
+/*   Updated: 2021/01/01 16:18:55 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	ft_cpyfree(char **d, char **s)
 {

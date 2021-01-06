@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 char	*get_lowercase(char *str)
 {
 	char	*lower;
@@ -29,14 +28,58 @@ char	*get_lowercase(char *str)
 	return (lower);
 }
 
+void	execute_command(t_single_command *list, char ***envp)
+{
+	int		n;
+	DIR		*directory;
+
+	directory = NULL;
+	n = execute_builtin(g_pipe_cmd, g_redirections, list, envp);
+	if (g_pipes_count == 0 && n == 0)
+	{
+		if (execute_builtin(g_cmd_char, g_builtins, list, envp) == 0)
+			fork_it(list, envp, directory, NULL);
+		else if (g_is_exit && g_pipes_count == 0)
+			return ;
+		else
+			g_is_exit = 0;
+	}
+	else if (n == 0)
+		fork_it(list, envp, directory, &execute_builtin);
+}
+
+void	call_single_command(
+			t_piped_cmd *parent,
+			t_single_command *list,
+			char ***envp,
+			int *pipe_index)
+{
+	if (THERE_IS_ERROR)
+	{
+		THERE_IS_ERROR = 0;
+		return ;
+	}
+	if (!list || g_is_exit)
+		return ;
+	open_pipes(parent, list, (*pipe_index));
+	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
+	g_there_is_error = 0;
+	g_error_n = 0;
+	g_builtin_error = 0;
+	g_status = 0;
+	list->cmd_lowercase = get_lowercase(list->params[0]);
+	execute_command(list, envp);
+	(*pipe_index)++;
+	call_single_command(parent, list->next, envp, pipe_index);
+}
+
 void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 {
 	if (!list)
 		return ;
-	// sort_cmd_for_redirections(
-	// 			&list->single_command,
-	// 			&list->single_command->next);
-	if (list->single_command && list->single_command->params[0] && list->single_command->params[0][0] == '>')
+	if (list->single_command &&
+		list->single_command->params[0] &&
+		list->single_command->params[0][0] == '>')
 		g_input_read = 0;
 	else
 		g_input_read = 1;

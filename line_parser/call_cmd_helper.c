@@ -12,7 +12,9 @@
 
 #include "../minishell.h"
 
-int		execute_builtin(char **cmd, int (*funs[])(char **args, char ***envp) ,t_single_command *list, char ***envp)
+int		execute_builtin(char **cmd,
+						int (*funs[])(char **args, char ***envp),
+						t_single_command *list, char ***envp)
 {
 	int i;
 
@@ -28,7 +30,6 @@ int		execute_builtin(char **cmd, int (*funs[])(char **args, char ***envp) ,t_sin
 	}
 	return (0);
 }
-
 
 void	concat_command(char **bin_path, char **params, char **envp)
 {
@@ -95,77 +96,23 @@ void	open_pipes(
 	g_read_from_file = 0;
 }
 
-void	fork_it(t_single_command *list, char ***envp, DIR *directory, int (*fun)(char **cmd,int (*funs[])(char **args, char ***envp),  t_single_command *list, char ***envp))
+void	exit_syntax_error(t_single_command *list,
+							DIR *directory,
+							char *tmp,
+							char ret)
 {
-	char	*tmp;
-	char	ret;
-
-	if (!(g_pid = fork()))
+	if ((directory = opendir(list->params[0])) && tmp)
 	{
-		if (fun != NULL && fun(g_cmd_char, g_builtins, list, envp) == 1)
-			exit(g_status);
-		ret = find_command(list->params, (*envp));
-		tmp = ft_strnstr(list->params[0], "/", ft_strlen(list->params[0]));
-		if ((directory = opendir(list->params[0])) && tmp)
-		{
-			print_cmd_with_error(list->params[0], "is a direcotory");
-			closedir(directory);
-			exit(126);
-		}
-		else if (!tmp && !ret)
-		{
-			print_cmd_with_error(list->params[0], "command not found !");
-			exit(127);
-		}
-		else
-			print_cmd_with_error(list->params[0], strerror(errno));
-		exit(errno);
+		print_cmd_with_error(list->params[0], "is a direcotory");
+		closedir(directory);
+		exit(126);
 	}
-	else if (g_pid < 0)
+	else if (!tmp && !ret)
 	{
-		FT_PUTSTR_ERR("Minishell: Fork Error\n");
-		return ;
+		print_cmd_with_error(list->params[0], "command not found !");
+		exit(127);
 	}
 	else
-		wait(&g_status);
-}
-
-void	call_single_command(
-			t_piped_cmd *parent,
-			t_single_command *list,
-			char ***envp,
-			int *pipe_index)
-{
-	DIR		*directory;
-	int		n;
-
-	if (!list || g_is_exit)
-		return ;
-	directory = NULL;
-	open_pipes(parent, list, (*pipe_index));
-	g_next_cmd = (list->next) ? list->next->params[0] : NULL;
-	if (THERE_IS_ERROR)
-	{
-		THERE_IS_ERROR = 0;
-		return ;
-	}
-	g_there_is_error = 0;
-	g_error_n = 0;
-	g_builtin_error = 0;
-	g_status = 0;
-	list->cmd_lowercase = get_lowercase(list->params[0]);
-	n = execute_builtin(g_pipe_cmd, g_redirections, list, envp);
-	if (g_pipes_count == 0 && n == 0)
-	{
-		if (execute_builtin(g_cmd_char, g_builtins, list, envp) == 0)
-			fork_it(list, envp, directory, NULL);
-		else if (g_is_exit && g_pipes_count == 0)
-			return ;
-		else
-			g_is_exit = 0;
-	}
-	else if (n == 0)
-		fork_it(list, envp, directory, &execute_builtin);
-	(*pipe_index)++;
-	call_single_command(parent, list->next, envp, pipe_index);
+		print_cmd_with_error(list->params[0], strerror(errno));
+	exit(errno);
 }

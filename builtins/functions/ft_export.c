@@ -69,31 +69,6 @@ char	**env_append(char *str, char ***envp)
 	return (*envp);
 }
 
-
-void	print_single_var(char *str)
-{
-	int i;
-
-	i = -1;
-	FT_PUTSTR("declare -x ");
-	while (str[++i])
-	{
-		if (str[i] == '=')
-			break ;
-		FT_PUTCHAR(str[i]);
-	}
-	if (!str[i])
-	{
-		FT_PUTSTR("\n");
-		return ;
-	}
-	FT_PUTSTR("=\"");
-	while (str[++i])
-		FT_PUTCHAR(str[i]);
-	FT_PUTCHAR('"');
-	FT_PUTSTR("\n");
-}
-
 int		print_env_vars(char **envp)
 {
 	int		i;
@@ -117,7 +92,7 @@ int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 		if (((*args)[len_key] == '=' || !(*envp)[len_key]))
 		{
 			if (g_first_dup_env)
-			add_mem((*envp));
+				add_mem((*envp));
 			(*envp) = ft_strdup((*args));
 			if (!g_first_dup_env)
 				add_mem_perma((*envp));

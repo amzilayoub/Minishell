@@ -34,6 +34,16 @@ void	concat_vars(char **str, char *key, int i, int index)
 	add_mem((*str));
 }
 
+char	*exit_status(void)
+{
+	if (g_error_n)
+		return (ft_itoa(g_status));
+	else if (g_builtin_error)
+		return (ft_itoa(g_builtin_error));
+	else
+		return (ft_itoa(WEXITSTATUS(g_status)));
+}
+
 int		join_env_var(char **str, int index, char ***envp)
 {
 	int		i;
@@ -53,12 +63,7 @@ int		join_env_var(char **str, int index, char ***envp)
 	else
 	{
 		i++;
-		if (g_error_n)
-			key = ft_itoa(g_status);
-		else if (g_builtin_error)
-			key = ft_itoa(g_builtin_error);
-		else
-			key = ft_itoa(WEXITSTATUS(g_status));
+		key = exit_status();
 		add_mem(key);
 		g_builtin_error = 0;
 	}
