@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	write_to_file(char **args, char *text, int new_line, int fd)
 {
@@ -71,7 +71,7 @@ int		ft_redirections_helper(char **args, int flags)
 	if ((fd = open(args[0], flags, 0777)) < 0)
 	{
 		print_cmd_with_error(args[0], strerror(errno));
-		return (set_error("Minishell : can't open this File\n", errno));
+		return (set_error("", errno));
 	}
 	if (g_is_piped && g_input_read)
 		redirection_read_function(args, fd);

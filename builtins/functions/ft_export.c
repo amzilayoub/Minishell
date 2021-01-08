@@ -69,22 +69,6 @@ char	**env_append(char *str, char ***envp)
 	return (*envp);
 }
 
-int		print_env_vars(char **envp)
-{
-	int		i;
-	char	**sort;
-
-	sort = ft_sort(envp);
-	i = -1;
-	while (sort[++i])
-	{
-		print_single_var(sort[i]);
-		free(sort[i]);
-	}
-	free(sort);
-	return (1);
-}
-
 int		compare_and_erase(char **args, char **envp, char *key, int len_key)
 {
 	if (!ft_strncmp((*envp), key, len_key))

@@ -172,36 +172,7 @@ void			shell_loop(char **envp);
 char			*shift_char(char *str);
 int				skip_char(char *line, char c);
 char			*ft_get_env_value(char *key, char **envp);
-void			sort_redir(t_piped_cmd *list);
-void			get_args_after_redir(t_cmd *list);
-void			get_args_after_redir_helper(t_piped_cmd *list);
-void			call_single_command(
-					t_piped_cmd *parent,
-					t_single_command *list,
-					char ***envp,
-					int *pipe_index);
-char			*get_lowercase(char *str);
-int				get_arg_len(char *line);
-void			get_arg_helper(t_arg_manip *vars, char **line,
-						char ***envp, char ***args);
-
-/*
-**-------------------------------------------------**
-** EXECUTION FUNCTION
-**-------------------------------------------------**
-*/
-
-int				execute_builtin(char **cmd,
-						int (*funs[])(char **args, char ***envp),
-						t_single_command *list, char ***envp);
-void			fork_it(t_single_command *list,
-						char ***envp, DIR *directory,
-						int (*fun)(char **cmd,int (*funs[])(char **args, char ***envp),
-						t_single_command *list, char ***envp));
-void			open_pipes(
-						t_piped_cmd *parent_cmd,
-						t_single_command *list,
-						int pipe_index);
+char			*ft_getcwd(void);
 
 /*
 **-------------------------------------------------**
@@ -253,8 +224,16 @@ int				ft_exit(char **args, char ***envp);
 
 int				ft_redirections_helper(char **args, int flags);
 char			**env_append(char *str, char ***envp);
-char			*ft_getcwd(void);
-char			**ft_sort(char **envp);
+void			sort_redir(t_piped_cmd *list);
+void			get_args_after_redir(t_cmd *list);
+void			get_args_after_redir_helper(t_piped_cmd *list);
+void			call_single_command(
+					t_piped_cmd *parent,
+					t_single_command *list,
+					char ***envp,
+					int *pipe_index);
+char			*get_lowercase(char *str);
 void			print_single_var(char *str);
+int				print_env_vars(char **envp);
 
 #endif

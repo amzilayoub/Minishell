@@ -12,6 +12,125 @@
 
 #include "../../minishell.h"
 
+int		get_arg_len(char *line)
+{
+	int		i;
+	int		len;
+	char	quote;
+
+	quote = 0;
+	i = -1;
+	len = ((*line) != 0);
+	while (line[++i])
+	{
+		if (line[i] == '\\' && ++i)
+			continue;
+		if ((line[i] == '\'' || line[i] == '"') && !quote)
+			quote = line[i];
+		else if (line[i] == quote && ++len)
+			quote = 0;
+		else if (!quote && (line[i] == ' ' || line[i] == '>' || line[i] == '<'))
+		{
+			i += skip_char(&line[i], ' ');
+			i += (line[i] == '>' || line[i] == '<');
+			i += (line[i] == '>');
+			i -= 1;
+			len++;
+		}
+	}
+	return (len);
+}
+
+void	insert_arg(t_arg_manip *vars, char **line, char ***args)
+{
+	char *tmp;
+
+	if (!vars->quote && (*line)[vars->i] == ' ')
+	{
+		// printf("INSERT ARG = %s\n%s\n", (*line), (*line) + vars->i);
+		// printf("START = %d\n", vars->start);
+		// printf("I = %d\n", vars->i);
+		if ((tmp = ft_substr((*line), vars->start, vars->i - vars->start))[0])
+			(*args)[++vars->j] = tmp;
+		else
+			add_mem(tmp);
+		// printf("ARG = %s\n", tmp);
+		vars->space = vars->i;
+		vars->i += skip_char((*line) + vars->i, ' ') - 1;
+		vars->start = vars->i + 1;
+	}
+	else if (!vars->quote && ((*line)[vars->i] == '>' || (*line)[vars->i] == '<'))
+	{
+		(*args)[++vars->j] = ft_substr((*line), vars->i, 1 +
+				((*line)[vars->i + 1] == '>'));
+		vars->i += 1 + ((*line)[vars->i + 1] == '>');
+		vars->i += skip_char((*line) + vars->i, ' ') - 1;
+		vars->start = vars->i + 1;
+	}
+}
+
+/*
+** this code to treat params like that echo hello"Sdfsdfsdf"
+** tmp = ft_substr((*line), vars->space + 1,
+** 				vars->start - vars->space - 2);
+** (*args)[vars->j] = ft_strjoin(tmp, (*args)[vars->j]);
+*/
+
+void	quotes_checks(t_arg_manip *vars, char **line, char ***args)
+{
+	if ((*line)[vars->i] == vars->quote && !(vars->quote = 0))
+	{
+		shift_char((*line) + vars->i);
+		vars->i--;
+	}
+	else
+		insert_arg(vars, line, args);
+}
+
+void	get_arg_helper(t_arg_manip *vars, char **line,
+						char ***envp, char ***args)
+{
+	while ((*line)[++vars->i])
+	{
+		// if ((*line)[vars->i] == '\\' && vars->quote != '\'' &&
+		// 	(!vars->quote || (vars->quote &&
+		// 	((*line)[vars->i + 1] == vars->quote
+		// 	|| (*line)[vars->i + 1] == '\\' || (*line)[vars->i + 1] == '$'))))
+		// 	{
+		// 		shift_char((*line) + vars->i);
+		// 	}
+		// if ((*line)[vars->i] == '\\' && vars->quote == '\'')
+		// 	continue ;
+		// printf("QUOTE = %d\nLINE = %s\n--------------------------\n", vars->quote, &(*line)[vars->i]);
+		if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\\')
+			shift_char((*line) + vars->i);
+		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '"')
+			shift_char((*line) + vars->i);
+		else if (vars->quote != '\'' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '$')
+			shift_char((*line) + vars->i);
+		else if (!vars->quote && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] == '\'')
+		{
+			shift_char((*line) + vars->i);
+		// 	// printf("QUOTE = %d\nLINE = %s\n--------------------------\n", vars->quote, &(*line)[vars->i]);
+		}
+		else if (vars->quote == '"' && (*line)[vars->i] == '\\' && (*line)[vars->i + 1] != '\'')
+			shift_char((*line) + vars->i);
+		// else if ((*line)[vars->i] == '\\' && ++vars->i && vars->)
+		// 	continue ;
+		else if ((*line)[vars->i] == '$' && vars->quote != '\'')
+			vars->i += join_env_var(line, vars->i, envp);
+		else if (((*line)[vars->i] == '"' ||
+			(*line)[vars->i] == '\'') && !vars->quote)
+		{
+			vars->quote = (*line)[vars->i];
+			shift_char((*line) + vars->i);
+			vars->i--;
+		}
+		else
+			quotes_checks(vars, line, args);
+	}
+}
+
 char	**get_arg(char *line, char ***envp)
 {
 	char		**args;
@@ -25,6 +144,7 @@ char	**get_arg(char *line, char ***envp)
 	args = (char**)malloc(sizeof(char*) * (get_arg_len(line) + 1));
 	vars.quote = 0;
 	get_arg_helper(&vars, &line, envp, &args);
+	// printf("FINAL LINE = %s\n", line);
 	if ((tmp = ft_substr(line, vars.start, vars.i - vars.start))[0])
 		args[++vars.j] = tmp;
 	else

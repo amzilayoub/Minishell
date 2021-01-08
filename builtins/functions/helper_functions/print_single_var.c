@@ -1,16 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_print_single_var.c                          :+:      :+:    :+:   */
+/*   print_single_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/01 16:18:47 by aamzil            #+#    #+#             */
-/*   Updated: 2021/01/01 16:18:48 by aamzil           ###   ########.fr       */
+/*   Created: 2021/01/08 12:20:48 by aamzil            #+#    #+#             */
+/*   Updated: 2021/01/08 12:20:52 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
+
+int		print_env_vars(char **envp)
+{
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+		print_single_var(envp[i]);
+	return (1);
+}
 
 void	print_single_var(char *str)
 {

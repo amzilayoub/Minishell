@@ -25,7 +25,7 @@ char	is_numeric(char *str)
 	return (1);
 }
 
-void	exit_error_handling(char **args, int is_number, int many_args)
+void	ft_exit_error(char **args, int is_number, int many_args)
 {
 	if (args && (*args) && !is_number)
 	{
@@ -67,6 +67,6 @@ int		ft_exit(char **args, char ***envp)
 		is_number = is_numeric(args[0]);
 		many_args += (args[1] != NULL);
 	}
-	exit_error_handling(args, is_number, many_args);
+	ft_exit_error(args, is_number, many_args);
 	return (1);
 }
