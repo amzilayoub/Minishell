@@ -42,8 +42,8 @@ int		ft_pwd(char **args, char ***envp)
 	(void)args;
 	(void)envp;
 	wd = ft_getcwd();
-	FT_PUTSTR(wd);
-	FT_PUTCHAR('\n');
+	ft_putstr(wd);
+	ft_putchar('\n');
 	free(wd);
 	return (1);
 }

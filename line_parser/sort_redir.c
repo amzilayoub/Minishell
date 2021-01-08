@@ -1,17 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_redir.c   		                            :+:      :+:    :+:   */
+/*   sort_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/21 17:56:11 by aamzil            #+#    #+#             */
-/*   Updated: 2020/11/21 19:01:21 by aamzil           ###   ########.fr       */
+/*   Created: 2021/01/08 15:45:58 by aamzil            #+#    #+#             */
+/*   Updated: 2021/01/08 15:46:08 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int					swap_redirection_helper(t_single_command **list,
+											t_single_command **pointer,
+											t_single_command **prev,
+											char *is_swap)
+{
+	if ((*pointer)->params[0] && (*pointer)->next->params[0])
+	{
+		if ((*pointer)->params[0][0] == '>' &&
+			(*pointer)->next->params[0][0] == '<')
+		{
+			if ((*prev))
+			{
+				(*prev)->next = (*pointer)->next;
+				(*pointer)->next = (*pointer)->next->next;
+				(*prev)->next->next = (*pointer);
+			}
+			else
+			{
+				(*prev) = (*pointer)->next;
+				(*pointer)->next = (*pointer)->next->next;
+				(*prev)->next = (*pointer);
+				(*list) = (*prev);
+			}
+			(*is_swap) = 1;
+			return (1);
+		}
+	}
+	return (0);
+}
 
 t_single_command	*swap_redirection(t_single_command *list)
 {
@@ -27,27 +56,8 @@ t_single_command	*swap_redirection(t_single_command *list)
 		prev = NULL;
 		while (pointer && pointer->next)
 		{
-			if (pointer->params[0] && pointer->next->params[0])
-			{
-				if (pointer->params[0][0] == '>' && pointer->next->params[0][0] == '<')
-				{
-					if (prev)
-					{
-						prev->next = pointer->next;
-						pointer->next = pointer->next->next;
-						prev->next->next = pointer;
-					}
-					else
-					{
-						prev = pointer->next;
-						pointer->next = pointer->next->next;
-						prev->next = pointer;
-						list = prev;
-					}
-					is_swap = 1;
-					break ;
-				}
-			}
+			if (swap_redirection_helper(&list, &pointer, &prev, &is_swap))
+				break ;
 			prev = pointer;
 			pointer = pointer->next;
 		}
@@ -55,6 +65,21 @@ t_single_command	*swap_redirection(t_single_command *list)
 	return (list);
 }
 
+void				sort_input_redir_helper(t_single_command **prev,
+											t_single_command **start,
+											t_single_command **end)
+{
+	while ((*start))
+	{
+		if ((*start)->params[0] && (*start)->params[0][0] == '<')
+		{
+			(*end) = (*start);
+			break ;
+		}
+		(*prev) = (*start);
+		(*start) = (*start)->next;
+	}
+}
 
 t_single_command	*sort_input_redir(t_single_command *list)
 {
@@ -63,18 +88,9 @@ t_single_command	*sort_input_redir(t_single_command *list)
 	t_single_command *end;
 
 	start = list;
-	end =  NULL;
+	end = NULL;
 	prev = NULL;
-	while (start)
-	{
-		if (start->params[0] && start->params[0][0] == '<')
-		{
-			end = start;
-			break ;
-		}
-		prev = start;
-		start = start->next;
-	}
+	sort_input_redir_helper(&prev, &start, &end);
 	while (end && end->next)
 	{
 		if (end->next->params[0] && end->next->params[0][0] != '<')
@@ -87,53 +103,9 @@ t_single_command	*sort_input_redir(t_single_command *list)
 	end->next = prev;
 	list = start;
 	return (list);
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// t_single_command	*insert;
-	// t_single_command	*p1;
-	// t_single_command	*prev;
-	// int					i;
-
-	// i = 0;
-	// insert = list;
-	// prev = NULL;
-	// p1 = (list)->next;
-
-	// while ((insert) && (p1))
-	// {
-	// 	if ((p1)->params[0] && (p1)->params[0][0] == '<')
-	// 	{
-	// 		if (prev)
-	// 			(prev)->next = (insert)->next;
-	// 		(insert)->next = (p1)->next;
-	// 		(p1)->next = (insert);
-	// 		if (i == 0)
-	// 			(list) = (p1);
-	// 		i++;
-	// 		prev = p1;
-	// 		p1 = insert->next;
-	// 	}
-	// 	else
-	// 	{
-	// 		prev = p1;
-	// 		p1 = (p1)->next;
-	// 	}
-	// }
-	// return (list);
 }
 
-void	sort_redir(t_piped_cmd *list)
+void				sort_redir(t_piped_cmd *list)
 {
 	if (!list)
 		return ;
@@ -141,4 +113,3 @@ void	sort_redir(t_piped_cmd *list)
 	list->single_command = sort_input_redir(list->single_command);
 	sort_redir(list->next);
 }
-

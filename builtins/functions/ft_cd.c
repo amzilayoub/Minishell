@@ -58,8 +58,8 @@ int		ft_cd(char **args, char ***envp)
 	add_mem(cur_dir);
 	if (prev_dir)
 	{
-		FT_PUTSTR(cur_dir);
-		FT_PUTCHAR('\n');
+		ft_putstr(cur_dir);
+		ft_putchar('\n');
 	}
 	env_var[0] = ft_strjoin("OLDPWD=", ft_get_env_value("$PWD", (*envp)));
 	add_mem(env_var[0]);

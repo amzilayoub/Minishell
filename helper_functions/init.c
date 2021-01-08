@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	init_builtins(void)
 {
@@ -45,11 +45,26 @@ void	init_env_var(char **envp)
 	g_env_available_index = g_env_len;
 }
 
-void	init(char **envp)
+void	export_my_env(char **envp)
 {
 	char	*env[2];
 	char	*tmp;
 
+	env[0] = ft_get_env_value("$PATH", envp);
+	tmp = ft_getcwd();
+	add_mem(tmp);
+	tmp = ft_strjoin(tmp, "/builtins/bin:");
+	add_mem(tmp);
+	env[0] = ft_strjoin(tmp, env[0]);
+	add_mem(env[0]);
+	env[0] = ft_strjoin("PATH=", env[0]);
+	add_mem(env[0]);
+	env[1] = NULL;
+	ft_export(env, &envp);
+}
+
+void	init(char **envp)
+{
 	g_cmd_list = NULL;
 	g_builtin_error = 0;
 	g_envp = NULL;
@@ -68,15 +83,5 @@ void	init(char **envp)
 	init_env_var(envp);
 	g_there_is_error = 0;
 	g_error_msg = NULL;
-	env[0] = ft_get_env_value("$PATH", envp);
-	tmp = ft_getcwd();
-	add_mem(tmp);
-	tmp = ft_strjoin(tmp, "/builtins/bin:");
-	add_mem(tmp);
-	env[0] = ft_strjoin(tmp, env[0]);
-	add_mem(env[0]);
-	env[0] = ft_strjoin("PATH=", env[0]);
-	add_mem(env[0]);
-	env[1] = NULL;
-	ft_export(env, &envp);
+	export_my_env(envp);
 }

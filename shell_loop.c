@@ -17,23 +17,6 @@ int		prompt(void)
 	return (write(1, "$ ", 2));
 }
 
-void	ft_sigint(int num)
-{
-	(void)num;
-	if (g_line != NULL)
-	{
-		g_line = NULL;
-	}
-	FT_PUTSTR("\n$ ");
-}
-
-void	ft_sigquit(int num)
-{
-	(void)num;
-
-	return ;
-}
-
 /*
 ** To see the commands with their parmams,
 ** add this line print_list(g_cmd_list)
@@ -71,7 +54,7 @@ char	syntax_error(char boolean_var)
 {
 	if (boolean_var)
 	{
-		FT_PUTSTR_ERR(ERROR_MSG);
+		ft_putstr_err(ERROR_MSG);
 		clear_cmd_list(&g_cmd_list);
 		free_memory(&g_mem_alloc, FREE_MODE);
 		return (1);
@@ -96,7 +79,6 @@ void	shell_loop(char **envp)
 		treat_single_command(g_cmd_list);
 		g_is_exit = 0;
 		treat_cmd(g_cmd_list, &envp);
-		// print_list(g_cmd_list);
 		g_error_n = 0;
 		close_fd();
 		clear_cmd_list(&g_cmd_list);

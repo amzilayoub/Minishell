@@ -1,47 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_single_var.c                                 :+:      :+:    :+:   */
+/*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 12:20:48 by aamzil            #+#    #+#             */
-/*   Updated: 2021/01/08 12:20:52 by aamzil           ###   ########.fr       */
+/*   Created: 2021/01/08 16:38:43 by aamzil            #+#    #+#             */
+/*   Updated: 2021/01/08 16:38:44 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../minishell.h"
+#include "../minishell.h"
 
-int		print_env_vars(char **envp)
-{
-	int		i;
-
-	i = -1;
-	while (envp[++i])
-		print_single_var(envp[i]);
-	return (1);
-}
-
-void	print_single_var(char *str)
+int		execute_builtin(char **cmd,
+						int (*funs[])(char **args, char ***envp),
+						t_single_command *list,
+						char ***envp)
 {
 	int i;
 
 	i = -1;
-	ft_putstr("declare -x ");
-	while (str[++i])
+	while (cmd[++i])
 	{
-		if (str[i] == '=')
-			break ;
-		ft_putchar(str[i]);
+		if (!ft_strcmp(cmd[i], list->cmd_lowercase))
+		{
+			g_status = funs[i](list->params + 1, envp);
+			g_builtin_error = g_status;
+			return (1);
+		}
 	}
-	if (!str[i])
-	{
-		ft_putstr("\n");
-		return ;
-	}
-	ft_putstr("=\"");
-	while (str[++i])
-		ft_putchar(str[i]);
-	ft_putchar('"');
-	ft_putstr("\n");
+	return (0);
 }

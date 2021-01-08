@@ -22,8 +22,8 @@ int		ft_env(char **args, char ***envp)
 	{
 		if (!ft_strchr((*envp)[i], '='))
 			continue ;
-		FT_PUTSTR((*envp)[i]);
-		FT_PUTCHAR('\n');
+		ft_putstr((*envp)[i]);
+		ft_putchar('\n');
 	}
 	return (0);
 }

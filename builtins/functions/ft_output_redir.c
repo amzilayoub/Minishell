@@ -15,5 +15,5 @@
 int	ft_output_redir(char **args, char ***envp)
 {
 	(void)envp;
-	return (ft_redirections_helper(args, REDIR_WRITE));
+	return (ft_redirections_helper(args, (O_TRUNC | O_CREAT | O_WRONLY)));
 }

@@ -18,15 +18,15 @@ void	print_single_command(t_single_command *list)
 
 	if (!list)
 		return ;
-	FT_PUTSTR(list->line);
-	FT_PUTSTR("\n");
+	ft_putstr(list->line);
+	ft_putstr("\n");
 	i = -1;
 	while (list->params && list->params[++i])
 	{
 		ft_putnbr_fd(i + 1, 1);
-		FT_PUTSTR("-> |");
-		FT_PUTSTR(list->params[i]);
-		FT_PUTSTR("|\n");
+		ft_putstr("-> |");
+		ft_putstr(list->params[i]);
+		ft_putstr("|\n");
 	}
 	print_single_command(list->next);
 }
@@ -35,9 +35,7 @@ void	print_cmd(t_piped_cmd *list)
 {
 	if (!list)
 		return ;
-	FT_PUTSTR("----- PIPE ------\n");
-	// FT_PUTSTR(list->line);
-	// FT_PUTSTR("|\n");
+	ft_putstr("----- PIPE ------\n");
 	print_single_command(list->single_command);
 	print_cmd(list->next);
 }
@@ -46,9 +44,7 @@ void	print_list(t_cmd *list)
 {
 	if (list)
 	{
-		FT_PUTSTR("------------------------------- |\n");
-		// FT_PUTSTR(list->line);
-		// FT_PUTSTR("|\n");
+		ft_putstr("------------------------------- |\n");
 		print_cmd(list->cmd);
 		print_list(list->next);
 	}

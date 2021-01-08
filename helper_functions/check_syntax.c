@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int		check_semicolons(char *line)
 {
@@ -20,7 +20,7 @@ int		check_semicolons(char *line)
 	g_there_is_error = 0;
 	i = skip_char(line, ' ') - 1;
 	if (line[i + 1] == ';')
-		return (set_error("Minishell: syntax error near to ';'\n", 258));
+		return (set_error("Shell: syntax error near to ';'\n", 258));
 	quote = 0;
 	while (line[++i])
 	{
@@ -34,7 +34,7 @@ int		check_semicolons(char *line)
 		{
 			i += skip_char(line + i + 1, ' ');
 			if (line[i + 1] == ';' || line[i + 1] == '|')
-				return (set_error("Minishell: syntax error near to ';'\n", 258));
+				return (set_error("Shell: syntax error near to ';'\n", 258));
 		}
 	}
 	return (0);

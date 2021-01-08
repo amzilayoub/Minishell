@@ -13,16 +13,18 @@
 
 NAME=minishell
 
-FLAGS=-g -fsanitize=address
+FLAGS=-Wall -Wextra -Werror
 
-SRC= 	check_syntax.c															\
-		errors.c 																\
-		ft_get_env_value.c 														\
-		init.c 																	\
-		main.c 																	\
-		memory_management_func.c 												\
-		memory_management_helper.c												\
+SRC=	main.c 																	\
 		shell_loop.c 															\
+		memory_management/memory_management_func.c 								\
+		memory_management/memory_management_helper.c							\
+		helper_functions/check_syntax.c											\
+		helper_functions/errors.c 												\
+		helper_functions/ft_get_env_value.c 									\
+		helper_functions/init.c 												\
+		helper_functions/signals.c 												\
+		helper_functions/ft_put.c 												\
 		GNL/get_next_line.c														\
 		GNL/get_next_line_utils.c												\
 		builtins/functions/ft_append_redir.c									\
@@ -51,18 +53,24 @@ SRC= 	check_syntax.c															\
 		line_parser/sort_redir.c												\
 		line_parser/helper_functions/close_fd.c									\
 		line_parser/helper_functions/get_args.c									\
+		line_parser/helper_functions/get_args_helper.c							\
 		line_parser/helper_functions/is_redirection.c							\
 		line_parser/helper_functions/join_env_var.c								\
 		line_parser/helper_functions/open_stdio.c								\
 		line_parser/helper_functions/set_pipes.c								\
 		line_parser/helper_functions/skip_shift_char.c							\
+		execution/call_single_cmd.c												\
+		execution/execute_cmd.c													\
+		execution/fork_it.c														\
+		execution/execute_builtins.c											\
+		execution/exec_error.c													\
 		libft/libft.a
 
 all: $(NAME)
 
 $(NAME):
 	cd libft && make && cd ..
-	gcc $(FLAGS) builtins/functions/ft_env.c libft/libft.a -o builtins/bin/env
+	gcc $(FLAGS) helper_functions/ft_put.c builtins/functions/ft_env.c libft/libft.a -o builtins/bin/env
 	gcc $(FLAGS) $(SRC) -o $(NAME)
 
 clean:

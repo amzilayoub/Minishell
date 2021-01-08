@@ -30,16 +30,10 @@
 
 # define ARRAY_GROWTH 5
 # define BUFFER_TO_READ 1000
-# define FT_PUTSTR(STR) ft_putstr_fd(STR, 1)
-# define FT_PUTSTR_ERR(STR) ft_putstr_fd(STR, 2)
-# define FT_PUTCHAR(C) ft_putchar_fd(C, 1)
-# define REDIR_WRITE (O_TRUNC | O_CREAT | O_WRONLY)
-# define REDIR_APPEND (O_CREAT | O_APPEND | O_WRONLY)
 # define THERE_IS_ERROR g_there_is_error
 # define ERROR_MSG g_error_msg
 # define FREE_EXIT_MODE 1
 # define FREE_MODE 0
-# define TOEXITSTATUS(x) (((_W_INT(x) << 8)))
 
 /*
 **--------------------------------*
@@ -84,7 +78,6 @@ typedef	struct	s_arg_manip
 	char	quote;
 }				t_arg_manip;
 
-
 /*
 **---------------------------------------------*
 ** Struct for minishell environment variables
@@ -96,8 +89,6 @@ typedef struct	s_shell_env
 	char					*var;
 	struct s_shell_env		*next;
 }				t_shell_env;
-
-
 
 /*
 **------------------------------------------------------**
@@ -147,10 +138,12 @@ void			free_memory(t_mem_alloc **list, int flag);
 
 /*
 **-------------------------------------------------**
-** FUNCTIONS USED TO MANAGE THE INPUT
+** PARSING FUNCTIONS
 **-------------------------------------------------**
 */
-
+void			sort_redir(t_piped_cmd *list);
+void			get_args_after_redir(t_cmd *list);
+void			get_args_after_redir_helper(t_piped_cmd *list);
 void			init(char **envp);
 void			treat_line(char *line);
 void			treat_list(t_cmd *cmd_list);
@@ -173,6 +166,9 @@ char			*shift_char(char *str);
 int				skip_char(char *line, char c);
 char			*ft_get_env_value(char *key, char **envp);
 char			*ft_getcwd(void);
+void			get_arg_helper(t_arg_manip *vars, char **line,
+								char ***envp, char ***args);
+int				get_arg_len(char *line);
 
 /*
 **-------------------------------------------------**
@@ -224,16 +220,61 @@ int				ft_exit(char **args, char ***envp);
 
 int				ft_redirections_helper(char **args, int flags);
 char			**env_append(char *str, char ***envp);
-void			sort_redir(t_piped_cmd *list);
-void			get_args_after_redir(t_cmd *list);
-void			get_args_after_redir_helper(t_piped_cmd *list);
+
+/*
+**-------------------------------------------------**
+** EXECUTIONS
+**-------------------------------------------------**
+*/
+
 void			call_single_command(
 					t_piped_cmd *parent,
 					t_single_command *list,
 					char ***envp,
 					int *pipe_index);
 char			*get_lowercase(char *str);
+void			fork_it(t_single_command *list,
+						char ***envp,
+						DIR *directory,
+						int (*fun)(char **cmd,
+						int (*funs[])(char **args, char ***envp),
+						t_single_command *list, char ***envp));
+void			execute_cmd(t_single_command *list,
+							char ***envp,
+							DIR *directory);
+void			open_pipes(
+					t_piped_cmd *parent_cmd,
+					t_single_command *list,
+					int pipe_index);
+char			find_command(char **params, char **envp);
+int				execute_builtin(char **cmd,
+								int (*funs[])(char **args, char ***envp),
+								t_single_command *list,
+								char ***envp);
+void			exec_error(t_single_command *list,
+							DIR *directory,
+							char ret,
+							char *tmp);
+
+/*
+**-------------------------------------------------**
+** HELPER FUNCTIONS
+**-------------------------------------------------**
+*/
+
 void			print_single_var(char *str);
 int				print_env_vars(char **envp);
+void			ft_putchar(char c);
+void			ft_putstr(char *str);
+void			ft_putstr_err(char *str);
+
+/*
+**-------------------------------------------------**
+** SIGNALS HANDLER
+**-------------------------------------------------**
+*/
+
+void			ft_sigint(int num);
+void			ft_sigquit(int num);
 
 #endif

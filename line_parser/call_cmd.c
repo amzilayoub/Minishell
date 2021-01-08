@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 char	*get_lowercase(char *str)
 {
 	char	*lower;
@@ -33,10 +32,9 @@ void	call_commands_helper(t_piped_cmd *list, char ***envp, int *pipe_index)
 {
 	if (!list)
 		return ;
-	// sort_cmd_for_redirections(
-	// 			&list->single_command,
-	// 			&list->single_command->next);
-	if (list->single_command && list->single_command->params[0] && list->single_command->params[0][0] == '>')
+	if (list->single_command &&
+		list->single_command->params[0] &&
+		list->single_command->params[0][0] == '>')
 		g_input_read = 0;
 	else
 		g_input_read = 1;

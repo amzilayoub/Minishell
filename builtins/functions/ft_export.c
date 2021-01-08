@@ -27,7 +27,7 @@ char	*get_key(char *str)
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
 		{
-			FT_PUTSTR_ERR("Minishell : export : not a valid identifier\n");
+			ft_putstr_err("Minishell : export : not a valid identifier\n");
 			return (NULL);
 		}
 		if (str[i] == '=')

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	add_mem_perma_helper(t_mem_alloc **list, void *mem)
 {

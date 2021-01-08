@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_append_redir.c                                  :+:      :+:    :+:   */
+/*   ft_put.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 16:54:17 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:16:45 by aamzil           ###   ########.fr       */
+/*   Created: 2021/01/08 17:04:45 by aamzil            #+#    #+#             */
+/*   Updated: 2021/01/08 17:05:10 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-int	ft_append_redir(char **args, char ***envp)
+void	ft_putchar(char c)
 {
-	(void)envp;
-	return (ft_redirections_helper(args, (O_CREAT | O_APPEND | O_WRONLY)));
+	ft_putchar_fd(c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	ft_putstr_fd(str, 1);
+}
+
+void	ft_putstr_err(char *str)
+{
+	ft_putstr_fd(str, 2);
 }

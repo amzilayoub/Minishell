@@ -29,11 +29,11 @@ int	ft_echo(char **args, char ***envp)
 	i = (nl) ? -1 : 0;
 	while (args[++i])
 	{
-		FT_PUTSTR(args[i]);
+		ft_putstr(args[i]);
 		if (args[i + 1])
-			FT_PUTCHAR(' ');
+			ft_putchar(' ');
 	}
 	if (new_line(args))
-		FT_PUTCHAR('\n');
+		ft_putchar('\n');
 	return (0);
 }

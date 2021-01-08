@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_append_redir.c                                  :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamzil <aamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aamzil <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 16:54:17 by aamzil            #+#    #+#             */
-/*   Updated: 2020/10/19 13:16:45 by aamzil           ###   ########.fr       */
+/*   Created: 2021/01/08 16:45:41 by aamzil            #+#    #+#             */
+/*   Updated: 2021/01/08 16:45:47 by aamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-int	ft_append_redir(char **args, char ***envp)
+void	ft_sigint(int num)
 {
-	(void)envp;
-	return (ft_redirections_helper(args, (O_CREAT | O_APPEND | O_WRONLY)));
+	(void)num;
+	if (g_line != NULL)
+	{
+		g_line = NULL;
+	}
+	ft_putstr("\n$ ");
+}
+
+void	ft_sigquit(int num)
+{
+	(void)num;
+	return ;
 }

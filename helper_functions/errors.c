@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int		set_error(char *error_msg, int error_n)
 {
@@ -23,15 +23,15 @@ int		set_error(char *error_msg, int error_n)
 int		set_error_print(char *error_msg, int error_n)
 {
 	set_error(error_msg, error_n);
-	FT_PUTSTR_ERR(error_msg);
+	ft_putstr_err(error_msg);
 	return (THERE_IS_ERROR);
 }
 
 void	print_cmd_with_error(char *cmd, char *error_msg)
 {
-	FT_PUTSTR_ERR("Minishell ");
-	FT_PUTSTR_ERR(cmd);
-	FT_PUTSTR_ERR(" : ");
-	FT_PUTSTR_ERR(error_msg);
-	FT_PUTSTR_ERR("\n");
+	ft_putstr_err("Minishell ");
+	ft_putstr_err(cmd);
+	ft_putstr_err(" : ");
+	ft_putstr_err(error_msg);
+	ft_putstr_err("\n");
 }

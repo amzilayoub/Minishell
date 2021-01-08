@@ -29,13 +29,13 @@ void	ft_exit_error(char **args, int is_number, int many_args)
 {
 	if (args && (*args) && !is_number)
 	{
-		FT_PUTSTR_ERR("Minishell: exit: numeric argument required\n");
+		ft_putstr_err("Minishell: exit: numeric argument required\n");
 		free_memory(&g_mem_alloc, FREE_EXIT_MODE);
 		clear_cmd_list(&g_cmd_list);
 		exit(255);
 	}
 	else if (many_args && is_number)
-		FT_PUTSTR_ERR("Minishell: exit: too many arguments\n");
+		ft_putstr_err("Minishell: exit: too many arguments\n");
 	else if (!many_args && is_number)
 	{
 		is_number = ft_atoi(args[0]);
